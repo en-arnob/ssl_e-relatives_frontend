@@ -5,10 +5,14 @@ import Subscribe from "../components/Common/Subscribe";
 import Footer from "../components/_App/Footer";
 import Link from "next/link";
 import axios from "axios";
+import Parser from "html-react-parser";
+import Rodal from "rodal";
+import "rodal/lib/rodal.css";
 
 const SignUp = () => {
   const [selectedRole, setSelectedRole] = useState(0);
   const [roles, setRoles] = useState([]);
+  const [rodalVisible, setRodalVisible] = useState(false);
 
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
@@ -46,6 +50,28 @@ const SignUp = () => {
         console.log(error);
       });
   }
+  const [tnCTitle, setTnCTitle] = useState("");
+  const [tnC, setTnC] = useState("");
+
+  useEffect(() => {
+    const fetchTnC = () => {
+      axios
+        .get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/terms-conditions/${selectedRole?.id}`
+        )
+        .then((response) => {
+          if (response.data) {
+            setTnCTitle(response.data.name);
+            setTnC(response.data.info);
+          } else {
+            setTnCTitle("");
+            setTnC("");
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchTnC();
+  }, [selectedRole]);
 
   useEffect(() => {
     getRoles();
@@ -182,15 +208,20 @@ const SignUp = () => {
                         <div className="agree-label">
                           <input type="checkbox" id="chb1" />
                           <label htmlFor="chb1">
-                            I agree with Corf {selectedRole?.name}{" "}
-                            <Link
-                              href={{
-                                pathname: "/terms-conditions",
-                                query: selectedRole, // the data
+                            I agree with {selectedRole?.name}'s{" "}
+                            <a
+                              role="button"
+                              // href={{
+                              //   pathname: "/terms-conditions",
+                              //   query: selectedRole, // the data
+                              // }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setRodalVisible(true);
                               }}
                             >
                               Terms Conditions
-                            </Link>
+                            </a>
                           </label>
                         </div>
                       </div>
@@ -231,6 +262,23 @@ const SignUp = () => {
       </div>
 
       {/* <Subscribe /> */}
+      <Rodal
+        visible={rodalVisible}
+        onClose={() => setRodalVisible(false)}
+        width="auto"
+        height={700}
+        closeOnEsc={true}
+        showMask={true}
+      >
+        <div>
+          {tnCTitle}
+          <div className="terms-conditions ptb-100">
+            <div className="container">
+              <div className="single-privacy">{Parser(tnC)}</div>
+            </div>
+          </div>
+        </div>
+      </Rodal>
 
       <Footer />
     </>

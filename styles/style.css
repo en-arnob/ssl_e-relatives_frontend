@@ -6521,3 +6521,6 @@ Page-navigation Area Style*/
 .about-area {
   padding: 130px 0;
 }
+.rodal-dialog {
+  overflow: auto;
+}
