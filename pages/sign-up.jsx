@@ -9,6 +9,12 @@ import Parser from "html-react-parser";
 import Rodal from "rodal";
 import "rodal/lib/rodal.css";
 
+import { Modal } from "react-responsive-modal";
+const styles = {
+  fontFamily: "sans-serif",
+  textAlign: "center",
+};
+
 const SignUp = () => {
   const [selectedRole, setSelectedRole] = useState(0);
   const [roles, setRoles] = useState([]);
@@ -20,6 +26,30 @@ const SignUp = () => {
   const [userName, setUserName] = useState("");
   const [passwd, setPassWd] = useState("");
   const [confirmPasswd, setConfirmPasswd] = useState("");
+  const [tcAgree, setTCAgree] = useState(false);
+
+  const [serviceCats, setServiceCats] = useState([]);
+  const [selectedServiceCat, setSelectedServiceCat] = useState(0);
+
+  const handleCheck = () => {
+    setTCAgree(!tcAgree);
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const data = {
+      role_id: selectedRole?.id,
+      service_category: selectedServiceCat?.id,
+      name: name,
+      mobile: mobile,
+      email: email,
+      userName: userName,
+      password: passwd,
+      confirm_password: confirmPasswd,
+    };
+    console.log(data);
+    setSelectedServiceCat(0);
+  }
 
   const valid =
     name !== "" &&
@@ -27,7 +57,8 @@ const SignUp = () => {
     userName !== "" &&
     mobile !== "" &&
     passwd !== "" &&
-    confirmPasswd !== ""
+    confirmPasswd !== "" &&
+    tcAgree
       ? true
       : false;
 
@@ -35,6 +66,13 @@ const SignUp = () => {
     setSelectedRole(
       roles.find((role) => {
         return role.id == e.target.value;
+      })
+    );
+  }
+  function selectServiceHandler(e) {
+    setSelectedServiceCat(
+      serviceCats.find((cat) => {
+        return cat.id == e.target.value;
       })
     );
   }
@@ -50,6 +88,25 @@ const SignUp = () => {
         console.log(error);
       });
   }
+
+  useEffect(() => {
+    function getServiceCategories() {
+      axios
+        .get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/service-category/findbyrole/${selectedRole?.id}`
+        )
+        .then((response) => {
+          const allData = response.data.data;
+          setServiceCats(allData);
+          // console.log(allData);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    getServiceCategories();
+  }, [selectedRole]);
+
   const [tnCTitle, setTnCTitle] = useState("");
   const [tnC, setTnC] = useState("");
 
@@ -138,6 +195,30 @@ const SignUp = () => {
                       </div>
                     </div>
 
+                    {serviceCats.length > 0 ? (
+                      <div className="col-md-12 col-sm-12">
+                        <div className="form-group">
+                          <select
+                            className="form-select"
+                            onChange={selectServiceHandler}
+                          >
+                            <option value="" disabled selected>
+                              {serviceCats[0]?.info}
+                            </option>
+                            {serviceCats?.map((cat) => {
+                              return (
+                                <option value={cat?.id} key={cat?.id}>
+                                  {cat?.name}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+
                     <div className="">
                       <div className="col-md-12 col-sm-12">
                         <div className="form-group">
@@ -145,7 +226,14 @@ const SignUp = () => {
                             className="form-control"
                             type="text"
                             name="name"
-                            placeholder="Enter Your Name"
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder={
+                              selectedRole.id === 12
+                                ? "Company Name"
+                                : selectedRole.id === 13
+                                ? "Collection Point Name"
+                                : "Enter Name"
+                            }
                           />
                         </div>
                       </div>
@@ -154,7 +242,8 @@ const SignUp = () => {
                           <input
                             className="form-control"
                             type="text"
-                            name="name"
+                            name="mobile"
+                            onChange={(e) => setMobile(e.target.value)}
                             placeholder="Enter Your Mobile Number"
                           />
                         </div>
@@ -166,6 +255,7 @@ const SignUp = () => {
                             className="form-control"
                             type="email"
                             name="email"
+                            onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter Your Email"
                           />
                         </div>
@@ -176,7 +266,8 @@ const SignUp = () => {
                           <input
                             className="form-control"
                             type="text"
-                            name="name"
+                            name="username"
+                            onChange={(e) => setUserName(e.target.value)}
                             placeholder="Enter Your Username"
                           />
                         </div>
@@ -188,6 +279,7 @@ const SignUp = () => {
                             className="form-control"
                             type="text"
                             name="password"
+                            onChange={(e) => setPassWd(e.target.value)}
                             placeholder="Password"
                           />
                         </div>
@@ -198,37 +290,51 @@ const SignUp = () => {
                           <input
                             className="form-control"
                             type="text"
-                            name="password"
+                            name="cpassword"
+                            onChange={(e) => setConfirmPasswd(e.target.value)}
                             placeholder="Confirm Password"
                           />
                         </div>
                       </div>
 
-                      <div className="col-md-12 col-sm-12 col-xs-12 form-condition">
-                        <div className="agree-label">
-                          <input type="checkbox" id="chb1" />
-                          <label htmlFor="chb1">
-                            I agree with {selectedRole?.name}'s{" "}
-                            <a
-                              role="button"
-                              // href={{
-                              //   pathname: "/terms-conditions",
-                              //   query: selectedRole, // the data
-                              // }}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setRodalVisible(true);
-                              }}
-                            >
-                              Terms Conditions
-                            </a>
-                          </label>
+                      {selectedRole?.id ? (
+                        <div className="col-md-12 col-sm-12 col-xs-12 form-condition">
+                          <div className="agree-label">
+                            <input
+                              type="checkbox"
+                              id="chb1"
+                              checked={tcAgree}
+                              onChange={handleCheck}
+                            />
+                            <label htmlFor="chb1">
+                              I agree with {selectedRole?.name}'s{" "}
+                              <a
+                                role="button"
+                                // href={{
+                                //   pathname: "/terms-conditions",
+                                //   query: selectedRole, // the data
+                                // }}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setRodalVisible(true);
+                                }}
+                              >
+                                Terms Conditions
+                              </a>
+                            </label>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        ""
+                      )}
 
                       <div className="col-12">
-                        {selectedRole?.id ? (
-                          <button className="default-btn btn-two" type="submit">
+                        {valid ? (
+                          <button
+                            className="default-btn btn-two"
+                            type="submit"
+                            onClick={handleSubmit}
+                          >
                             Sign Up
                           </button>
                         ) : (
@@ -265,10 +371,10 @@ const SignUp = () => {
       <Rodal
         visible={rodalVisible}
         onClose={() => setRodalVisible(false)}
-        width="auto"
-        height={700}
         closeOnEsc={true}
         showMask={true}
+        height={700}
+        width={900}
       >
         <div>
           {tnCTitle}
