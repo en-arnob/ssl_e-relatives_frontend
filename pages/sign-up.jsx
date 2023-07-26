@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../components/_App/Navbar";
 import PageBanner from "../components/Common/PageBanner";
 import Subscribe from "../components/Common/Subscribe";
@@ -8,14 +8,13 @@ import axios from "axios";
 import Parser from "html-react-parser";
 import Rodal from "rodal";
 import "rodal/lib/rodal.css";
-
-import { Modal } from "react-responsive-modal";
-const styles = {
-  fontFamily: "sans-serif",
-  textAlign: "center",
-};
+import { UserContext } from "../Context/UserContextAPI";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
+  const Router = useRouter();
+  const { check, smsAPI } = useContext(UserContext);
   const [selectedRole, setSelectedRole] = useState(0);
   const [roles, setRoles] = useState([]);
   const [rodalVisible, setRodalVisible] = useState(false);
@@ -35,20 +34,68 @@ const SignUp = () => {
     setTCAgree(!tcAgree);
   };
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const data = {
       role_id: selectedRole?.id,
-      service_category: selectedServiceCat?.id,
+      service_category_id: selectedServiceCat?.id,
       name: name,
       mobile: mobile,
       email: email,
       userName: userName,
       password: passwd,
-      confirm_password: confirmPasswd,
     };
-    console.log(data);
-    setSelectedServiceCat(0);
+
+    if (passwd === confirmPasswd) {
+      // console.log(data);
+
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/signup`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.status === 201) {
+        const userData = res?.data.data;
+
+        const otpGET = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/otp-generate`
+        );
+
+        if (otpGET.status === 200) {
+          const otpData = {
+            userData,
+            OTP: otpGET?.data?.data,
+          };
+          const OTP = otpGET?.data?.data;
+          const message = `Dear ${name}, Please confirm Your OTP: ${OTP} in the browser to continue registration.`;
+          smsAPI(mobile, message)
+            .then((res) => {
+              console.log(res);
+              toast.success("OTP sent to your mobile number.");
+              // navigate to OTP Verify
+              Router.push({
+                pathname: "/otp-verify",
+                query: {
+                  data: JSON.stringify(otpData),
+                },
+                as: "/otp-verify",
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      } else {
+        toast.error("User already created using this mobile number");
+      }
+    } else {
+      toast.error("Password Not Matched!!");
+    }
   }
 
   const valid =
@@ -90,6 +137,7 @@ const SignUp = () => {
   }
 
   useEffect(() => {
+    check();
     function getServiceCategories() {
       axios
         .get(
@@ -228,11 +276,15 @@ const SignUp = () => {
                             name="name"
                             onChange={(e) => setName(e.target.value)}
                             placeholder={
-                              selectedRole.id === 12
+                              selectedRole?.id === 12
                                 ? "Company Name"
-                                : selectedRole.id === 13
+                                : selectedRole?.id === 13
                                 ? "Collection Point Name"
-                                : "Enter Name"
+                                : selectedRole?.id === 14
+                                ? "Company Name"
+                                : selectedRole?.id === 15
+                                ? "Business Entity Name"
+                                : "Enter Your Name"
                             }
                           />
                         </div>
@@ -241,7 +293,7 @@ const SignUp = () => {
                         <div className="form-group">
                           <input
                             className="form-control"
-                            type="text"
+                            type="tel"
                             name="mobile"
                             onChange={(e) => setMobile(e.target.value)}
                             placeholder="Enter Your Mobile Number"
@@ -277,7 +329,7 @@ const SignUp = () => {
                         <div className="form-group">
                           <input
                             className="form-control"
-                            type="text"
+                            type="password"
                             name="password"
                             onChange={(e) => setPassWd(e.target.value)}
                             placeholder="Password"
@@ -289,7 +341,7 @@ const SignUp = () => {
                         <div className="form-group">
                           <input
                             className="form-control"
-                            type="text"
+                            type="password"
                             name="cpassword"
                             onChange={(e) => setConfirmPasswd(e.target.value)}
                             placeholder="Confirm Password"
@@ -338,13 +390,7 @@ const SignUp = () => {
                             Sign Up
                           </button>
                         ) : (
-                          <button
-                            className="btn btn-primary"
-                            disabled
-                            type="submit"
-                          >
-                            All fields are required.
-                          </button>
+                          <span>All fields are required.</span>
                         )}
                       </div>
                     </div>
@@ -352,7 +398,7 @@ const SignUp = () => {
                     <div className="col-12">
                       <p className="account-desc">
                         Already have an account?{" "}
-                        <Link href="/log-in">Log In</Link>
+                        <Link href="/sign-in">Log In</Link>
                       </p>
                     </div>
                   </div>
