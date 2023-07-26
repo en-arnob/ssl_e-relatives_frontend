@@ -1,5 +1,6 @@
 import React from "react";
 import AOS from "aos";
+import { Toaster } from "react-hot-toast";
 import "../node_modules/aos/dist/aos.css";
 import "../styles/bootstrap.min.css";
 import "../styles/animate.css";
@@ -17,17 +18,38 @@ import "../styles/style.css";
 import "../styles/responsive.css";
 
 import Layout from "../components/_App/Layout";
+import UserContext from "../Context/UserContextAPI";
 
 const MyApp = ({ Component, pageProps }) => {
-
   React.useEffect(() => {
     AOS.init();
   }, []);
-  
+
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          // Define default options
+          className: "",
+          duration: 5000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+        }}
+      />
+
+      <UserContext>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </UserContext>
+    </>
   );
 };
 
