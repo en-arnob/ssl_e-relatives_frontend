@@ -18,21 +18,27 @@ const SignIn = () => {
   const [otpInput, setOtpInput] = useState("");
 
   const checkOTP = async (e) => {
-    e.preventDefault();
-    console.log(obj?.OTP, otpInput);
-    if (parseInt(obj?.OTP) === parseInt(otpInput)) {
-      const otpConfirm = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/verify-otp-put/${obj.userData.mobile}`
-      );
+    try {
+      e.preventDefault();
+      // console.log(obj?.OTP, otpInput);
+      if (otpInput) {
+        const otpConfirm = await axios.put(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/verify-otp-put/${obj.mobile}/${otpInput}`
+        );
+        console.log(otpConfirm);
 
-      if (otpConfirm.status === 200) {
-        toast.success("Success, Now login to continue");
-        Router.push("/sign-in");
+        if (otpConfirm.status === 200) {
+          toast.success("Success, Now login to continue");
+          Router.push("/sign-in");
+        } else {
+          toast.error("Sorry, OTP not matched!");
+        }
       } else {
-        toast.error("Sorry, Error occurred");
+        toast.error("Input OTP to verify");
       }
-    } else {
-      toast.error("Sorry, OTP not matched!");
+    } catch (error) {
+      // console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   return (
@@ -50,7 +56,7 @@ const SignIn = () => {
       <div className="user-area-all-style log-in-area ptb-100">
         <div className="container">
           <div className="section-title">
-            <h2>Verify OTP to complete registration!</h2>
+            <h2>Hi {obj?.name}, Verify OTP to complete registration!</h2>
           </div>
 
           <div className="row">

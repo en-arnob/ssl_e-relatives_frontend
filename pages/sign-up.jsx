@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../components/_App/Navbar";
 import PageBanner from "../components/Common/PageBanner";
-import Subscribe from "../components/Common/Subscribe";
 import Footer from "../components/_App/Footer";
 import Link from "next/link";
 import axios from "axios";
@@ -14,7 +13,7 @@ import { useRouter } from "next/router";
 
 const SignUp = () => {
   const Router = useRouter();
-  const { check, smsAPI } = useContext(UserContext);
+  const { check } = useContext(UserContext);
   const [selectedRole, setSelectedRole] = useState(0);
   const [roles, setRoles] = useState([]);
   const [rodalVisible, setRodalVisible] = useState(false);
@@ -61,35 +60,44 @@ const SignUp = () => {
 
       if (res.status === 201) {
         const userData = res?.data.data;
+        // console.log(res.data);
+        toast.success("OTP sent to your mobile number.");
+        Router.push({
+          pathname: "/otp-verify",
+          query: {
+            data: JSON.stringify(userData),
+          },
+          as: "/otp-verify",
+        });
 
-        const otpGET = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/otp-generate`
-        );
+        // const otpGET = await axios.get(
+        //   `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/otp-generate`
+        // );
 
-        if (otpGET.status === 200) {
-          const otpData = {
-            userData,
-            OTP: otpGET?.data?.data,
-          };
-          const OTP = otpGET?.data?.data;
-          const message = `Dear ${name}, Please confirm Your OTP: ${OTP} in the browser to continue registration.`;
-          smsAPI(mobile, message)
-            .then((res) => {
-              console.log(res);
-              toast.success("OTP sent to your mobile number.");
-              // navigate to OTP Verify
-              Router.push({
-                pathname: "/otp-verify",
-                query: {
-                  data: JSON.stringify(otpData),
-                },
-                as: "/otp-verify",
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
+        // if (otpGET.status === 200) {
+        // const otpData = {
+        //   userData,
+        //   OTP: otpGET?.data?.data,
+        // };
+        // const OTP = otpGET?.data?.data;
+        // const message = `Dear ${name}, Please confirm Your OTP: ${OTP} in the browser to continue registration.`;
+        // smsAPI(mobile, message)
+        //   .then((res) => {
+        //     console.log(res);
+        //     toast.success("OTP sent to your mobile number.");
+        //     // navigate to OTP Verify
+        //     Router.push({
+        //       pathname: "/otp-verify",
+        //       query: {
+        //         data: JSON.stringify(otpData),
+        //       },
+        //       as: "/otp-verify",
+        //     });
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
+        // }
       } else {
         toast.error("User already created using this mobile number");
       }

@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import TopHeader from "./TopHeader";
+import { UserContext } from "../../Context/UserContextAPI";
 
 const NavbarFour = () => {
+  const { currentUser } = useContext(UserContext);
+  const [refresh, setRefresh] = useState(false);
+  console.log(currentUser);
   // Add active class
   const [currentPath, setCurrentPath] = useState("");
   const router = useRouter();
@@ -115,14 +119,33 @@ const NavbarFour = () => {
                   </div>
 
                   <div className="others-option">
-                    <div className="subscribe d-flex gap-2">
-                      <Link href="/sign-in" className="default-btn">
-                        Login
-                      </Link>
-                      <Link href="/sign-up" className="default-btn">
-                        Registration
-                      </Link>
-                    </div>
+                    {currentUser && currentUser?.mobile ? (
+                      <div className="subscribe d-flex gap-2">
+                        <span className="text-white py-2">
+                          Hi, {currentUser?.f_name}{" "}
+                        </span>
+                        <button
+                          className="btn btn-secondary py-0 px-2"
+                          onClick={() => {
+                            localStorage.removeItem("jwtToken");
+                            setRefresh(!refresh);
+                            router.push("/");
+                            router.reload(window.location.pathname);
+                          }}
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="subscribe d-flex gap-2">
+                        <Link href="/sign-in" className="default-btn">
+                          Login
+                        </Link>
+                        <Link href="/sign-up" className="default-btn">
+                          Registration
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
               </nav>
