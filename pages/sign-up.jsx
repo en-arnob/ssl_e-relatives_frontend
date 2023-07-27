@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../components/_App/Navbar";
 import PageBanner from "../components/Common/PageBanner";
-import Subscribe from "../components/Common/Subscribe";
 import Footer from "../components/_App/Footer";
 import Link from "next/link";
 import axios from "axios";
@@ -14,7 +13,7 @@ import { useRouter } from "next/router";
 
 const SignUp = () => {
   const Router = useRouter();
-  const { check, smsAPI } = useContext(UserContext);
+  const { check } = useContext(UserContext);
   const [selectedRole, setSelectedRole] = useState(0);
   const [roles, setRoles] = useState([]);
   const [rodalVisible, setRodalVisible] = useState(false);

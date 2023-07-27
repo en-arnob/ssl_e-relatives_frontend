@@ -1,11 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/_App/Navbar";
 import PageBanner from "../components/Common/PageBanner";
 import Subscribe from "../components/Common/Subscribe";
 import Footer from "../components/_App/Footer";
 import Link from "next/link";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
-const SignUp = () => {
+const PassReset = () => {
+  const Router = useRouter();
+  const [mobile, setMobile] = useState("");
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    // console.log(mobile);
+    try {
+      if (mobile) {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/verify-send-otp/${mobile}`
+        );
+        if (res.status === 200) {
+          toast.success("OTP sent to your mobile number.");
+          Router.push({
+            pathname: "/new-password",
+            query: {
+              data: JSON.stringify(mobile),
+            },
+            as: "/sign-in",
+          });
+        } else {
+          toast.error("Error finding user");
+        }
+      } else {
+        toast.error("You must enter your mobile number.");
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -26,12 +60,10 @@ const SignUp = () => {
                 <div className="form-heading text-center">
                   <h3 className="form-title">Reset Password!</h3>
                   <p className="reset-desc">
-                    Enter the email of your account to reset the password. Then
-                    you will receive a link to email to reset the password. If
-                    you have any issue about reset password{" "}
-                    <Link href="/contact">
-                      Contact Us.
-                    </Link>
+                    Enter the mobile number of your account to reset the
+                    password. Then you will receive an OTP via sms to reset the
+                    password. If you have any issue about reset password{" "}
+                    <Link href="/contact">Contact Us.</Link>
                   </p>
                 </div>
                 <form method="post">
@@ -40,9 +72,10 @@ const SignUp = () => {
                       <div className="form-group">
                         <input
                           className="form-control"
-                          type="text"
-                          name="name"
-                          placeholder="Enter Email Address"
+                          type="tel"
+                          name="mobile"
+                          onChange={(e) => setMobile(e.target.value)}
+                          placeholder="Enter Mobile Number"
                         />
                       </div>
                     </div>
@@ -63,8 +96,12 @@ const SignUp = () => {
                     </div>
 
                     <div className="col-12">
-                      <button className="default-btn btn-two" type="submit">
-                        Reset Password
+                      <button
+                        className="default-btn btn-two"
+                        type="submit"
+                        onClick={submitHandler}
+                      >
+                        Send OTP
                       </button>
                     </div>
                   </div>
@@ -75,11 +112,11 @@ const SignUp = () => {
         </div>
       </div>
 
-      <Subscribe />
+      {/* <Subscribe /> */}
 
       <Footer />
     </>
   );
 };
 
-export default SignUp;
+export default PassReset;
