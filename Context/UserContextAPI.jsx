@@ -67,7 +67,7 @@ const UserContextAPI = ({ children }) => {
   const fetchAPI = async (id) => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}/users/user/${id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/${id}`
       );
       // console.log(res);
       // console.log(res.data.data);
