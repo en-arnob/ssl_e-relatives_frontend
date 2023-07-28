@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import TopHeader from "./TopHeader";
 import { UserContext } from "../../Context/UserContextAPI";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const NavbarFour = () => {
   const { currentUser } = useContext(UserContext);
@@ -11,6 +12,8 @@ const NavbarFour = () => {
   // Add active class
   const [currentPath, setCurrentPath] = useState("");
   const router = useRouter();
+  const [showDropdown, setShowDropdown] = useState(false);
+
   // console.log(router.asPath)
 
   useEffect(() => {
@@ -117,36 +120,54 @@ const NavbarFour = () => {
                       </li>
                     </ul>
                   </div>
-
-                  <div className="others-option">
-                    {currentUser && currentUser?.mobile ? (
-                      <div className="subscribe d-flex gap-2">
-                        <span className="text-white py-2">
-                          Hi, {currentUser?.f_name}{" "}
-                        </span>
-                        <button
-                          className="btn btn-secondary py-0 px-2"
-                          onClick={() => {
-                            localStorage.removeItem("jwtToken");
-                            setRefresh(!refresh);
-                            router.push("/");
-                            router.reload(window.location.pathname);
-                          }}
-                        >
-                          Logout
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="subscribe d-flex gap-2">
-                        <Link href="/sign-in" className="default-btn">
-                          Login
-                        </Link>
-                        <Link href="/sign-up" className="default-btn">
-                          Registration
-                        </Link>
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      id="dropdown-basic"
+                      className="bg-transparent border-0"
+                    >
+                      {currentUser && currentUser?.mobile ? (
+                        <div className="navbar-btn">
+                          <img
+                            class="rounded-circle img-fluid "
+                            src="/img/avatar/avatar.jpeg"
+                            style={{ width: "40px", height: "40px" }}
+                            alt=""
+                          />{" "}
+                          <span>{currentUser?.f_name} </span>
+                        </div>
+                      ) : (
+                        <div className="subscribe d-flex gap-2">
+                          <Link href="/sign-in" className="default-btn">
+                            Login
+                          </Link>
+                          <Link href="/sign-up" className="default-btn">
+                            Registration
+                          </Link>
+                        </div>
+                      )}
+                    </Dropdown.Toggle>
+                    {currentUser && currentUser?.mobile && (
+                      <div>
+                        <Dropdown.Menu>
+                          <Dropdown.Item>Profile</Dropdown.Item>
+                          <Dropdown.Item>Change Password</Dropdown.Item>
+                          <Dropdown.Item>
+                            <button
+                              className="btn btn-secondary py-0 px-2"
+                              onClick={() => {
+                                localStorage.removeItem("jwtToken");
+                                setRefresh(!refresh);
+                                router.push("/");
+                                router.reload(window.location.pathname);
+                              }}
+                            >
+                              Logout
+                            </button>
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
                       </div>
                     )}
-                  </div>
+                  </Dropdown>
                 </div>
               </nav>
             </div>
