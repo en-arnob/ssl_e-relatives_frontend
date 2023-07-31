@@ -7,7 +7,7 @@ import { UserContext } from "../../Context/UserContextAPI";
 const NavbarFour = () => {
   const { currentUser } = useContext(UserContext);
   const [refresh, setRefresh] = useState(false);
-  console.log(currentUser);
+  // console.log(currentUser);
   // Add active class
   const [currentPath, setCurrentPath] = useState("");
   const router = useRouter();

@@ -25,11 +25,17 @@ const SignIn = () => {
       };
       methodSignin(signinData)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             const userData = res.data;
+            console.log(userData.data.userQuery.user_details_added)
             window.localStorage.setItem("jwtToken", userData.token);
-            Router.push("/");
+            if(userData.data.userQuery.user_details_added === 0) {
+              Router.push("/user-details")
+            } else {
+              Router.push("/");
+            }
+            
           }
         })
         .catch((error) => {
