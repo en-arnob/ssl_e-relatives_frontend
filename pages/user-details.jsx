@@ -14,6 +14,32 @@ const SignIn = () => {
   const [mobile, setMobile] = useState("");
   const [passwd, setPasswd] = useState("");
 
+  // data states
+  const [image, setImage] = useState("");
+  const [gender, setGender] = useState("");
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [dob, setDob] = useState("");
+  const [address, setAddress] = useState("");
+  const [ownerName, setOwnerName] = useState("");
+  const [institutionName, setInstitutionName] = useState("");
+  const [responsiblePName, setResponsiblePName] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [vehicleLicense, setVehicleLicense] = useState("");
+  const [tradeLicense, setTradeLicense] = useState("");
+  const [bmdcLicense, setBmdcLicense] = useState("");
+  const [dghsLicense, setDghsLicense] = useState("");
+  const [drugLicense, setDrugLicense] = useState("");
+  const [onlineServiceTime, setOnlineServiceTime] = useState("");
+  const [availableService, setAvailableService] = useState("");
+  const [deliveryPName, setDeliveryPName] = useState("");
+  const [driverName, setDriverName] = useState("");
+  const [drivingLicense, setDrivingLicense] = useState("");
+  const [specializationDegree, setSpecializationDegree] = useState("");
+  const [drivingExpYears, setDrivingExpYears] = useState("");
+  const [nid, setNid] = useState("");
+
+  // console.log(currentUser);
+
   // form dynamic data states
   const [countryList, setCountryList] = useState([]);
   const [stateList, setStateList] = useState([]);
@@ -22,7 +48,6 @@ const SignIn = () => {
   const [selectedCountry, setSelectedCountry] = useState(0);
   const [selectedState, setSelectedState] = useState(0);
   const [selectedCity, setSelectedCity] = useState(0);
-  const [selectedService, setSelectedService] = useState(0);
 
   // form dynamic data fetch
   const fetchCountryList = () => {
@@ -65,28 +90,61 @@ const SignIn = () => {
       .catch((err) => console.log(err));
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(mobile, passwd);
-    if (mobile && passwd) {
-      const signinData = {
-        mobile: mobile,
-        password: passwd,
-      };
-      methodSignin(signinData)
-        .then((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            const userData = res.data;
-            window.localStorage.setItem("jwtToken", userData.token);
-            Router.push("/");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      toast.error("Mobile and Password required to login");
+    const data = {
+      gender,
+      bloodGroup,
+      dob,
+      country: selectedCountry.id,
+      state: selectedState.id,
+      city: selectedCity.id,
+      address,
+      ownerName,
+      institutionName,
+      responsiblePName,
+      designation,
+      vehicleLicense,
+      tradeLicense,
+      bmdcLicense,
+      dghsLicense,
+      drugLicense,
+      onlineServiceTime,
+      availableService,
+      deliveryPName,
+      driverName,
+      drivingLicense,
+      specializationDegree,
+      drivingExpYears,
+      nid,
+    };
+    // console.log(data);
+    const formData = new FormData();
+    formData.append("image", image);
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/upload-image`,
+        formData
+      );
+      const imagePath = res.data.filename;
+      console.log("image", imagePath);
+      if (imagePath) {
+        data.image = imagePath;
+      }
+      console.log(data);
+
+      const upd = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/details/update/${currentUser?.id}`,
+        data
+      );
+      if (upd.status === 200) {
+        toast.success("Details Updated Successfully!");
+        Router.push("/");
+      } else {
+        toast.error("Error");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -122,27 +180,31 @@ const SignIn = () => {
                   <div className="row">
                     <div className="col-12">
                       <div className="form-group content-center item-center text-center">
-                        {/* <input
-                          className="form-control"
-                          type="file"
-                          name="image"
-                          src="/img/avatar-user.png"
-                          width="30px"
-                          // onChange={(e) => setMobile(e.target.value)}
-                        /> */}
                         <label for="image">
                           <input
                             type="file"
                             name="image"
                             id="image"
+                            onChange={(e) => setImage(e.target.files[0])}
                             style={{ display: "none" }}
                           />
-                          <Image
-                            src="/img/avatar-user.png"
-                            width={100}
-                            height={100}
-                            alt="Picture of the author"
-                          />
+                          {image !== "" ? (
+                            <Image
+                              src={URL.createObjectURL(image)}
+                              width={100}
+                              height={100}
+                              alt="Picture of the author"
+                              className="rounded-circle"
+                            />
+                          ) : (
+                            <Image
+                              src="/img/avatar-user.png"
+                              width={100}
+                              height={100}
+                              alt="Picture of the author"
+                              className="rounded-circle"
+                            />
+                          )}
                         </label>
                       </div>
                     </div>
@@ -150,7 +212,7 @@ const SignIn = () => {
                       <div className="form-group">
                         <select
                           className="form-control"
-                          // onChange={selectRoleHandler}
+                          onChange={(e) => setGender(e.target.value)}
                         >
                           <option value="" disabled selected>
                             Gender
@@ -166,18 +228,12 @@ const SignIn = () => {
                       <div className="form-group">
                         <select
                           className="form-control"
-                          // onChange={selectRoleHandler}
+                          onChange={(e) => setBloodGroup(e.target.value)}
                         >
                           <option value="" disabled selected>
                             Blood Group
                           </option>
-                          {/* {roles?.map((role) => {
-                            return (
-                              <option value={role?.id} key={role?.id}>
-                                {role?.name}
-                              </option>
-                            );
-                          })} */}
+
                           <option value={1}>A+</option>
                           <option value={2}>A-</option>
                           <option value={3}>B+</option>
@@ -196,7 +252,8 @@ const SignIn = () => {
                           id="date"
                           type="date"
                           name="date_of_birth"
-                          // defaultValue={record?.date_of_birth}
+                          value={dob}
+                          onChange={(e) => setDob(e.target.value)}
                           className="form-control"
                           placeholder="Date Picker..."
                         />
@@ -277,17 +334,6 @@ const SignIn = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="adress"
-                          placeholder="Address (Thana, Union/Post Office, Village)"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
-                      </div>
-                    </div>
                   </div>
                 </form>
               </div>
@@ -302,198 +348,268 @@ const SignIn = () => {
                         <input
                           className="form-control"
                           type="text"
-                          name="owner_name"
-                          placeholder="Owner/Chairman/Managing Director’s Name"
-                          onChange={(e) => setMobile(e.target.value)}
+                          name="adress"
+                          placeholder="Address (Thana, Union/Post Office, Village)"
+                          onChange={(e) => setAddress(e.target.value)}
                         />
                       </div>
                     </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Name of the Institution"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    {currentUser?.role_id === 12 ||
+                    currentUser?.role_id === 13 ||
+                    currentUser?.role_id === 14 ||
+                    currentUser?.role_id === 15 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="owner_name"
+                            placeholder="Owner/Chairman/Managing Director’s Name"
+                            onChange={(e) => setOwnerName(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
+                    {currentUser?.role_id === 11 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="institution"
+                            placeholder="Name of the Institution"
+                            onChange={(e) => setInstitutionName(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    ) : null}
 
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Responsible Person’s Name"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    {currentUser?.role_id === 12 ||
+                    currentUser?.role_id === 13 ||
+                    currentUser?.role_id === 14 ||
+                    currentUser?.role_id === 15 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="responsible"
+                            placeholder="Responsible Person's Name"
+                            onChange={(e) =>
+                              setResponsiblePName(e.target.value)
+                            }
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Designation"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 11 ||
+                    currentUser?.role_id === 12 ||
+                    currentUser?.role_id === 13 ||
+                    currentUser?.role_id === 14 ||
+                    currentUser?.role_id === 15 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="designation"
+                            placeholder="Designation"
+                            onChange={(e) => setDesignation(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Vehicle License No."
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 12 ||
+                    currentUser.role_id === 14 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="vehicle_license"
+                            placeholder="Vehicle License No."
+                            onChange={(e) => setVehicleLicense(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Trade License No."
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+
+                    {currentUser?.role_id === 13 ||
+                    currentUser.role_id === 15 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="trade_license"
+                            placeholder="Trade License No."
+                            onChange={(e) => setTradeLicense(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="BMDC License No."
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 11 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="bmdc_license"
+                            placeholder="BMDC License No."
+                            onChange={(e) => setBmdcLicense(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="National ID No."
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+
+                    {currentUser?.role_id === 12 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="nid"
+                            placeholder="National ID No."
+                            onChange={(e) => setNid(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="DGHS License No."
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+
+                    {currentUser?.role_id === 13 ||
+                    currentUser?.role_id === 14 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="dghs_license"
+                            placeholder="DGHS License No."
+                            onChange={(e) => setDghsLicense(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Drug License No."
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 15 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="drug_license"
+                            placeholder="Drug License No."
+                            onChange={(e) => setDrugLicense(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Available Time Schedule for Online Service"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 11 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="time_schedule"
+                            placeholder="Available Time Schedule for Online Service"
+                            onChange={(e) =>
+                              setOnlineServiceTime(e.target.value)
+                            }
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <select
-                          className="form-control"
-                          // onChange={selectRoleHandler}
-                        >
-                          <option value="" disabled selected>
-                            Available Services
-                          </option>
-                          {serviceList?.map((service) => {
-                            return (
-                              <option value={service?.id} key={service?.id}>
-                                {service?.name}
-                              </option>
-                          
-                            );
-                          })}
-                        </select>
+                    ) : null}
+                    {currentUser?.role_id === 13 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <select
+                            className="form-control"
+                            onChange={(e) =>
+                              setAvailableService(e.target.value)
+                            }
+                          >
+                            <option value="" disabled selected>
+                              Available Services
+                            </option>
+                            {serviceList?.map((service) => {
+                              return (
+                                <option value={service?.id} key={service?.id}>
+                                  {service?.name}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Delivery Person Name"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 12 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="deliveryPName"
+                            placeholder="Delivery Person Name"
+                            onChange={(e) => setDeliveryPName(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Driver’s Name"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 14 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="driver_name"
+                            placeholder="Driver’s Name"
+                            onChange={(e) => setDriverName(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Driving License No."
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 12 ||
+                    currentUser?.role_id === 14 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="driving_license"
+                            placeholder="Driving License No."
+                            onChange={(e) => setDrivingLicense(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Degree/ Specialization"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.role_id === 11 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="degree"
+                            placeholder="Degree/ Specialization"
+                            onChange={(e) =>
+                              setSpecializationDegree(e.target.value)
+                            }
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="owner_name"
-                          placeholder="Years of Driving Experience"
-                          onChange={(e) => setMobile(e.target.value)}
-                        />
+                    ) : null}
+                    {currentUser?.roleId === 12 ||
+                    currentUser?.role_id === 14 ? (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="exp_driving"
+                            placeholder="Years of Driving Experience"
+                            onChange={(e) => setDrivingExpYears(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
 
                     <div className="col-12">
                       <button
@@ -503,7 +619,12 @@ const SignIn = () => {
                       >
                         Submit
                       </button>
-                      <p className="text-center mt-2">Skip for now</p>
+                      <Link
+                        href="/"
+                        className="text-center justify-content-center w-100 mt-1"
+                      >
+                        Skip for now.
+                      </Link>
                     </div>
                   </div>
                 </form>
