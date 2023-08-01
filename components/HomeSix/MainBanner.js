@@ -21,24 +21,7 @@ const MainBanner = () => {
                       <p>
                         Welcome to e-Relatives, your lifeline for hope and
                         healing. Our platform connects blood donors with those
-                        in need, saving lives one donation at a time. But we are
-                        more than just a blood donation platform. We also
-                        provide comprehensive medical and healthcare support to
-                        our community. Need to see a doctor? Book appointments
-                        effortlessly through our platform, ensuring timely
-                        access to medical care. Seeking medical advice from the
-                        comfort of your home? Our online consulting service
-                        connects you with experienced healthcare professionals.
-                        In times of emergencies, every second counts. That's why
-                        we offer a quick and reliable ambulance service to
-                        ensure you receive the urgent medical attention you
-                        need. Join our heroic community of compassionate
-                        individuals, whether you're a blood donor, a patient
-                        seeking support, or a healthcare professional dedicated
-                        to making a difference. Together, we can make a positive
-                        impact on countless lives. Don't wait – become a blood
-                        donor today and light up lives with your kindness.
-                        e-Relatives is here for you, every step of the way.
+                        in need, saving lives one donation at a time.
                       </p>
 
                       <Link href="/sign-up/" className="default-btn">
@@ -69,7 +52,7 @@ const MainBanner = () => {
                   <div
                     className="banner-image"
                     style={{
-                      backgroundImage: `url(/img/home-six/home-six-banner-img.jpg)`,
+                      backgroundImage: `url(/img/home-six/pexels-lucas-oliveira-4680300.jpg)`,
                     }}
                   ></div>
                 </SwiperSlide>
@@ -78,7 +61,7 @@ const MainBanner = () => {
                     div
                     className="banner-image"
                     style={{
-                      backgroundImage: `url(/img/home-six/home-six-banner2.jpg)`,
+                      backgroundImage: `url(/img/home-six/doc-consult.jpg)`,
                     }}
                   ></div>
                 </SwiperSlide>
