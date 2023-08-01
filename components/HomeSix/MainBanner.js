@@ -14,13 +14,14 @@ const MainBanner = () => {
                 <div className="d-table">
                   <div className="d-table-cell">
                     <div className="content">
-                      <span className="top-title">For Better Life!</span>
-                      <h1>Free Health Checkup Ensure A Better Life!</h1>
+                      <span className="top-title">
+                        Connecting Hearts, Sharing Life.
+                      </span>
+                      <h1>e-Relatives: Unite to Save Lives!</h1>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor dolore magna aliqua. Quis ipsum
-                        suspendisse ultrices gravida. Risus commodo viverra
-                        maecenas accumsan lacus vel facilisis.
+                        Welcome to e-Relatives, your lifeline for hope and
+                        healing. Our platform connects blood donors with those
+                        in need, saving lives one donation at a time.
                       </p>
 
                       <Link href="/sign-up/" className="default-btn">
@@ -51,7 +52,7 @@ const MainBanner = () => {
                   <div
                     className="banner-image"
                     style={{
-                      backgroundImage: `url(/img/home-six/home-six-banner-img.jpg)`,
+                      backgroundImage: `url(/img/home-six/pexels-lucas-oliveira-4680300.jpg)`,
                     }}
                   ></div>
                 </SwiperSlide>
@@ -60,7 +61,7 @@ const MainBanner = () => {
                     div
                     className="banner-image"
                     style={{
-                      backgroundImage: `url(/img/home-six/home-six-banner2.jpg)`,
+                      backgroundImage: `url(/img/home-six/doc-consult.jpg)`,
                     }}
                   ></div>
                 </SwiperSlide>

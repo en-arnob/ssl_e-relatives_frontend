@@ -254,7 +254,6 @@ textarea.form-control {
   padding: 5px 15px;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
-  
 }
 .navbar-btn:hover {
   background-color: #06e4e0; /* Example background color */
@@ -5048,7 +5047,7 @@ Doctors Area Four Style
   height: 100%;
 }
 .ours-doctors-area .doctors-img.about {
-  background-image: url(/img/home-six/home-six-about1.jpg);
+  background-image: url(/img/home-six/pexels-tima-miroshnichenko-8376163.jpg);
 }
 .ours-doctors-area .shape {
   position: absolute;
@@ -5696,7 +5695,7 @@ Appointment Area Six Style
 }
 
 .about-img-2 {
-  background-image: url(/img/home-four/our-mission.jpg);
+  background-image: url(/img/home-six/ambu.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
