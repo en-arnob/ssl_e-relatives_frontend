@@ -249,6 +249,20 @@ textarea.form-control {
   background-color: #0cb8b6;
   display: inline-block;
 }
+.navbar-btn {
+  /* background-color: #0cb8b6; */
+  font-size: 16px;
+  padding: 5px 15px;
+  /* background-color:#0cb8b6 ; */
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  
+}
+.navbar-btn:hover {
+  background-color: #06e4e0; /* Example background color */
+  color: #ffffff; /* Example text color */
+}
+
 .default-btn.active {
   margin-left: 30px;
   color: #ffffff;
