@@ -617,7 +617,7 @@ const SignIn = () => {
                         type="submit"
                         onClick={submitHandler}
                       >
-                        Submit
+                        Update
                       </button>
                       <Link
                         href="/"
@@ -625,7 +625,7 @@ const SignIn = () => {
                       >
                         Skip for now.
                       </Link>
-                    </div>
+                    </div>\\
                   </div>
                 </form>
               </div>

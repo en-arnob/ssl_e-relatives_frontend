@@ -14,13 +14,31 @@ const MainBanner = () => {
                 <div className="d-table">
                   <div className="d-table-cell">
                     <div className="content">
-                      <span className="top-title">For Better Life!</span>
-                      <h1>Free Health Checkup Ensure A Better Life!</h1>
+                      <span className="top-title">
+                        Connecting Hearts, Sharing Life.
+                      </span>
+                      <h1>e-Relatives: Unite to Save Lives!</h1>
                       <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor dolore magna aliqua. Quis ipsum
-                        suspendisse ultrices gravida. Risus commodo viverra
-                        maecenas accumsan lacus vel facilisis.
+                        Welcome to e-Relatives, your lifeline for hope and
+                        healing. Our platform connects blood donors with those
+                        in need, saving lives one donation at a time. But we are
+                        more than just a blood donation platform. We also
+                        provide comprehensive medical and healthcare support to
+                        our community. Need to see a doctor? Book appointments
+                        effortlessly through our platform, ensuring timely
+                        access to medical care. Seeking medical advice from the
+                        comfort of your home? Our online consulting service
+                        connects you with experienced healthcare professionals.
+                        In times of emergencies, every second counts. That's why
+                        we offer a quick and reliable ambulance service to
+                        ensure you receive the urgent medical attention you
+                        need. Join our heroic community of compassionate
+                        individuals, whether you're a blood donor, a patient
+                        seeking support, or a healthcare professional dedicated
+                        to making a difference. Together, we can make a positive
+                        impact on countless lives. Don't wait – become a blood
+                        donor today and light up lives with your kindness.
+                        e-Relatives is here for you, every step of the way.
                       </p>
 
                       <Link href="/sign-up/" className="default-btn">
