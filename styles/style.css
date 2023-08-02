@@ -2986,14 +2986,14 @@ Sign In & Log In  Area Style
   font-weight: 600;
 }
 .user-area-all-style .log-in-img {
-  background-image: url(/img/log-in-img.jpg);
+  background-image: url(/img/log-in-img.webp);
   background-position: center center;
   background-repeat: no-repeat;
   background-image: cover;
   height: 100%;
 }
 .user-area-all-style .sign-in-img {
-  background-image: url(/img/sign-in-img.jpg);
+  background-image: url(/img/sign-in-img.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-image: cover;

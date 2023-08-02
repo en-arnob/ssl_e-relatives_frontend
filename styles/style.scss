@@ -1697,14 +1697,15 @@ Client Area Style
   }
 }
 .client-slide {
-	.swiper-pagination {
+  .swiper-pagination {
     position: initial;
     .swiper-pagination-bullet {
       width: 12px;
       height: 12px;
       transition: $transition;
 
-      &.swiper-pagination-bullet-active, &:hover {
+      &.swiper-pagination-bullet-active,
+      &:hover {
         background-color: $main-color;
       }
     }
@@ -2948,7 +2949,7 @@ Sign In & Log In  Area Style
     }
   }
   .log-in-img {
-    background-image: url(/img/log-in-img.jpg);
+    background-image: url(/img/log-in-img.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-image: cover;
@@ -4453,7 +4454,7 @@ Services Details Area Style
   .swiper-pagination {
     position: initial;
     margin-top: 10px;
-    
+
     .swiper-pagination-bullet {
       width: 15px;
       height: 6px;
@@ -4525,7 +4526,8 @@ Hero Slider Area Style
     }
   }
 
-  .swiper-button-next, .swiper-button-prev {
+  .swiper-button-next,
+  .swiper-button-prev {
     &::after {
       color: #fff;
       font-size: 35px;
@@ -4659,7 +4661,8 @@ About Area Style
     }
   }
   .about-img-slide {
-    .swiper-button-prev, .swiper-button-next {
+    .swiper-button-prev,
+    .swiper-button-next {
       width: 40px;
       height: 40px;
       line-height: 40px;
@@ -5377,7 +5380,8 @@ Banner Area Six Style
         border-radius: 30px;
         background: #ddd;
 
-        &.swiper-pagination-bullet-active, &:hover {
+        &.swiper-pagination-bullet-active,
+        &:hover {
           background-color: $main-color;
         }
       }
@@ -5679,13 +5683,14 @@ Hero Slider Area Seven Style
       }
     }
 
-    .swiper-button-next, .swiper-button-prev {
+    .swiper-button-next,
+    .swiper-button-prev {
       background-color: #000;
       width: 40px;
       height: 40px;
       line-height: 40px;
       border-radius: 100px;
-      
+
       &::after {
         font-size: 20px;
         color: #fff;
@@ -5703,7 +5708,8 @@ Hero Slider Area Seven Style
         border-radius: 30px;
         opacity: 1;
 
-        &.swiper-pagination-bullet-active, &:hover {
+        &.swiper-pagination-bullet-active,
+        &:hover {
           background-color: $main-color;
         }
       }
@@ -5933,7 +5939,7 @@ Hero Slider Area Eight Style
       top: 60px;
     }
   }
-  .swiper-slide  {
+  .swiper-slide {
     &.swiper-slide-active {
       .slider-text {
         background-color: rgba(0, 55, 130, 0.8);
@@ -5941,13 +5947,14 @@ Hero Slider Area Eight Style
       }
     }
   }
-  .swiper-button-prev, .swiper-button-next {
+  .swiper-button-prev,
+  .swiper-button-next {
     border-radius: 50%;
     border: 1px solid $white-color;
     width: 40px;
     height: 40px;
     line-height: 40px;
-    
+
     &::after {
       color: #fff;
       font-size: 20px;
