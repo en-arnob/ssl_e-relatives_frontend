@@ -1,12 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import Navbar from "../components/_App/Navbar";
-import Footer from "../components/_App/Footer";
 
 const Profile = () => {
   return (
     <div>
-      <Navbar />
       <div>
         <div className="container rounded bg-white mt-2 mb-5">
           <div className="row d-flex justify-content-between">
@@ -46,7 +43,6 @@ const Profile = () => {
                 </div>
 
                 <div className="row mt-3">
-                
                   <div class="row col-md-12 mb-2">
                     <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                       Gender
@@ -203,12 +199,9 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-           
           </div>
-         
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

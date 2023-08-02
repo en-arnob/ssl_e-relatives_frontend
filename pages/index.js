@@ -7,30 +7,29 @@ import AboutUs from "../components/HomeSix/AboutUs";
 import AppointmentForm from "../components/HomeSix/AppointmentForm";
 import Footer from "../components/_App/Footer";
 import { UserContext } from "../Context/UserContextAPI";
-import { useRouter } from "next/navigation";
+import Profile from "./profile";
 
 const Index6 = () => {
   const { currentUser } = useContext(UserContext);
-  const { push } = useRouter();
 
-  useEffect(() => {
-    if (currentUser?.id) {
-      push("/profile");
-    }
-  }, []);
   return (
     <>
       <Navbar />
+      {currentUser && currentUser?.id ? (
+        <Profile />
+      ) : (
+        <>
+          <MainBanner />
 
-      <MainBanner />
+          <FeaturedService />
 
-      <FeaturedService />
+          <OurMission />
 
-      <OurMission />
+          <AboutUs />
 
-      <AboutUs />
-
-      <AppointmentForm />
+          <AppointmentForm />
+        </>
+      )}
 
       <Footer />
     </>
