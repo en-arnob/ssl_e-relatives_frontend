@@ -42,11 +42,12 @@ const Profile = () => {
               <div className="p-3 py-5">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h4 className="text-right">Profile Settings</h4>
-                  <h6 className="btn btn-primary">Update</h6>
+                  <Link href="/update-profile" className="nav-link btn btn-primary p-2 fs-6 fw-semibold text-white">
+                    Update
+                  </Link>
                 </div>
 
                 <div className="row mt-3">
-                
                   <div class="row col-md-12 mb-2">
                     <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                       Gender
@@ -203,9 +204,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-           
           </div>
-         
         </div>
       </div>
       <Footer />
