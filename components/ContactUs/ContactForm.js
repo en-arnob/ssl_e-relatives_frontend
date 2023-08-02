@@ -141,14 +141,14 @@ const ContactForm = () => {
                     </div>
                   </div>
 
-                  <div className="col-lg-6 col-sm-6">
+                  {/* <div className="col-lg-6 col-sm-6">
                     <div className="contact-num">
                       <h3>For Emergency</h3>
                       <span>
                         <a href="tel:+442-456a-789">+442-456a-789</a>
                       </span>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="col-lg-6 col-sm-6">
                     <button type="submit" className="default-btn btn-two">

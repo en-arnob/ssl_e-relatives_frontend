@@ -9,7 +9,7 @@ const NavbarFour = () => {
   const { currentUser, systemData } = useContext(UserContext);
   const [refresh, setRefresh] = useState(false);
   // console.log(currentUser);
-  console.log(systemData);
+  // console.log(systemData);
   // Add active class
   const [currentPath, setCurrentPath] = useState("");
   const router = useRouter();
@@ -56,16 +56,16 @@ const NavbarFour = () => {
               <nav className="navbar navbar-expand-md navbar-light">
                 <div className="container">
                   <Link href="/" className="navbar-brand">
-                    {/* {systemData?.logo_image ? (
+                    {systemData?.logo_image ? (
                       <img
                         src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/${systemData?.logo_image}`}
-
                         alt="logo"
+                        className="w-50 h-50"
                       />
                     ) : (
                       `${systemData?.website_name}`
-                    )} */}
-                    {systemData?.website_name}
+                    )}
+                    {/* {systemData?.website_name} */}
                   </Link>
 
                   <button
@@ -92,7 +92,7 @@ const NavbarFour = () => {
                             currentPath == "/" && "active"
                           }`}
                         >
-                          Home
+                          {currentUser && currentUser?.id ? "Profile" : "Home"}
                         </Link>
                       </li>
 
@@ -139,7 +139,7 @@ const NavbarFour = () => {
                         <div className="navbar-btn">
                           <img
                             class="rounded-circle img-fluid "
-                            src="/img/avatar/avatar.jpeg"
+                            src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/users/${currentUser?.image}`}
                             style={{ width: "40px", height: "40px" }}
                             alt=""
                           />{" "}
@@ -159,8 +159,8 @@ const NavbarFour = () => {
                     {currentUser && currentUser?.mobile && (
                       <div>
                         <Dropdown.Menu>
-                          <Dropdown.Item>Profile</Dropdown.Item>
-                          <Dropdown.Item>Change Password</Dropdown.Item>
+                          {/* <Dropdown.Item>Profile</Dropdown.Item>
+                          <Dropdown.Item>Change Password</Dropdown.Item> */}
                           <Dropdown.Item>
                             <button
                               className="btn btn-secondary py-0 px-2"

@@ -238,7 +238,7 @@ const SignUp = () => {
                           onChange={selectRoleHandler}
                         >
                           <option value="" disabled selected>
-                            Register as -
+                            Account type -
                           </option>
                           {roles?.map((role) => {
                             return (

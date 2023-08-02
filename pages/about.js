@@ -42,31 +42,27 @@ const About = () => {
             <div className="col-lg-6">
               <div className="about-content">
                 <span className="top-title">About Us</span>
-                <h2> Empowering Hope, Saving Lives</h2>
+                <h2> Our vision is to provide best service in the health sector.</h2>
                 <p>
-                  In 2023, e-Relatives embarked on a journey fueled by
-                  compassion and a shared vision of transforming lives. Our
-                  mission was clear - to be a beacon of hope, uniting blood
-                  donors with those in need and providing comprehensive medical
-                  support. Since our inception, we have grown into a heroic
-                  community, spreading kindness and embracing hope. Every step
-                  of the way, we have remained committed to making a positive
-                  impact, illuminating the path to healing, and creating
-                  brighter tomorrows for all. Our platform offers a wide range
-                  of services, including quick and convenient online doctor
-                  appointments and expert medical consultancy, ensuring timely
-                  access to healthcare support from the comfort of your home. In
-                  times of emergencies, our reliable ambulance services are just
-                  a call away, providing urgent medical attention when every
-                  second counts. As we continue to evolve, our dedication to
-                  empowering lives and fostering hope remains unwavering.
-                  Together, we stand united, driven by the belief that even the
-                  smallest acts of kindness can make a world of difference. Join
-                  us in this transformative journey and be a part of something
-                  truly remarkable. At e-Relatives, our platform serves as a
-                  lifeline for hope and healing, offering a range of services
-                  that empower lives and make a positive impact on our
-                  community. Here's how we achieve our mission:
+                  Few dedicated social workers came together with a strong
+                  determination to serve people in the easiest way in affordable
+                  cost. That ambition was materialized in the form of
+                  “e-Relatives”. e-Relatives is an online platform for
+                  maintaining real time Blood Donation Service, Diagnostic
+                  Center Service and Health Management Services for the people
+                  around the world. The firm is also serving people by attaching
+                  some renewed and well reputed Pharmacies and Ambulances so
+                  that the peoples can easily purchase their necessary medicines
+                  and take ambulance services on time. We also provide some
+                  essential health product just on clicks. e-Relatives is the
+                  only platform where Blood Donor, Blood Receiver/ Patient,
+                  Diagnostic Center, Hospital, Pharmacy, Health Product Supplier
+                  and Ambulance are gathering to serve. This is a groundbreaking
+                  step for ensuring Health Service for the people in the globe
+                  where all necessary opportunities and advantages are happen.
+                  “Our mission is to educate and promote diagnostic tests of clinical value to the medical
+and patient community. We will deliver information that is accurate, relevant, timely
+and useful for guiding patient care.”
                 </p>
 
                 <ul>
