@@ -54,16 +54,14 @@ const ContactForm = () => {
           <div className="section-title">
             <span className="top-title">Contact Us</span>
             <h2>Drop us a message for any query</h2>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque
-              quibusdam deleniti porro praesentium. Aliquam minus quisquam velit
-              in at nam.
-            </p>
           </div>
 
           <div className="contact-wrap contact-pages mb-0">
             <div className="contact-form">
-              <form onSubmit={handleSubmit}>
+              <form
+                action="https://getform.io/f/b5b9de0b-e6a5-4bc8-add3-5eeb127d0d88"
+                method="POST"
+              >
                 <div className="row">
                   <div className="col-lg-6 col-md-6">
                     <div className="form-group">
@@ -73,8 +71,8 @@ const ContactForm = () => {
                         name="name"
                         placeholder="Your Name"
                         className="form-control"
-                        value={contact.name}
-                        onChange={handleChange}
+                        // value={contact.name}
+                        // onChange={handleChange}
                         required
                       />
                     </div>
@@ -88,8 +86,8 @@ const ContactForm = () => {
                         name="email"
                         placeholder="Your Email"
                         className="form-control"
-                        value={contact.email}
-                        onChange={handleChange}
+                        // value={contact.email}
+                        // onChange={handleChange}
                         required
                       />
                     </div>
@@ -103,8 +101,8 @@ const ContactForm = () => {
                         name="number"
                         placeholder="Phone Number"
                         className="form-control"
-                        value={contact.number}
-                        onChange={handleChange}
+                        // value={contact.number}
+                        // onChange={handleChange}
                         required
                       />
                     </div>
@@ -118,8 +116,8 @@ const ContactForm = () => {
                         name="subject"
                         placeholder="Subject"
                         className="form-control"
-                        value={contact.subject}
-                        onChange={handleChange}
+                        // value={contact.subject}
+                        // onChange={handleChange}
                         required
                       />
                     </div>
@@ -134,8 +132,8 @@ const ContactForm = () => {
                         rows="6"
                         placeholder="Write your message..."
                         className="form-control"
-                        value={contact.text}
-                        onChange={handleChange}
+                        // value={contact.text}
+                        // onChange={handleChange}
                         required
                       />
                     </div>

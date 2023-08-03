@@ -10,9 +10,7 @@ import Image from "next/image";
 
 const SignIn = () => {
   const Router = useRouter();
-  const { methodSignin, currentUser } = useContext(UserContext);
-  const [mobile, setMobile] = useState("");
-  const [passwd, setPasswd] = useState("");
+  const { currentUser } = useContext(UserContext);
 
   // data states
   const [image, setImage] = useState("");
@@ -34,6 +32,7 @@ const SignIn = () => {
   const [deliveryPName, setDeliveryPName] = useState("");
   const [driverName, setDriverName] = useState("");
   const [drivingLicense, setDrivingLicense] = useState("");
+  const [lastBloodDonate, setLastBloodDonate] = useState("");
   const [specializationDegree, setSpecializationDegree] = useState("");
   const [drivingExpYears, setDrivingExpYears] = useState("");
   const [nid, setNid] = useState("");
@@ -110,6 +109,7 @@ const SignIn = () => {
       dghsLicense,
       drugLicense,
       onlineServiceTime,
+      lastBloodDonate,
       availableService,
       deliveryPName,
       driverName,
@@ -165,12 +165,41 @@ const SignIn = () => {
       <div className="user-area-all-style log-in-area ptb-100">
         <div className="container">
           <div className="section-title">
-            <h3>
-              Hey <span className="text-danger">{currentUser?.f_name}</span>,
-              Complete your profile to enhance your experience here. We'll
-              gently remind you during your next login if you decide to skip for
-              now. Your profile helps us better serve you. Thank you!
-            </h3>
+            {currentUser?.user_details_added === 0 ? (
+              <h3>
+                Hey <span className="text-danger">{currentUser?.f_name}</span>,
+                Complete your profile to enhance your experience here. We'll
+                gently remind you during your next login if you decide to skip
+                for now. Your profile helps us better serve you. Thank you!
+              </h3>
+            ) : (
+              <h3>
+                Update{" "}
+                {parseInt(currentUser?.role_id) === 11
+                  ? "Doctor's "
+                  : parseInt(currentUser?.role_id) === 10
+                  ? "User "
+                  : parseInt(currentUser?.role_id) === 12
+                  ? "Delivery Person's "
+                  : parseInt(currentUser?.role_id) === 13
+                  ? "Collection Point "
+                  : parseInt(currentUser?.role_id) === 14
+                  ? "Ambulance/ Carcass "
+                  : parseInt(currentUser?.role_id) === 15
+                  ? "Store Profile "
+                  : "User"}{" "}
+                Profile
+              </h3>
+            )}
+
+            {currentUser?.user_details_added === 1 && (
+              <Link
+                href="/"
+                className="text-center justify-content-center w-100 mt-1"
+              >
+                Go Back.
+              </Link>
+            )}
           </div>
 
           <div className="row">
@@ -383,7 +412,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {currentUser?.role_id === 12 ||
                     currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ||
@@ -433,7 +461,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {currentUser?.role_id === 13 ||
                     currentUser.role_id === 15 ? (
                       <div className="col-12">
@@ -461,7 +488,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {currentUser?.role_id === 12 ? (
                       <div className="col-12">
                         <div className="form-group">
@@ -475,7 +501,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ? (
                       <div className="col-12">
@@ -581,6 +606,24 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
+                    {currentUser?.role_id === 10 && (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <label className="px-1">
+                            Last Blood Donation Date
+                          </label>
+                          <input
+                            id="date"
+                            type="date"
+                            name="lastBloodDonate"
+                            value={lastBloodDonate}
+                            onChange={(e) => setLastBloodDonate(e.target.value)}
+                            className="form-control"
+                            placeholder="Date Picker..."
+                          />
+                        </div>
+                      </div>
+                    )}
                     {currentUser?.role_id === 11 ? (
                       <div className="col-12">
                         <div className="form-group">
@@ -610,7 +653,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     <div className="col-12">
                       <button
                         className="default-btn btn-two"
@@ -619,13 +661,15 @@ const SignIn = () => {
                       >
                         Update
                       </button>
-                      <Link
-                        href="/"
-                        className="text-center justify-content-center w-100 mt-1"
-                      >
-                        Skip for now.
-                      </Link>
-                    </div>\\
+                      {currentUser?.user_details_added === 0 && (
+                        <Link
+                          href="/"
+                          className="text-center justify-content-center w-100 mt-1"
+                        >
+                          Skip for now.
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </form>
               </div>

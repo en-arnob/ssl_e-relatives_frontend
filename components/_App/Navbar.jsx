@@ -95,39 +95,55 @@ const NavbarFour = () => {
                           {currentUser && currentUser?.id ? "Profile" : "Home"}
                         </Link>
                       </li>
+                      {currentUser && currentUser?.id ? (
+                        <>
+                          <li className="nav-item">
+                            <Link
+                              href="/service-request/"
+                              className={`nav-link ${
+                                currentPath == "/service-request/" && "active"
+                              }`}
+                            >
+                              Service Request
+                            </Link>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li className="nav-item">
+                            <Link
+                              href="/about/"
+                              className={`nav-link ${
+                                currentPath == "/about/" && "active"
+                              }`}
+                            >
+                              About
+                            </Link>
+                          </li>
 
-                      <li className="nav-item">
-                        <Link
-                          href="/about/"
-                          className={`nav-link ${
-                            currentPath == "/about/" && "active"
-                          }`}
-                        >
-                          About
-                        </Link>
-                      </li>
+                          <li className="nav-item">
+                            <Link
+                              href="/services-2/"
+                              className={`nav-link ${
+                                currentPath == "/services-2/" && "active"
+                              }`}
+                            >
+                              Services
+                            </Link>
+                          </li>
 
-                      <li className="nav-item">
-                        <Link
-                          href="/services-2/"
-                          className={`nav-link ${
-                            currentPath == "/services-2/" && "active"
-                          }`}
-                        >
-                          Services
-                        </Link>
-                      </li>
-
-                      <li className="nav-item">
-                        <Link
-                          href="/contact/"
-                          className={`nav-link ${
-                            currentPath == "/contact/" && "active"
-                          }`}
-                        >
-                          Contact
-                        </Link>
-                      </li>
+                          <li className="nav-item">
+                            <Link
+                              href="/contact/"
+                              className={`nav-link ${
+                                currentPath == "/contact/" && "active"
+                              }`}
+                            >
+                              Contact
+                            </Link>
+                          </li>
+                        </>
+                      )}
                     </ul>
                   </div>
                   <Dropdown>
@@ -137,12 +153,21 @@ const NavbarFour = () => {
                     >
                       {currentUser && currentUser?.mobile ? (
                         <div className="navbar-btn">
-                          <img
-                            class="rounded-circle img-fluid "
-                            src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/users/${currentUser?.image}`}
-                            style={{ width: "40px", height: "40px" }}
-                            alt=""
-                          />{" "}
+                          {currentUser?.image ? (
+                            <img
+                              class="rounded-circle img-fluid "
+                              src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/users/${currentUser?.image}`}
+                              style={{ width: "40px", height: "40px" }}
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              class="rounded-circle img-fluid "
+                              src="/img/avatar-user.png"
+                              style={{ width: "40px", height: "40px" }}
+                              alt=""
+                            />
+                          )}{" "}
                           <span>{currentUser?.f_name} </span>
                         </div>
                       ) : (

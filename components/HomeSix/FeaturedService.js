@@ -60,9 +60,9 @@ const FeaturedService = () => {
                       </h1>
                       <h3>{role?.name}</h3>
                       <p>{role.info}</p>
-                      {/* <Link href="/service-details" className="read-more">
-                        Read More <i className="bx bx-plus"></i>
-                      </Link> */}
+                      <Link href="/sign-up" className="read-more">
+                        Register Now <i className="bx bx-plus"></i>
+                      </Link>
                     </div>
                   </div>
                 ))
