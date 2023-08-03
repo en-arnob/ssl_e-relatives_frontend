@@ -10,9 +10,7 @@ import Image from "next/image";
 
 const SignIn = () => {
   const Router = useRouter();
-  const { methodSignin, currentUser } = useContext(UserContext);
-  const [mobile, setMobile] = useState("");
-  const [passwd, setPasswd] = useState("");
+  const { currentUser } = useContext(UserContext);
 
   // data states
   const [image, setImage] = useState("");
@@ -34,6 +32,7 @@ const SignIn = () => {
   const [deliveryPName, setDeliveryPName] = useState("");
   const [driverName, setDriverName] = useState("");
   const [drivingLicense, setDrivingLicense] = useState("");
+  const [lastBloodDonate, setLastBloodDonate] = useState("");
   const [specializationDegree, setSpecializationDegree] = useState("");
   const [drivingExpYears, setDrivingExpYears] = useState("");
   const [nid, setNid] = useState("");
@@ -110,6 +109,7 @@ const SignIn = () => {
       dghsLicense,
       drugLicense,
       onlineServiceTime,
+      lastBloodDonate,
       availableService,
       deliveryPName,
       driverName,
@@ -383,7 +383,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {currentUser?.role_id === 12 ||
                     currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ||
@@ -433,7 +432,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {currentUser?.role_id === 13 ||
                     currentUser.role_id === 15 ? (
                       <div className="col-12">
@@ -461,7 +459,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {currentUser?.role_id === 12 ? (
                       <div className="col-12">
                         <div className="form-group">
@@ -475,7 +472,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     {currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ? (
                       <div className="col-12">
@@ -581,6 +577,24 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
+                    {currentUser?.role_id === 10 && (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <label className="px-1">
+                            Last Blood Donation Date
+                          </label>
+                          <input
+                            id="date"
+                            type="date"
+                            name="lastBloodDonate"
+                            value={lastBloodDonate}
+                            onChange={(e) => setLastBloodDonate(e.target.value)}
+                            className="form-control"
+                            placeholder="Date Picker..."
+                          />
+                        </div>
+                      </div>
+                    )}
                     {currentUser?.role_id === 11 ? (
                       <div className="col-12">
                         <div className="form-group">
@@ -610,7 +624,6 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-
                     <div className="col-12">
                       <button
                         className="default-btn btn-two"
@@ -625,7 +638,8 @@ const SignIn = () => {
                       >
                         Skip for now.
                       </Link>
-                    </div>\\
+                    </div>
+                    \\
                   </div>
                 </form>
               </div>

@@ -55,128 +55,14 @@ const Services2 = () => {
               various roles and responsibilities.
             </p>
           </div>
-
-          {/* <div className="row">
-            <div className="col-lg-4 col-sm-6">
-              <div className="single-services">
-                <span className="flaticon-man"></span>
-                <h3>Cancer Service</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore dolore
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="single-services">
-                <span className="flaticon-liver"></span>
-                <h3>Liver Transport</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore dolore
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="single-services">
-                <span className="flaticon-kidney"></span>
-                <h3>Kidney Transport</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore dolore
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="single-services">
-                <span className="flaticon-heart"></span>
-                <h3>Cardiac Arrhythmia</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore dolore
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="single-services">
-                <span className="flaticon-brain"></span>
-                <h3>Neurology Care</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore dolore
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="single-services">
-                <span className="flaticon-walker"></span>
-                <h3>Orthopedic Care</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore dolore
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
-                </div>
-              </div>
-            </div>
-          </div> */}
           <div className="row">
             {roles?.length >= 0
               ? roles?.map((role) => (
                   <div key={role?.id} className="col-lg-4 col-sm-6">
                     <div className="single-services">
-                      <span> <h1>
+                      <span>
+                        {" "}
+                        <h1>
                           {role.id === 3 ? (
                             <FcPortraitMode />
                           ) : role.id === 10 ? (
@@ -194,16 +80,17 @@ const Services2 = () => {
                           ) : (
                             <FcAbout />
                           )}
-                        </h1> </span>
+                        </h1>{" "}
+                      </span>
                       <h3>{role.name}</h3>
                       <p>{role.info}</p>
 
-                      {/* <Link href="/service-details" className="read-more">
-                        Read More <i className="bx bx-plus"></i>
-                      </Link> */}
+                      <Link href="/sign-up" className="read-more">
+                        Register Now <i className="bx bx-plus"></i>
+                      </Link>
 
                       <div className="services-shape">
-                        <img src="/img/services-card-shape.png" alt="Image" /> 
+                        <img src="/img/services-card-shape.png" alt="Image" />
                       </div>
                     </div>
                   </div>

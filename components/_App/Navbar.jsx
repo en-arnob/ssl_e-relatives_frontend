@@ -95,39 +95,53 @@ const NavbarFour = () => {
                           {currentUser && currentUser?.id ? "Profile" : "Home"}
                         </Link>
                       </li>
-
-                      <li className="nav-item">
+                      {currentUser && currentUser?.id ? (
+                        <><li className="nav-item">
                         <Link
                           href="/about/"
                           className={`nav-link ${
                             currentPath == "/about/" && "active"
                           }`}
                         >
-                          About
+                          New Page
                         </Link>
-                      </li>
+                      </li></>
+                      ) : (
+                        <>
+                          <li className="nav-item">
+                            <Link
+                              href="/about/"
+                              className={`nav-link ${
+                                currentPath == "/about/" && "active"
+                              }`}
+                            >
+                              About
+                            </Link>
+                          </li>
 
-                      <li className="nav-item">
-                        <Link
-                          href="/services-2/"
-                          className={`nav-link ${
-                            currentPath == "/services-2/" && "active"
-                          }`}
-                        >
-                          Services
-                        </Link>
-                      </li>
+                          <li className="nav-item">
+                            <Link
+                              href="/services-2/"
+                              className={`nav-link ${
+                                currentPath == "/services-2/" && "active"
+                              }`}
+                            >
+                              Services
+                            </Link>
+                          </li>
 
-                      <li className="nav-item">
-                        <Link
-                          href="/contact/"
-                          className={`nav-link ${
-                            currentPath == "/contact/" && "active"
-                          }`}
-                        >
-                          Contact
-                        </Link>
-                      </li>
+                          <li className="nav-item">
+                            <Link
+                              href="/contact/"
+                              className={`nav-link ${
+                                currentPath == "/contact/" && "active"
+                              }`}
+                            >
+                              Contact
+                            </Link>
+                          </li>
+                        </>
+                      )}
                     </ul>
                   </div>
                   <Dropdown>

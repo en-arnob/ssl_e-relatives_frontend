@@ -44,7 +44,7 @@ const Profile = () => {
                 </div>
                 <div className="col-md-11 text-center">
                   <label className="labels fs-6 fw-semibold">
-                    Role: {currentUser?.role.name}
+                    {currentUser?.role.name}
                   </label>
                 </div>
                 {/* <div className="col-md-11">
@@ -67,7 +67,22 @@ const Profile = () => {
             <div className="col-md-8 border-right">
               <div className="p-3 py-5">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h4 className="text-right ">User Profile</h4>
+                  <h4 className="text-right ">
+                    {parseInt(currentUser?.role_id) === 11
+                      ? "Doctor's "
+                      : parseInt(currentUser?.role_id) === 10
+                      ? "User "
+                      : parseInt(currentUser?.role_id) === 12
+                      ? "Delivery Person's "
+                      : parseInt(currentUser?.role_id) === 13
+                      ? "Collection Point "
+                      : parseInt(currentUser?.role_id) === 14
+                      ? "Ambulance/ Carcass "
+                      : parseInt(currentUser?.role_id) === 15
+                      ? "Store Profile "
+                      : "User"}
+                    Profile
+                  </h4>
                   <h6 className="btn btn-primary">Update</h6>
                 </div>
 
@@ -108,9 +123,20 @@ const Profile = () => {
                         : "Unknown"}
                     </div>
                   </div>
+                  {currentUser?.role_id === 10 && (
+                    <div class="row col-md-12 mb-2">
+                      <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                        Last Blood Donation Date
+                      </div>
+                      <div class="col-md-1 col-sm-1 mb-2">:</div>
+                      <div class="col-md-4 col-sm-5 mb-2">
+                        {userDetails?.last_blood_donate}
+                      </div>
+                    </div>
+                  )}
                   <div class="row col-md-12 mb-2">
                     <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                      Date of Bath
+                      Date of Birth
                     </div>
                     <div class="col-md-1 col-sm-1 mb-2">:</div>
                     <div class="col-md-4 col-sm-5 mb-2">
