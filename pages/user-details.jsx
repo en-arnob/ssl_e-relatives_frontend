@@ -165,12 +165,41 @@ const SignIn = () => {
       <div className="user-area-all-style log-in-area ptb-100">
         <div className="container">
           <div className="section-title">
-            <h3>
-              Hey <span className="text-danger">{currentUser?.f_name}</span>,
-              Complete your profile to enhance your experience here. We'll
-              gently remind you during your next login if you decide to skip for
-              now. Your profile helps us better serve you. Thank you!
-            </h3>
+            {currentUser?.user_details_added === 0 ? (
+              <h3>
+                Hey <span className="text-danger">{currentUser?.f_name}</span>,
+                Complete your profile to enhance your experience here. We'll
+                gently remind you during your next login if you decide to skip
+                for now. Your profile helps us better serve you. Thank you!
+              </h3>
+            ) : (
+              <h3>
+                Update{" "}
+                {parseInt(currentUser?.role_id) === 11
+                  ? "Doctor's "
+                  : parseInt(currentUser?.role_id) === 10
+                  ? "User "
+                  : parseInt(currentUser?.role_id) === 12
+                  ? "Delivery Person's "
+                  : parseInt(currentUser?.role_id) === 13
+                  ? "Collection Point "
+                  : parseInt(currentUser?.role_id) === 14
+                  ? "Ambulance/ Carcass "
+                  : parseInt(currentUser?.role_id) === 15
+                  ? "Store Profile "
+                  : "User"}{" "}
+                Profile
+              </h3>
+            )}
+
+            {currentUser?.user_details_added === 1 && (
+              <Link
+                href="/"
+                className="text-center justify-content-center w-100 mt-1"
+              >
+                Go Back.
+              </Link>
+            )}
           </div>
 
           <div className="row">
@@ -632,14 +661,15 @@ const SignIn = () => {
                       >
                         Update
                       </button>
-                      <Link
-                        href="/"
-                        className="text-center justify-content-center w-100 mt-1"
-                      >
-                        Skip for now.
-                      </Link>
+                      {currentUser?.user_details_added === 0 && (
+                        <Link
+                          href="/"
+                          className="text-center justify-content-center w-100 mt-1"
+                        >
+                          Skip for now.
+                        </Link>
+                      )}
                     </div>
-                    \\
                   </div>
                 </form>
               </div>

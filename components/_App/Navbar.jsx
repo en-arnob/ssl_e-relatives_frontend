@@ -96,16 +96,18 @@ const NavbarFour = () => {
                         </Link>
                       </li>
                       {currentUser && currentUser?.id ? (
-                        <><li className="nav-item">
-                        <Link
-                          href="/about/"
-                          className={`nav-link ${
-                            currentPath == "/about/" && "active"
-                          }`}
-                        >
-                          New Page
-                        </Link>
-                      </li></>
+                        <>
+                          <li className="nav-item">
+                            <Link
+                              href="/service-request/"
+                              className={`nav-link ${
+                                currentPath == "/service-request/" && "active"
+                              }`}
+                            >
+                              Service Request
+                            </Link>
+                          </li>
+                        </>
                       ) : (
                         <>
                           <li className="nav-item">
@@ -151,12 +153,21 @@ const NavbarFour = () => {
                     >
                       {currentUser && currentUser?.mobile ? (
                         <div className="navbar-btn">
-                          <img
-                            class="rounded-circle img-fluid "
-                            src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/users/${currentUser?.image}`}
-                            style={{ width: "40px", height: "40px" }}
-                            alt=""
-                          />{" "}
+                          {currentUser?.image ? (
+                            <img
+                              class="rounded-circle img-fluid "
+                              src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/users/${currentUser?.image}`}
+                              style={{ width: "40px", height: "40px" }}
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              class="rounded-circle img-fluid "
+                              src="/img/avatar-user.png"
+                              style={{ width: "40px", height: "40px" }}
+                              alt=""
+                            />
+                          )}{" "}
                           <span>{currentUser?.f_name} </span>
                         </div>
                       ) : (
