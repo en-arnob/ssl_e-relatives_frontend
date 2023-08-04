@@ -40,8 +40,6 @@ const UpdateProfile = () => {
               <div className="p-3 py-5">
                 <div className="d-flex justify-content-between align-items-cEntermb-3">
                   <h4 className="text-right">Profile Settings</h4>
-                  <h6 className="btn btn-primary">Update</h6>
-                  
                 </div>
                 <div className="row mt-3">
                   <div className="col-md-12">
@@ -247,11 +245,7 @@ const UpdateProfile = () => {
                             </div>
                         </div> */}
           </div>
-          <div className="mt-5 text-center">
-            <button className="btn btn-primary profile-button" type="button">
-              Save Profile
-            </button>
-          </div>
+          
         </div>
       </div>
     </div>
