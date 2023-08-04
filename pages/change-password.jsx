@@ -85,7 +85,6 @@ const ChangePassword = () => {
                           className="form-control"
                           type="password"
                           name="passwd"
-                          value=''
                           onChange={(e) => setPasswd(e.target.value)}
                           placeholder="Enter new password"
                         />
