@@ -184,8 +184,10 @@ const NavbarFour = () => {
                     {currentUser && currentUser?.mobile && (
                       <div>
                         <Dropdown.Menu>
-                          {/* <Dropdown.Item>Profile</Dropdown.Item>
-                          <Dropdown.Item>Change Password</Dropdown.Item> */}
+                          <Dropdown.Item>Profile</Dropdown.Item>
+                          <Dropdown.Item>
+                            <Link href='/change-password'>Change Password</Link>
+                          </Dropdown.Item>
                           <Dropdown.Item>
                             <button
                               className="btn btn-secondary py-0 px-2"
