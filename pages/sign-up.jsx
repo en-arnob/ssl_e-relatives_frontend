@@ -238,7 +238,7 @@ const SignUp = () => {
                           onChange={selectRoleHandler}
                         >
                           <option value="" disabled selected>
-                            Register as -
+                            Account type -
                           </option>
                           {roles?.map((role) => {
                             return (
@@ -259,7 +259,11 @@ const SignUp = () => {
                             onChange={selectServiceHandler}
                           >
                             <option value="" disabled selected>
-                              {serviceCats[0]?.info}
+                              {selectedRole?.id === 11
+                                ? "Field of practice - "
+                                : selectedRole.id === 12
+                                ? "Vehicle type - "
+                                : ""}
                             </option>
                             {serviceCats?.map((cat) => {
                               return (

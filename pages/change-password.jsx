@@ -32,14 +32,14 @@ const ChangePassword = () => {
           confirmPassword: cPasswd,
         };
         console.log(userInfo);
-        updatePassword(userInfo);
+        changePassword(userInfo);
       } else {
         toast.error("Password Not Matched!!");
       }
     }
   };
 
-  const updatePassword = async (userInfo) => {
+  const changePassword = async (userInfo) => {
     try {
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/password`,
@@ -55,7 +55,7 @@ const ChangePassword = () => {
 
       if (res.status === 200) {
         toast.success("Password Change Successfully!!");
-        Router.push("/sign-in");
+        // Router.push("/sign-in");
       }
     } catch (error) {
       console.error(error);

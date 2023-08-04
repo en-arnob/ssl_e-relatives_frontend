@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
+import { UserContext } from "../../Context/UserContextAPI";
+
 
 const ContactInfo = () => {
+  const { systemData } = useContext(UserContext);
   return (
     <>
       <div className="contact-info-area">
@@ -9,10 +12,10 @@ const ContactInfo = () => {
             <div className="col-lg-3 p-0">
               <div className="single-contact-info">
                 <i className="bx bx-location-plus"></i>
-                <h3>New York</h3>
-                <p>88 Flower Avenue, Kingdom St, New York</p>
-                <span>Email: hello@corf.com</span>
-                <span>Tel: +822456974</span>
+                <h3>Address</h3>
+                <p>{systemData?.address}</p>
+                <span>Email: {systemData?.email || "sysconbd@gmail.com"}</span>
+                <span>Tel: {systemData?.mobile}</span>
               </div>
             </div>
 

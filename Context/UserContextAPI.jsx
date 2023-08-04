@@ -10,10 +10,21 @@ const UserContextAPI = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [permissions, setPermissions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [systemData, setSystemData] = useState({});
 
   // console.log(currentUser);
   // console.log(permissions);
-
+  const getSystemData = () => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/settings`)
+      .then((response) => {
+        const allData = response.data.data[0];
+        setSystemData(allData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const methodSignin = async (signinData) => {
     try {
       setLoading(true);
@@ -116,6 +127,9 @@ const UserContextAPI = ({ children }) => {
       console.log("No Token Found");
     }
   }, []);
+  useEffect(() => {
+    getSystemData();
+  }, []);
 
   const methods = {
     currentUser,
@@ -127,6 +141,7 @@ const UserContextAPI = ({ children }) => {
     setLoading,
     methodSignin,
     check,
+    systemData,
   };
   return (
     <>

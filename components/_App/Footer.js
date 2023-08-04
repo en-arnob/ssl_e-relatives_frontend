@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
+import { UserContext } from "../../Context/UserContextAPI";
 
 const Footer = () => {
+  const { systemData } = useContext(UserContext);
   const currentYear = new Date().getFullYear();
+  const tel = `tel:${systemData.mobile}`;
+  const mailto = `mailto:${systemData?.email}`;
 
   return (
     <>
@@ -17,15 +21,18 @@ const Footer = () => {
                 data-aos-duration="1200"
               >
                 <Link href="/">
-                  <img src="/img/logo.png" alt="Image" />
+                  {systemData?.logo_image ? (
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/${systemData?.logo_image}`}
+                      className="w-50 h-50"
+                      alt="logo"
+                    />
+                  ) : (
+                    `${systemData?.website_name}`
+                  )}
                 </Link>
 
-                <p>
-                  Lorem ipsum dolor, sit amet earum consectetur adipisicing
-                  elit. Cupiditate rerum quidem fugiat sapiente! Iusto quae
-                  perspiciatis, repudiandae ipsam minus et ex, aliquid dolor
-                  molestias, earum enim officiis porro obcaecati.
-                </p>
+                <p>{systemData?.tag_line}</p>
 
                 <div className="social-area">
                   <ul>
@@ -34,16 +41,16 @@ const Footer = () => {
                         <i className="bx bxl-facebook"></i>
                       </a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a href="https://www.twitter.com/" target="_blank">
                         <i className="bx bxl-twitter"></i>
                       </a>
-                    </li>
-                    <li>
+                    </li> */}
+                    {/* <li>
                       <a href="https://www.linkedin.com/" target="_blank">
                         <i className="bx bxl-linkedin"></i>
                       </a>
-                    </li>
+                    </li> */}
                     <li>
                       <a
                         href="https://www.facebyoutubeook.com/"
@@ -80,9 +87,9 @@ const Footer = () => {
                   <li>
                     <Link href="/services-2">Services</Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link href="/doctors-2">Doctors</Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link href="/contact">Contact</Link>
                   </li>
@@ -107,14 +114,6 @@ const Footer = () => {
                     <span>Wed-Thu:</span>
                     <span className="right">6:00 AM - 10:00 PM</span>
                   </li>
-                  <li>
-                    <span>Fry:</span>
-                    <span className="right">6:00 AM - 04:00 PM</span>
-                  </li>
-                  <li>
-                    <span>Sun:</span>
-                    <span className="right">Closed</span>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -129,23 +128,23 @@ const Footer = () => {
                 <h3>Get In Touch</h3>
                 <ul>
                   <li>
-                    <a href="tel:+822456974">
+                    <a href={tel}>
                       <i className="bx bx-phone-call"></i>
                       <span>Hotline:</span>
-                      Phone: +822456974
+                      Phone: {systemData?.mobile}
                     </a>
                   </li>
                   <li>
-                    <a href="mailto:hello@corf.com">
+                    <a href={mailto}>
                       <i className="bx bx-envelope"></i>
                       <span>Email:</span>
-                      hello@corf.com
+                      {systemData?.email}
                     </a>
                   </li>
                   <li>
                     <i className="bx bx-location-plus"></i>
                     <span>Address:</span>
-                    123, Western Road, Melbourne Australia
+                    {systemData?.address}
                   </li>
                 </ul>
               </div>
@@ -158,10 +157,7 @@ const Footer = () => {
         <div className="container">
           <div className="copy-right">
             <p>
-              Copyright &copy; {currentYear} Corf Designed by{" "}
-              <a href="https://envytheme.com/" target="blank">
-                EnvyTheme
-              </a>
+              Copyright &copy; {currentYear} {systemData?.copyright}
             </p>
           </div>
         </div>

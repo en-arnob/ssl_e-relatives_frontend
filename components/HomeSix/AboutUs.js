@@ -10,38 +10,38 @@ const AboutUs = () => {
             <div className="col-lg-6">
               <div className="about-content">
                 <span className="top-title">About Us</span>
-                <h2>Free Medical Camp Importance & Objectives</h2>
+                <h2>Our Journey 🚀</h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
-                  maecenas accumsan lacus vel facilisis.
+                  e-Relatives is the only platform where Blood Donor, Blood
+                  Receiver/ Patient, Diagnostic Center, Hospital, Pharmacy,
+                  Health Product Supplier and Ambulance are gathering to serve.
+                  This is a groundbreaking step for ensuring Health Service for
+                  the people in the globe where all necessary opportunities and
+                  advantages are happen.
                 </p>
 
                 <ul>
                   <li>
                     <i className="flaticon-tick"></i>
-                    Free Registration of Deserving Cases for Surgeries
+                    To established a bonding of relationship to donate blood on
+                    time.
                   </li>
                   <li>
                     <i className="flaticon-tick"></i>
-                    Free Hepatitis B & C Screening Test
+                    To open a new era of diagnosis from world standard
+                    Diagnostic Centers around the world.
                   </li>
                   <li>
                     <i className="flaticon-tick"></i>
-                    Free Consultation & Medicine
+                    To arrange service in the best hospitals in world.
                   </li>
                   <li>
                     <i className="flaticon-tick"></i>
-                    Free Blood Pressure Test
+                    To ensure the global health products in a single platform.
                   </li>
                   <li>
                     <i className="flaticon-tick"></i>
-                    Free Diabetes Test
-                  </li>
-                  <li>
-                    <i className="flaticon-tick"></i>
-                    Childbirth
+                    To be your trusted health manager.
                   </li>
                 </ul>
 

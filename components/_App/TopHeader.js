@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../Context/UserContextAPI";
 
 const TopHeader = () => {
+  const { systemData } = useContext(UserContext);
+  const tel = `tel:${systemData.mobile}`;
+  const mailto = `mailto:${systemData?.email}`;
   return (
     <>
       <div className="top-header-area">
@@ -8,20 +12,20 @@ const TopHeader = () => {
           <div className="row align-items-center">
             <div className="col-lg-8 col-md-9 col-sm-6">
               <ul className="header-content-left">
-                <li>
+                {/* <li>
                   <i className="bx bx-time"></i>
                   Mon-Fri 9am-5pm
-                </li>
+                </li> */}
                 <li>
-                  <a href="tel:+822456974">
+                  <a href={tel}>
                     <i className="bx bx-phone-call"></i>
-                    Call Us: +821-456-241
+                    Call Us: {systemData?.mobile}
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:hello@info.com">
+                  <a href={mailto}>
                     <i className="bx bxs-paper-plane"></i>
-                    Email: hello@info.com
+                    Email: {systemData?.email}
                   </a>
                 </li>
               </ul>
@@ -35,18 +39,13 @@ const TopHeader = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.twitter.com/" target="_blank">
-                    <i className="bx bxl-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.pinterest.com/" target="_blank">
-                    <i className="bx bxl-pinterest-alt"></i>
-                  </a>
-                </li>
-                <li>
                   <a href="https://www.instagram.com/" target="_blank">
                     <i className="bx bxl-instagram"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.facebyoutubeook.com/" target="_blank">
+                    <i className="bx bxl-youtube"></i>
                   </a>
                 </li>
               </ul>

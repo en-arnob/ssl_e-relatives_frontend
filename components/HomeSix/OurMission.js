@@ -10,34 +10,52 @@ const OurMission = () => {
             <div className="col-lg-6">
               <div className="doctors-content ptb-100">
                 <span className="top-title">Our Mission</span>
-                <h2>We are Offering Reliable Consulting Services</h2>
+                <h2> Empowering Hope, Saving Lives</h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
-                  maecenas accumsan lacus vel facilisis.
+                  At e-Relatives, our mission is to connect blood donors with
+                  those in need, provide comprehensive medical support, and
+                  offer timely assistance in emergencies. Together, we empower a
+                  heroic community to save lives, spread kindness, and light up
+                  countless lives with hope.
                 </p>
 
                 <ul>
                   <li>
                     <i className="flaticon-tick"></i>
-                    Provide free and high-quality medical services for poor
-                    population
+                    Connect blood donors with those in need, fostering a
+                    life-giving force.
                   </li>
                   <li>
                     <i className="flaticon-tick"></i>
-                    Raise health awareness among the community and teach them to
-                    deal with communicable and noncommunicable.
+                    Provide comprehensive medical and healthcare support for our
+                    community.
                   </li>
                   <li>
                     <i className="flaticon-tick"></i>
-                    Refer medical cases towards surgeries if required
+                    Ensure timely access to medical care through effortless
+                    doctor's appointments.
+                  </li>
+                  <li>
+                    <i className="flaticon-tick"></i>
+                    Offer online consulting services with experienced healthcare
+                    professionals for medical advice from the comfort of home.
+                  </li>
+                  <li>
+                    <i className="flaticon-tick"></i>
+                    Provide quick and reliable ambulance services in
+                    emergencies, where every second counts.
+                  </li>
+                  <li>
+                    <i className="flaticon-tick"></i>
+                    Remain committed to being the lifeline that supports and
+                    guides individuals throughout their journey of healing and
+                    recovery.
                   </li>
                 </ul>
 
-                <Link href="/about" className="default-btn">
+                {/* <Link href="/about" className="default-btn">
                   More About Us
-                </Link>
+                </Link> */}
               </div>
             </div>
 
