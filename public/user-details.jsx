@@ -91,6 +91,7 @@ const SignIn = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     const data = {
       gender,
       bloodGroup,
