@@ -104,6 +104,16 @@ const NavbarFour = () => {
                                 currentPath == "/service-request/" && "active"
                               }`}
                             >
+                              Service Response
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link
+                              href="/service-response/"
+                              className={`nav-link ${
+                                currentPath == "/service-response/" && "active"
+                              }`}
+                            >
                               Service Request
                             </Link>
                           </li>

@@ -36,8 +36,9 @@ const SignIn = () => {
   const [specializationDegree, setSpecializationDegree] = useState("");
   const [drivingExpYears, setDrivingExpYears] = useState("");
   const [nid, setNid] = useState("");
+  const [requiredField, setRequiredField] = useState(false);
 
-  // console.log(currentUser);
+  console.log(currentUser);
 
   // form dynamic data states
   const [countryList, setCountryList] = useState([]);
@@ -90,6 +91,17 @@ const SignIn = () => {
   };
 
   const submitHandler = async (e) => {
+    console.log(
+      ownerName,
+      responsiblePName,
+      designation,
+      vehicleLicense,
+      nid,
+      deliveryPName,
+      drivingLicense,
+      drivingExpYears
+    );
+    console.log(requiredField);
     e.preventDefault();
     const data = {
       gender,
@@ -118,33 +130,97 @@ const SignIn = () => {
       drivingExpYears,
       nid,
     };
+    if (currentUser.role_id === 10) {
+      {
+        lastBloodDonate ? setRequiredField(true) : setRequiredField(false);
+      }
+    } else if (currentUser.role_id === 11) {
+      {
+        institutionName &&
+        designation &&
+        bmdcLicense &&
+        onlineServiceTime &&
+        specializationDegree
+          ? setRequiredField(true)
+          : setRequiredField(false);
+      }
+    } else if (currentUser.role_id === 12) {
+      {
+        ownerName &&
+        responsiblePName &&
+        designation &&
+        vehicleLicense &&
+        nid &&
+        deliveryPName &&
+        drivingLicense
+          ? // drivingExpYears
+            setRequiredField(true)
+          : setRequiredField(false);
+      }
+    } else if (currentUser.role_id === 13) {
+      {
+        ownerName &&
+        responsiblePName &&
+        designation &&
+        tradeLicense &&
+        dghsLicense &&
+        availableService
+          ? setRequiredField(true)
+          : setRequiredField(false);
+      }
+    } else if (currentUser.role_id === 14) {
+      ownerName &&
+      responsiblePName &&
+      designation &&
+      drivingLicense &&
+      vehicleLicense &&
+      dghsLicense &&
+      driverName &&
+      drivingExpYears
+        ? setRequiredField(true)
+        : setRequiredField(false);
+    } else if (currentUser.role_id === 15) {
+      {
+        ownerName &&
+        responsiblePName &&
+        designation &&
+        tradeLicense &&
+        drugLicense
+          ? setRequiredField(true)
+          : setRequiredField(false);
+      }
+    }
     // console.log(data);
     const formData = new FormData();
     formData.append("image", image);
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/upload-image`,
-        formData
-      );
-      const imagePath = res.data.filename;
-      console.log("image", imagePath);
-      if (imagePath) {
-        data.image = imagePath;
-      }
-      console.log(data);
+    if (requiredField) {
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/upload-image`,
+          formData
+        );
+        const imagePath = res.data.filename;
+        console.log("image", imagePath);
+        if (imagePath) {
+          data.image = imagePath;
+        }
+        console.log(data);
 
-      const upd = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/details/update/${currentUser?.id}`,
-        data
-      );
-      if (upd.status === 200) {
-        toast.success("Details Updated Successfully!");
-        Router.push("/");
-      } else {
-        toast.error("Error");
+        const upd = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/details/update/${currentUser?.id}`,
+          data
+        );
+        if (upd.status === 200) {
+          toast.success("Details Updated Successfully!");
+          Router.push("/");
+        } else {
+          toast.error("Error");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      toast.error("Please fill all required fields!");
     }
   };
 
@@ -244,7 +320,7 @@ const SignIn = () => {
                           onChange={(e) => setGender(e.target.value)}
                         >
                           <option value="" disabled selected>
-                            Gender
+                            Gender *
                           </option>
 
                           <option value={1}>Male</option>
@@ -260,7 +336,7 @@ const SignIn = () => {
                           onChange={(e) => setBloodGroup(e.target.value)}
                         >
                           <option value="" disabled selected>
-                            Blood Group
+                            Blood Group *
                           </option>
 
                           <option value={1}>A+</option>
@@ -276,7 +352,7 @@ const SignIn = () => {
                     </div>
                     <div className="col-12">
                       <div className="form-group">
-                        <label className="px-1">Date of Birth</label>
+                        <label className="px-1">Date of Birth *</label>
                         <input
                           id="date"
                           type="date"
@@ -393,7 +469,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="owner_name"
-                            placeholder="Owner/Chairman/Managing Director’s Name"
+                            placeholder="Owner/Chairman/Managing Director’s Name *"
                             onChange={(e) => setOwnerName(e.target.value)}
                           />
                         </div>
@@ -406,7 +482,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="institution"
-                            placeholder="Name of the Institution"
+                            placeholder="Name of the Institution *"
                             onChange={(e) => setInstitutionName(e.target.value)}
                           />
                         </div>
@@ -422,7 +498,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="responsible"
-                            placeholder="Responsible Person's Name"
+                            placeholder="Responsible Person's Name  *"
                             onChange={(e) =>
                               setResponsiblePName(e.target.value)
                             }
@@ -441,7 +517,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="designation"
-                            placeholder="Designation"
+                            placeholder="Designation  *"
                             onChange={(e) => setDesignation(e.target.value)}
                           />
                         </div>
@@ -455,7 +531,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="vehicle_license"
-                            placeholder="Vehicle License No."
+                            placeholder="Vehicle License No. "
                             onChange={(e) => setVehicleLicense(e.target.value)}
                           />
                         </div>
@@ -469,7 +545,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="trade_license"
-                            placeholder="Trade License No."
+                            placeholder="Trade License No.  *"
                             onChange={(e) => setTradeLicense(e.target.value)}
                           />
                         </div>
@@ -482,7 +558,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="bmdc_license"
-                            placeholder="BMDC License No."
+                            placeholder="BMDC License No.  *"
                             onChange={(e) => setBmdcLicense(e.target.value)}
                           />
                         </div>
@@ -495,7 +571,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="nid"
-                            placeholder="National ID No."
+                            placeholder="National ID No.  *"
                             onChange={(e) => setNid(e.target.value)}
                           />
                         </div>
@@ -509,7 +585,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="dghs_license"
-                            placeholder="DGHS License No."
+                            placeholder="DGHS License No.  *"
                             onChange={(e) => setDghsLicense(e.target.value)}
                           />
                         </div>
@@ -522,7 +598,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="drug_license"
-                            placeholder="Drug License No."
+                            placeholder="Drug License No. *  "
                             onChange={(e) => setDrugLicense(e.target.value)}
                           />
                         </div>
@@ -535,7 +611,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="time_schedule"
-                            placeholder="Available Time Schedule for Online Service"
+                            placeholder="Available Time Schedule for Online Service  *"
                             onChange={(e) =>
                               setOnlineServiceTime(e.target.value)
                             }
@@ -573,7 +649,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="deliveryPName"
-                            placeholder="Delivery Person Name"
+                            placeholder="Delivery Person Name "
                             onChange={(e) => setDeliveryPName(e.target.value)}
                           />
                         </div>
@@ -586,7 +662,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="driver_name"
-                            placeholder="Driver’s Name"
+                            placeholder="Driver’s Name *"
                             onChange={(e) => setDriverName(e.target.value)}
                           />
                         </div>
@@ -600,7 +676,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="driving_license"
-                            placeholder="Driving License No."
+                            placeholder="Driving License No. * "
                             onChange={(e) => setDrivingLicense(e.target.value)}
                           />
                         </div>
@@ -619,7 +695,7 @@ const SignIn = () => {
                             value={lastBloodDonate}
                             onChange={(e) => setLastBloodDonate(e.target.value)}
                             className="form-control"
-                            placeholder="Date Picker..."
+                            placeholder="Date Picker... "
                           />
                         </div>
                       </div>
@@ -631,7 +707,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="degree"
-                            placeholder="Degree/ Specialization"
+                            placeholder="Degree/ Specialization * "
                             onChange={(e) =>
                               setSpecializationDegree(e.target.value)
                             }
@@ -639,7 +715,7 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-                    {currentUser?.roleId === 12 ||
+                    {currentUser?.role_id === 12 ||
                     currentUser?.role_id === 14 ? (
                       <div className="col-12">
                         <div className="form-group">
@@ -647,7 +723,7 @@ const SignIn = () => {
                             className="form-control"
                             type="text"
                             name="exp_driving"
-                            placeholder="Years of Driving Experience"
+                            placeholder="Years of Driving Experience  *"
                             onChange={(e) => setDrivingExpYears(e.target.value)}
                           />
                         </div>

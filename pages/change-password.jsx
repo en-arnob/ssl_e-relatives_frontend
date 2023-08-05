@@ -50,7 +50,7 @@ const ChangePassword = () => {
           },
         }
       );
-      // console.log(res);
+      // console.log(res);use
       // const data = res.data;
 
       if (res.status === 200) {
