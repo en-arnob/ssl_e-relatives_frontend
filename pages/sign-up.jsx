@@ -63,11 +63,11 @@ const SignUp = () => {
         // console.log(res.data);
         toast.success("OTP sent to your mobile number.");
         Router.push({
-          pathname: "/otp-verify",
-          query: {
-            data: JSON.stringify(userData),
-          },
-          as: "/otp-verify",
+          pathname: "/sign-in",
+          // query: {
+          //   data: JSON.stringify(userData),
+          // },
+          // as: "/otp-verify",
         });
 
         // const otpGET = await axios.get(

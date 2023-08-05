@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/_App/Navbar";
-import PageBanner from "../components/Common/PageBanner";
-import Subscribe from "../components/Common/Subscribe";
-import Footer from "../components/_App/Footer";
+import Navbar from "./../../components/_App/Navbar";
+import PageBanner from "../../components/Common/PageBanner";
+import Subscribe from "../../components/Common/Subscribe";
+import Footer from "./../../components/_App/Footer";
 import Link from "next/link";
 import axios from "axios";
 import {
@@ -61,7 +61,7 @@ const ServiceReq = () => {
                   </h1>{" "}
                 </span>
                 <h3>Request for Blood</h3>
-                <Link href="/sign-up" className="read-more">
+                <Link href="/service-request/blood" className="read-more">
                   Request Now <i className="bx bx-plus"></i>
                 </Link>
 
@@ -127,97 +127,6 @@ const ServiceReq = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="second-facility-area pb-70">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-4 col-sm-6">
-              <div className="second-facility-item">
-                <img src="/img/facility-img/facility-icon1.png" alt="Image" />
-                <h3>Qualified Doctors</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore.
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="second-facility-item">
-                <img src="/img/facility-img/facility-icon2.png" alt="Image" />
-                <h3>Emergency Helicopter</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore.
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="second-facility-item">
-                <img src="/img/facility-img/facility-icon3.png" alt="Image" />
-                <h3>Leading Technology</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore.
-                </p>
-
-                <Link href="/service-details" className="read-more">
-                  Read More <i className="bx bx-plus"></i>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/* <div className="first-facility-area mt-0 services-page-one">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-4 col-sm-6">
-              <div className="first-facility-item">
-                <i className="flaticon-care"></i>
-                <h3>Special Service</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                </p>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="first-facility-item">
-                <i className="flaticon-support"></i>
-                <h3>24/7 Advanced Care</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                </p>
-              </div>
-            </div>
-
-            <div className="col-lg-4 col-sm-6">
-              <div className="first-facility-item">
-                <i className="flaticon-online-learning"></i>
-                <h3>Get Result Online</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="shape">
-            <img src="/img/shape/shape1.png" alt="Image" />
-          </div>
-        </div>
-      </div> */}
 
       <Footer />
     </>
