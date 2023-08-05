@@ -132,7 +132,7 @@ const RequestByMe = () => {
         {data.map((item, i) => (
           <div className="card w-75 mx-auto my-3">
             <div className="card-body" style={i % 2 === 0 ? background : {}}>
-              {/* row */}
+          
               <div className="row">
                 <div className="col">
                   <p className="mb-0 fw-semibold">Request ID: {item.id}</p>
