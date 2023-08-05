@@ -63,11 +63,11 @@ const SignUp = () => {
         // console.log(res.data);
         toast.success("OTP sent to your mobile number.");
         Router.push({
-          pathname: "/otp-verify",
-          query: {
-            data: JSON.stringify(userData),
-          },
-          as: "/otp-verify",
+          pathname: "/sign-in",
+          // query: {
+          //   data: JSON.stringify(userData),
+          // },
+          // as: "/otp-verify",
         });
 
         // const otpGET = await axios.get(
@@ -134,7 +134,7 @@ const SignUp = () => {
 
   function getRoles() {
     axios
-      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/roles/${5}`)
+      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/roles/priority/5/6`)
       .then((response) => {
         const allData = response.data.data;
         setRoles(allData);

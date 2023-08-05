@@ -33,7 +33,7 @@ const PassReset = () => {
           toast.error("Error finding user");
         }
       } else {
-        toast.error("You must enter your mobile number.");
+        toast.error("You must enter your mobile number");
       }
     } catch (error) {
       toast.error(error.response.data.message);

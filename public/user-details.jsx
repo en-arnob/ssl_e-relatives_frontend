@@ -103,6 +103,7 @@ const SignIn = () => {
     );
     console.log(requiredField);
     e.preventDefault();
+
     const data = {
       gender,
       bloodGroup,
