@@ -92,7 +92,7 @@ const Profile = () => {
                     Profile
                   </h4>
                   <Link
-                    href="/user-details"
+                    href="/update-profile"
                     className="btn btn-info text-white"
                   >
                     Update Profile
