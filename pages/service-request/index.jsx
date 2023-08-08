@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Navbar from "./../../components/_App/Navbar";
 import PageBanner from "../../components/Common/PageBanner";
 import Subscribe from "../../components/Common/Subscribe";
 import Footer from "./../../components/_App/Footer";
 import Link from "next/link";
 import axios from "axios";
+import { UserContext } from "../../Context/UserContextAPI";
 import {
   FcPortraitMode,
   FcLike,
@@ -45,7 +46,7 @@ const ServiceReq = () => {
         imgClass="bg-3"
       /> */}
 
-      <div className="services-area pt-100 pb-70">
+      <div className="services-area pt-100 pb-70 min-vh-100">
         <div className="container">
           <div className="section-title">
             <span className="top-title">Our Service</span>

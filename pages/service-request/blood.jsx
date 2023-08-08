@@ -60,8 +60,8 @@ const bloodReq = () => {
         );
         if (res.status === 200) {
           // console.log(res);
-          toast.success("Successfully submitted the request.")
-          Router.push("/");
+          toast.success("Successfully submitted the request.");
+          Router.push("/service-response");
         }
       } catch (error) {
         console.log(error);
