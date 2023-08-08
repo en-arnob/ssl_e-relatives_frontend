@@ -12,8 +12,6 @@ const UserContextAPI = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [systemData, setSystemData] = useState({});
 
-  // console.log(currentUser);
-  // console.log(permissions);
   const getSystemData = () => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/settings`)

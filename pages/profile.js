@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Profile = () => {
   const { currentUser } = useContext(UserContext);
-  // console.log(currentUser);
+  console.log(currentUser);
   const [userDetails, setUserDetails] = useState({});
   function getUserDetails() {
     axios
