@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Navbar from "./../../components/_App/Navbar";
 import PageBanner from "../../components/Common/PageBanner";
 import Subscribe from "../../components/Common/Subscribe";
 import Footer from "./../../components/_App/Footer";
 import Link from "next/link";
 import axios from "axios";
+import { UserContext } from "../../Context/UserContextAPI";
 import {
   FcPortraitMode,
   FcLike,
