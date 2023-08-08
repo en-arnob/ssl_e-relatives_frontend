@@ -45,7 +45,7 @@ const ServiceReq = () => {
         imgClass="bg-3"
       /> */}
 
-      <div className="services-area pt-100 pb-70">
+      <div className="services-area pt-100 pb-70 min-vh-100">
         <div className="container">
           <div className="section-title">
             <span className="top-title">Our Service</span>

@@ -1,201 +1,161 @@
-import React from "react";
-import Navbar from "../../components/_App/Navbar";
-import { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Table from "react-bootstrap/Table";
+import axios from "axios";
+import { UserContext } from "../../Context/UserContextAPI";
 
 const RequestToMe = () => {
-  const [selectedDonors, setSelectedDonors] = useState([]); // State to store the filtered donors
+  const { currentUser } = useContext(UserContext);
+  // console.log(currentUser);
+  const [myReqs, setMyReqs] = useState([]);
   const [show, setShow] = useState(false);
+  const [status, setStatus] = useState(0);
   const handleClose = () => {
     setShow(false);
-    setSelectedDonors([]);
   };
-  const handleShow = (bloodGroup) => {
-    const donors =
-      data.find((item) => item.bloodGroup === bloodGroup)?.donors || [];
-    console.log(donors);
-    setSelectedDonors(donors);
-
+  const handleShow = () => {
     setShow(true);
   };
 
-  const data = [
-    {
-      id: "0634356",
-      type: "Request for Blood",
-      reqDateTime: "10 jan 2023 10 am",
-      bloodGroup: "AB+",
-      total: 12,
-      neededDateTime: "11 jan 2023 2.00 pm",
-      collectionPoint: "Dhaka",
-      donors: [
-        {
-          id: "1212",
-          name: "John",
-          phone: "01700000000",
-          address: "Badda,Dhaka",
-          gender: "male",
-        },
-        {
-          id: "112",
-          name: "Sunny",
-          phone: "01700000000",
-          address: "Mohammadpur,Dhaka",
-          gender: "male",
-        },
-        {
-          id: "12122",
-          name: "Maria",
-          phone: "01700000000",
-          address: "Gulshan,Dhaka",
-          gender: "female",
-        },
-      ],
-      collectionPointAddress: "Mirpur Dhaka",
-    },
-    {
-      id: "0634356",
-      type: "Request for Blood",
-      reqDateTime: "10 jan 2023 10 am",
-      bloodGroup: "B+",
-      total: 3,
-      neededDateTime: "11 jan 2023 2.00 pm",
-      collectionPoint: "Dhaka",
-      donors: [
-        {
-          id: "12162",
-          name: "Abdul",
-          phone: "01700000000",
-          address: "Banani, Dhaka",
-          gender: "male",
-        },
-        {
-          id: "132",
-          name: "Kamal",
-          phone: "01700000000",
-          address: "Uttara,Dhaka",
-          gender: "male",
-        },
-        {
-          id: "12122",
-          name: "Forid",
-          phone: "01700000000",
-          address: "Badda,Dhaka",
-          gender: "female",
-        },
-      ],
-      collectionPointAddress: "Mirpur Dhaka",
-    },
-    {
-      id: "0634356",
-      type: "Request for Blood",
-      reqDateTime: "10 jan 2023 10 am",
-      bloodGroup: "A+",
-      total: 3,
-      neededDateTime: "11 jan 2023 2.00 pm",
-      collectionPoint: "Dhaka",
-      donors: [
-        {
-          id: "172",
-          name: "Hasan",
-          phone: "01700000000",
-          address: "Link road,Dhaka",
-          gender: "male",
-        },
-        {
-          id: "12172",
-          name: "Rahman",
-          phone: "01700000000",
-          address: "Aftab nagor,Dhaka",
-          gender: "male",
-        },
-        {
-          id: "121642",
-          name: "Romana",
-          phone: "01700000000",
-          address: "Mirpur,Dhaka",
-          gender: "female",
-        },
-      ],
-      collectionPointAddress: "Mirpur Dhaka",
-    },
-  ];
-  const background={
-    backgroundColor: "rgb(233 221 221)"
+  function fetchData() {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-to-me/${currentUser?.id}`
+      )
+      .then((response) => {
+        const data = response.data.data;
+        console.log(data);
+        setMyReqs(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
+  const background = {
+    backgroundColor: "rgb(246, 241, 233)",
+  };
+  const background2 = {
+    backgroundColor: "rgb(248, 246, 244)",
+  };
+  useEffect(() => {
+    fetchData();
+  }, [currentUser]);
   return (
-    <div>
-      {/* <Navbar /> */}
+    <div className="cards min-vh-100 mt-4">
       <div>
-        {data.map((item, i) => (
-          <div className="card w-75 mx-auto my-3 ">
-            <div className="card-body "  style={i%2===0? background: {}}>
-              <div className="row">
-                <div className="col">
-                  <p className="mb-0 fw-semibold">Request ID: {item.id}</p>
-                  <p className="mb-0">
-                    Blood Group:
-                    <span className="fw-semibold"> {item.bloodGroup}</span>
-                  </p>
-                  <p className="mb-0">
-                    Collection Point: {item.collectionPoint}
-                  </p>
-                  <p className="mb-0">
-                    Collection Point Address: {item.collectionPointAddress}
-                  </p>
+        {myReqs.length > 0 ? (
+          <>
+            {myReqs?.map((item, i) => (
+              <div className="card w-75 mx-auto my-2" key={i}>
+                <div
+                  className="card-body"
+                  style={i % 2 === 0 ? background : background2}
+                >
+                  <div className="row">
+                    <div className="col">
+                      <p className="mb-0 ">Request Type: Blood</p>
+                      <p className="mb-0 ">
+                        Request ID:{" "}
+                        <span className="fw-semibold">{item.req_no}</span>{" "}
+                      </p>
+                      <p className="mb-0 text-danger">
+                        Blood Group:{" "}
+                        <span className="fw-semibold ">
+                          {parseInt(item?.req_blood_group) === 1
+                            ? "A+"
+                            : parseInt(item?.req_blood_group) === 2
+                            ? "A-"
+                            : parseInt(item?.req_blood_group) === 3
+                            ? "B+"
+                            : parseInt(item?.req_blood_group) === 4
+                            ? "B-"
+                            : parseInt(item?.req_blood_group) === 5
+                            ? "O+"
+                            : parseInt(item?.req_blood_group) === 6
+                            ? "O-"
+                            : parseInt(item?.req_blood_group) === 7
+                            ? "AB+"
+                            : parseInt(item?.req_blood_group) === 8
+                            ? "A-"
+                            : "Unknown"}
+                        </span>
+                      </p>
+                      <p className="mb-0">
+                        Collection Point: {item?.col_point.f_name}
+                      </p>
+                      <p className="mb-0">
+                        Address: {item?.col_point.address_1},{" "}
+                        {item?.col_point.user_detail.city.name},{" "}
+                        {item?.col_point.user_detail.state.name},{" "}
+                        {item?.col_point.user_detail.country.name}
+                      </p>
+                    </div>
+                    <div className="col">
+                      <p className="mb-0">
+                        Request Date Time: {item?.createdAt.split("T")[0]}
+                      </p>
+                      <p className="mb-0 fw-bold text-primary">
+                        Needed Date Time: {item?.date_time.split("T")[0]}
+                      </p>
+                      <p className="mb-0 fw-bold">
+                        Requested By:{" "}
+                        {item?.req_by ? (
+                          item?.req_by?.f_name
+                        ) : (
+                          <span className="text-danger">"Unknown"</span>
+                        )}
+                      </p>
+                      <p className="mb-0 ">
+                        Status:{" "}
+                        <span className="text-primary fw-bold">
+                          {status === 0
+                            ? "Pending"
+                            : status === 1
+                            ? "Accepted"
+                            : status === 2
+                            ? "Declined"
+                            : "Given"}
+                        </span>
+                      </p>
+                      {status === 0 && (
+                        <Button variant="success" onClick={() => setStatus(1)}>
+                          Accept
+                        </Button>
+                      )}
+
+                      {status === 0 && (
+                        <Button
+                          variant="secondary"
+                          className="mx-2 text-white"
+                          onClick={() => setStatus(2)}
+                        >
+                          Reject
+                        </Button>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div className="col">
-                  <p className="mb-0 ">Request Type: {item.type}</p>
-                  <p>Total: {item.total}</p>
-                </div>
-                <div className="col">
-                  <p className="mb-0">Request Date Time: {item.reqDateTime}</p>
-                  <p className="mb-0">
-                    Needed Date Time: {item.neededDateTime}
-                  </p>
-                  <Button
-                    variant="primary"
-                    onClick={() => handleShow(item.bloodGroup)}
-                  >
-                    Donor List
-                  </Button>
-                </div>
+                <>
+                  <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Donors List</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p>{item.assigned_donor?.f_name}</p>
+                    </Modal.Body>
+                  </Modal>
+                </>
               </div>
+            ))}
+          </>
+        ) : (
+          <div className="card w-75 mx-auto my-3">
+            <div className="card-body">
+              <h6 className="text-center">No requests yet!</h6>
             </div>
-            <>
-              <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Donors List</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedDonors.map((donor, i) => (
-                        <tr key={i}>
-                          <td>{i + 1}</td>
-                          <td>{donor.name}</td>
-                          <td>{donor.address}</td>
-                          <td>{donor.phone}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </Modal.Body>
-              </Modal>
-            </>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

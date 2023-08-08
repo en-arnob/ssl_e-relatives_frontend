@@ -104,7 +104,7 @@ const NavbarFour = () => {
                                 currentPath == "/service-request/" && "active"
                               }`}
                             >
-                              Service Response
+                              Service Request
                             </Link>
                           </li>
                           <li className="nav-item">
@@ -114,7 +114,7 @@ const NavbarFour = () => {
                                 currentPath == "/service-response/" && "active"
                               }`}
                             >
-                              Service Request
+                              Request List
                             </Link>
                           </li>
                         </>
@@ -196,7 +196,7 @@ const NavbarFour = () => {
                         <Dropdown.Menu>
                           <Dropdown.Item>Profile</Dropdown.Item>
                           <Dropdown.Item>
-                            <Link href='/change-password'>Change Password</Link>
+                            <Link href="/change-password">Change Password</Link>
                           </Dropdown.Item>
                           <Dropdown.Item>
                             <button

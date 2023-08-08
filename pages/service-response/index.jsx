@@ -4,12 +4,12 @@ import Navbar from "../../components/_App/Navbar";
 import RequestByMe from "./request-by-me";
 import RequestToMe from "./request-to-me";
 import { useRouter } from "next/router";
+import Footer from "../../components/_App/Footer";
 
 const ServiceResponse = () => {
-  const [requestByMe, setRequestByMe] = useState(false);
-  const [requestToMe, setRequestToMe] = useState(true);
+  const [requestByMe, setRequestByMe] = useState(true);
+  const [requestToMe, setRequestToMe] = useState(false);
   const router = useRouter();
-
 
   const reqByMeBtnStyle = {
     backgroundColor: requestByMe ? "blue" : "#bcb6b6",
@@ -49,6 +49,7 @@ const ServiceResponse = () => {
         {requestByMe && <RequestByMe />}
         {requestToMe && <RequestToMe />}
       </div>
+      <Footer />
     </div>
   );
 };

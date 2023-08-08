@@ -25,7 +25,7 @@ const Profile = () => {
     getUserDetails();
   }, []);
   return (
-    <div>
+    <div className="min-vh-100">
       <div>
         <div className="container rounded bg-white mt-2 mb-5">
           <div className="row d-flex justify-content-between">
