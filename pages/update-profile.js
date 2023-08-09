@@ -35,7 +35,6 @@ const UpdateProfile = () => {
     getUserDetails();
   }, [currentUser]);
 
-
   console.log("user Details:", userDetails);
 
   // data states
@@ -73,31 +72,18 @@ const UpdateProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState(0);
   const [selectedState, setSelectedState] = useState(0);
   const [selectedCity, setSelectedCity] = useState(0);
-
-  // setGender(userDetails.gender_id)
-  // form dynamic data fetch
   useEffect(() => {
     setGender(userDetails.gender_id);
-
     setBloodGroup(userDetails.blood_group);
-
     setDob(currentUser.date_of_birth);
-
     setSelectedCountry(userDetails.country);
-
     setSelectedState(userDetails.state);
     setSelectedCity(userDetails.city);
-
     setAddress(currentUser.address_1);
-
     setOwnerName(userDetails.owner_name);
-
     setResponsiblePName(userDetails.responsible_person_name);
-
     setDesignation(userDetails.designation);
-
     setVehicleLicense(userDetails.vehicle_license);
-
     setNid(userDetails.nationality_id);
     setDeliveryPName(userDetails.delivery_person_name);
     setDrivingLicense(userDetails.driving_license);
@@ -375,59 +361,64 @@ const UpdateProfile = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <select
-                          className="form-control"
-                          onChange={(e) => setGender(e.target.value)}
-                          value={gender}
-                        >
-                          <option value="" disabled selected>
-                            Gender *
-                          </option>
+                    {
+                      currentUser.role_id !==13 &&
+                      <>
+                        <div className="col-12">
+                          <div className="form-group">
+                            <select
+                              className="form-control"
+                              onChange={(e) => setGender(e.target.value)}
+                              value={gender}
+                            >
+                              <option value="" disabled selected>
+                                Gender *
+                              </option>
 
-                          <option value={1}>Male</option>
-                          <option value={2}>Female</option>
-                          <option value={3}>Others</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <select
-                          className="form-control"
-                          onChange={(e) => setBloodGroup(e.target.value)}
-                          value={bloodGroup}
-                        >
-                          <option value="" disabled selected>
-                            Blood Group *
-                          </option>
+                              <option value={1}>Male</option>
+                              <option value={2}>Female</option>
+                              <option value={3}>Others</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <div className="form-group">
+                            <select
+                              className="form-control"
+                              onChange={(e) => setBloodGroup(e.target.value)}
+                              value={bloodGroup}
+                            >
+                              <option value="" disabled selected>
+                                Blood Group *
+                              </option>
 
-                          <option value={1}>A+</option>
-                          <option value={2}>A-</option>
-                          <option value={3}>B+</option>
-                          <option value={4}>B-</option>
-                          <option value={5}>O+</option>
-                          <option value={6}>O-</option>
-                          <option value={7}>AB+</option>
-                          <option value={8}>AB-</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <label className="px-1">Date of Birth *</label>
-                        <input
-                          id="date"
-                          type="date"
-                          name="date_of_birth"
-                          value={dob}
-                          onChange={(e) => setDob(e.target.value)}
-                          className="form-control"
-                          placeholder="Date Picker..."
-                        />
-                      </div>
-                    </div>
+                              <option value={1}>A+</option>
+                              <option value={2}>A-</option>
+                              <option value={3}>B+</option>
+                              <option value={4}>B-</option>
+                              <option value={5}>O+</option>
+                              <option value={6}>O-</option>
+                              <option value={7}>AB+</option>
+                              <option value={8}>AB-</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <div className="form-group">
+                            <label className="px-1">Date of Birth *</label>
+                            <input
+                              id="date"
+                              type="date"
+                              name="date_of_birth"
+                              value={dob}
+                              onChange={(e) => setDob(e.target.value)}
+                              className="form-control"
+                              placeholder="Date Picker..."
+                            />
+                          </div>
+                        </div>
+                      </>
+                    }
                     <div className="col-12">
                       <div className="form-group">
                         <select
