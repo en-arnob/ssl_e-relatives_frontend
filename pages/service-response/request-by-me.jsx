@@ -48,7 +48,7 @@ const RequestByMe = () => {
         )
         .then((response) => {
           const data = response.data.data;
-          console.log(data);
+          // console.log(data);
           setAcceptedDonors(data);
         })
         .catch((error) => {

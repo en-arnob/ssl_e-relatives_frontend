@@ -16,6 +16,20 @@ const RequestToMe = () => {
   const handleShow = () => {
     setShow(true);
   };
+  function acceptReq(id) {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-to-me/accept/${id}/${currentUser?.id}`
+      )
+      .then((response) => {
+        const data = response.data.data;
+        console.log(data);
+        // setMyReqs(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   function fetchData() {
     axios
@@ -24,7 +38,7 @@ const RequestToMe = () => {
       )
       .then((response) => {
         const data = response.data.data;
-        console.log(data);
+        // console.log(data);
         setMyReqs(data);
       })
       .catch((error) => {
@@ -106,33 +120,25 @@ const RequestToMe = () => {
                           <span className="text-danger">"Unknown"</span>
                         )}
                       </p>
-           
-           
+
                       <p className="mb-0 ">
                         Status:{" "}
                         <span className="text-primary fw-bold">
-                          {status === 0
+                          {item.status === 0
                             ? "Pending"
-                            : status === 1
+                            : item.status === 1
                             ? "Accepted"
-                            : status === 2
+                            : item.status === 2
                             ? "Declined"
                             : "Given"}
                         </span>
                       </p>
-                      {status === 0 && (
-                        <Button variant="success" onClick={() => setStatus(1)}>
-                          Accept
-                        </Button>
-                      )}
-
-                      {status === 0 && (
+                      {item.status === 0 && (
                         <Button
-                          variant="secondary"
-                          className="mx-2 text-white"
-                          onClick={() => setStatus(2)}
+                          variant="success"
+                          onClick={() => acceptReq(item.id)}
                         >
-                          Reject
+                          Accept
                         </Button>
                       )}
                     </div>
