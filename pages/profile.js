@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Profile = () => {
   const { currentUser } = useContext(UserContext);
-  // console.log(currentUser);
+  console.log(currentUser);
   const [userDetails, setUserDetails] = useState({});
   function getUserDetails() {
     axios
@@ -92,7 +92,7 @@ const Profile = () => {
                     Profile
                   </h4>
                   <Link
-                    href="/user-details"
+                    href="/update-profile"
                     className="btn btn-info text-white"
                   >
                     Update Profile
@@ -100,44 +100,57 @@ const Profile = () => {
                 </div>
 
                 <div className="row mt-3">
-                  <div class="row col-md-12 mb-2">
-                    <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                      Gender
-                    </div>
-                    <div class="col-md-1 col-sm-1 mb-2">:</div>
-                    <div class="col-md-4 col-sm-5 mb-2">
-                      {parseInt(userDetails?.gender_id) === 1
-                        ? "Male"
-                        : parseInt(userDetails?.gender_id) === 2
-                        ? "Female"
-                        : "Not Defined"}
-                    </div>
-                  </div>
-                  <div class="row col-md-12 mb-2">
-                    <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                      Blood Group
-                    </div>
-                    <div class="col-md-1 col-sm-1 mb-2">:</div>
-                    <div class="col-md-4 col-sm-5 mb-2">
-                      {parseInt(userDetails?.blood_group) === 1
-                        ? "A+"
-                        : parseInt(userDetails?.blood_group) === 2
-                        ? "A-"
-                        : parseInt(userDetails?.blood_group) === 3
-                        ? "B+"
-                        : parseInt(userDetails?.blood_group) === 4
-                        ? "B-"
-                        : parseInt(userDetails?.blood_group) === 5
-                        ? "O+"
-                        : parseInt(userDetails?.blood_group) === 6
-                        ? "O-"
-                        : parseInt(userDetails?.blood_group) === 7
-                        ? "AB+"
-                        : parseInt(userDetails?.blood_group) === 8
-                        ? "A-"
-                        : "Unknown"}
-                    </div>
-                  </div>
+                  {currentUser.role_id !== 13 && (
+                    <>
+                      <div class="row col-md-12 mb-2">
+                        <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                          Gender
+                        </div>
+                        <div class="col-md-1 col-sm-1 mb-2">:</div>
+                        <div class="col-md-4 col-sm-5 mb-2">
+                          {parseInt(userDetails?.gender_id) === 1
+                            ? "Male"
+                            : parseInt(userDetails?.gender_id) === 2
+                            ? "Female"
+                            : "Not Defined"}
+                        </div>
+                      </div>
+                      <div class="row col-md-12 mb-2">
+                        <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                          Blood Group
+                        </div>
+                        <div class="col-md-1 col-sm-1 mb-2">:</div>
+                        <div class="col-md-4 col-sm-5 mb-2">
+                          {parseInt(userDetails?.blood_group) === 1
+                            ? "A+"
+                            : parseInt(userDetails?.blood_group) === 2
+                            ? "A-"
+                            : parseInt(userDetails?.blood_group) === 3
+                            ? "B+"
+                            : parseInt(userDetails?.blood_group) === 4
+                            ? "B-"
+                            : parseInt(userDetails?.blood_group) === 5
+                            ? "O+"
+                            : parseInt(userDetails?.blood_group) === 6
+                            ? "O-"
+                            : parseInt(userDetails?.blood_group) === 7
+                            ? "AB+"
+                            : parseInt(userDetails?.blood_group) === 8
+                            ? "A-"
+                            : "Unknown"}
+                        </div>
+                      </div>
+                      <div class="row col-md-12 mb-2">
+                        <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                          Date of Birth
+                        </div>
+                        <div class="col-md-1 col-sm-1 mb-2">:</div>
+                        <div class="col-md-4 col-sm-5 mb-2">
+                          {currentUser?.date_of_birth}
+                        </div>
+                      </div>
+                    </>
+                  )}
                   {currentUser?.role_id === 10 && (
                     <div class="row col-md-12 mb-2">
                       <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
@@ -149,15 +162,6 @@ const Profile = () => {
                       </div>
                     </div>
                   )}
-                  <div class="row col-md-12 mb-2">
-                    <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                      Date of Birth
-                    </div>
-                    <div class="col-md-1 col-sm-1 mb-2">:</div>
-                    <div class="col-md-4 col-sm-5 mb-2">
-                      {currentUser?.date_of_birth}
-                    </div>
-                  </div>
                   <div class="row col-md-12 mb-2">
                     <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                       Country
