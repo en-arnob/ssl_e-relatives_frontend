@@ -18,22 +18,6 @@ const ServiceResponse = () => {
 
   const [bloodReqDetails, setBloodReqDetails] = useState([]);
 
-  if (currentUser.role_id === 13) {
-    // useEffect(() => {
-      axios
-        .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/59`
-        )
-        .then((response) => {
-          const data = response.data.data;
-          setBloodReqDetails(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    // }, []);
-  }
-
   console.log(bloodReqDetails);
 
   const reqByMeBtnStyle = {
@@ -44,6 +28,12 @@ const ServiceResponse = () => {
     backgroundColor: requestToMe ? "blue" : "#bcb6b6",
     color: requestToMe ? "white" : "black",
   };
+
+  useEffect(() => {
+    if (currentUser.role_id === 13) {
+      setRequestByMe(false);
+    }
+  }, [currentUser.role_id]);
 
   return (
     <div>
@@ -73,27 +63,12 @@ const ServiceResponse = () => {
             </button>
           </>
         )}
-        {currentUser.role_id === 13 && (
-          <>
-            <button
-              className="btn btn-outline me-3"
-              style={reqToMeBtnStyle}
-              onClick={() => {
-                setRequestByMe(false);
-                setRequestToMe(true);
-              }}
-            >
-              Request To Me
-            </button>
-          </>
-        )}
+      
       </div>
       <div>
         {requestByMe && <RequestByMe />}
         {requestToMe && <RequestToMe />}
-        {currentUser.role_id === 13 && (
-          <ShowCollReqPoint bloodReqDetails={bloodReqDetails} />
-        )}
+        {currentUser.role_id === 13 && <ShowCollReqPoint />}
       </div>
       <Footer />
     </div>

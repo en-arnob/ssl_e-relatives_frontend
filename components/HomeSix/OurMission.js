@@ -12,11 +12,11 @@ const OurMission = () => {
                 <span className="top-title">Our Mission</span>
                 <h2> Empowering Hope, Saving Lives</h2>
                 <p>
-                  At e-Relatives, our mission is to connect blood donors with
-                  those in need, provide comprehensive medical support, and
-                  offer timely assistance in emergencies. Together, we empower a
-                  heroic community to save lives, spread kindness, and light up
-                  countless lives with hope.
+                “Our mission is to promote diagnostic tests of clinical value
+                 to the medical and patient community. We will deliver 
+                 information that is accurate, relevant, timely, and useful 
+                 for guiding patient care.”
+
                 </p>
 
                 <ul>
