@@ -52,7 +52,7 @@ const Profile = () => {
                 </div>
                 <div className="col-md-11 text-center">
                   <label className="labels fs-6 fw-semibold">
-                    {currentUser?.role.name}
+                    {currentUser?.role?.name}
                   </label>
                 </div>
                 {/* <div className="col-md-11">
