@@ -12,10 +12,10 @@ const OurMission = () => {
                 <span className="top-title">Our Mission</span>
                 <h2>Our Aim to Provide:</h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
-                  maecenas accumsan lacus vel facilisis.
+                  “Our mission is to promote diagnostic tests of clinical value
+                  to the medical and patient community. We will deliver
+                  information that is accurate, relevant, timely, and useful for
+                  guiding patient care.”
                 </p>
 
                 <ul>

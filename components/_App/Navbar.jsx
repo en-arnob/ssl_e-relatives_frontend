@@ -206,7 +206,6 @@ const NavbarFour = () => {
                                 setRefresh(!refresh);
                                 router.push("/");
                                 router.reload(window.location.pathname);
-                                // router.push("/");
                               }}
                             >
                               Logout

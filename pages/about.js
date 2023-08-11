@@ -42,27 +42,31 @@ const About = () => {
             <div className="col-lg-6">
               <div className="about-content">
                 <span className="top-title">About Us</span>
-                <h2> Our vision is to provide best service in the health sector.</h2>
+                <h2>
+                  {" "}
+                  Our vision is to provide best service in the health sector.
+                </h2>
                 <p>
-                  Few dedicated social workers came together with a strong
-                  determination to serve people in the easiest way in affordable
-                  cost. That ambition was materialized in the form of
-                  “e-Relatives”. e-Relatives is an online platform for
-                  maintaining real time Blood Donation Service, Diagnostic
-                  Center Service and Health Management Services for the people
-                  around the world. The firm is also serving people by attaching
-                  some renewed and well reputed Pharmacies and Ambulances so
-                  that the peoples can easily purchase their necessary medicines
-                  and take ambulance services on time. We also provide some
-                  essential health product just on clicks. e-Relatives is the
-                  only platform where Blood Donor, Blood Receiver/ Patient,
-                  Diagnostic Center, Hospital, Pharmacy, Health Product Supplier
-                  and Ambulance are gathering to serve. This is a groundbreaking
-                  step for ensuring Health Service for the people in the globe
-                  where all necessary opportunities and advantages are happen.
-                  “Our mission is to educate and promote diagnostic tests of clinical value to the medical
-and patient community. We will deliver information that is accurate, relevant, timely
-and useful for guiding patient care.”
+                  {" "}
+                  Health is wealth. Health is the root of happiness. However, an
+                  improved health system is still unavailable in most countries
+                  of the world, including Bangladesh. The major difference in
+                  the quality of health care between the developed world and the
+                  Third World is unmeasurable. This is why, people use to visit
+                  frequently abroad for better treatments. The advent of
+                  e-relatives is to bring health services to the doorsteps of
+                  the people by elevating them to the best standard around the
+                  world. Our initiative is about Blood Transfusion Management,
+                  Accurate Diagnosis Management, Effective Health Management,
+                  and Easy Supply Management of Health and Organic Products.<br/><br/>
+                  e-Relatives is only the platform where a patient can avail of
+                  modern services in health systems such as Blood, Diagnostic
+                  Centers, hospitals, pharmacies, Ambulances, and Health Product
+                  Suppliers. This is a groundbreaking step for ensuring Health
+                  Service for people around the globe where all necessary
+                  opportunities and advantages have happened. The long and
+                  Healthy Lives of the people are the only desire of
+                  e-Relatives.
                 </p>
 
                 <ul>
