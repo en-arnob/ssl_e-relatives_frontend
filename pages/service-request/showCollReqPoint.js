@@ -5,6 +5,7 @@ import axios from "axios";
 const ShowCollReqPoint = () => {
   const { currentUser } = useContext(UserContext);
   const [bloodReqDetails, setBloodReqDetails] = useState([]);
+  const [donateBy, setDonateBy] = useState('');
   useEffect(() => {
     if (currentUser.role_id === 13) {
       axios
@@ -67,7 +68,7 @@ const ShowCollReqPoint = () => {
                               : "Unknown"}
                           </span>
                         </p>
-                        <p>Requested By: {' '}{item.donorBy.f_name}</p>
+                        <p>Requested By: {' '}{item.req_by.f_name}</p>
                         {/* <p className="mb-0">
                           Collection Point: {item?.col_point.f_name}
                         </p> */}
@@ -89,7 +90,7 @@ const ShowCollReqPoint = () => {
                         <p className="mb-0">
                           Needed Date Time: {item?.date_time.split("T")[0]}
                         </p>
-                        <p>Donate By:{' '}{item.requestedBy.f_name}</p>
+                        <p>Donate By:{' '}{item.donor.f_name}</p>
                      
                       </div>
                     </div>
