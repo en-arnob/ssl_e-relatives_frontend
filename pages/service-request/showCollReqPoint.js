@@ -5,7 +5,8 @@ import axios from "axios";
 const ShowCollReqPoint = () => {
   const { currentUser } = useContext(UserContext);
   const [bloodReqDetails, setBloodReqDetails] = useState([]);
-  const [donateBy, setDonateBy] = useState('');
+  const [donateBy, setDonateBy] = useState(null);
+  const [reqBy, setReqBy] = useState(null);
   useEffect(() => {
     if (currentUser.role_id === 13) {
       axios
@@ -27,7 +28,6 @@ const ShowCollReqPoint = () => {
   };
 
   console.log(bloodReqDetails);
-
 
   return (
     <div>
@@ -68,16 +68,7 @@ const ShowCollReqPoint = () => {
                               : "Unknown"}
                           </span>
                         </p>
-                        <p>Requested By: {' '}{item.req_by.f_name}</p>
-                        {/* <p className="mb-0">
-                          Collection Point: {item?.col_point.f_name}
-                        </p> */}
-                        {/* <p className="mb-0">
-                          Collection Point Address: {item?.col_point.address_1},{" "}
-                          {item?.col_point.user_detail.city.name},{" "}
-                          {item?.col_point.user_detail.state.name},{" "}
-                          {item?.col_point.user_detail.country.name}
-                        </p> */}
+                        <p>Requested By: {item.req_by.f_name}</p>
                       </div>
                       <div className="col">
                         {/* <p className="mb-0 ">Request Type: Blood</p> */}
@@ -90,12 +81,16 @@ const ShowCollReqPoint = () => {
                         <p className="mb-0">
                           Needed Date Time: {item?.date_time.split("T")[0]}
                         </p>
-                        <p>Donate By:{' '}{item.donor.f_name}</p>
-                     
+                        <p onClick={() => {
+                          // submitDonateBy(item.accepted_donor)
+                        }
+                        
+                        }>
+                          Donate By: {item.donor.f_name}
+                        </p>
                       </div>
                     </div>
                   </div>
-                 
                 </div>
               ))}
             </>
