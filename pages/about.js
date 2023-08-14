@@ -58,7 +58,9 @@ const About = () => {
                   the people by elevating them to the best standard around the
                   world. Our initiative is about Blood Transfusion Management,
                   Accurate Diagnosis Management, Effective Health Management,
-                  and Easy Supply Management of Health and Organic Products.<br/><br/>
+                  and Easy Supply Management of Health and Organic Products.
+                  <br />
+                  <br />
                   e-Relatives is only the platform where a patient can avail of
                   modern services in health systems such as Blood, Diagnostic
                   Centers, hospitals, pharmacies, Ambulances, and Health Product
@@ -127,8 +129,57 @@ const About = () => {
               </div>
             </div>
           </div>
+          {/* Objective mission vission */}
+          <div className="row mt-5">
+            <div className="col-md-4 about-content ms-0" >
+              <h4>Our Objective</h4>
+              <ul>
+                <li>
+                  <i className="flaticon-tick"></i>
+                  To establish a bonding relationship to donate blood on time.
+                </li>
+                <li>
+                  <i className="flaticon-tick"></i>
+                  To open a new era of diagnosis from world standard Diagnostic
+                  Centers around the world.
+                </li>
+                <li>
+                  <i className="flaticon-tick"></i>
+                  To arrange service in the best hospitals in the world.
+                </li>
+                <li>
+                  <i className="flaticon-tick"></i>
+                  To ensure global health products in a single platform.
+                </li>
+                <li>
+                  <i className="flaticon-tick"></i>
+                  To be your trusted health manager.
+                </li>
+              </ul>
+            </div>
+            <div className="col-md-4">
+              <h4>Our Mission</h4>
+              <p>
+                “Our mission is to promote diagnostic tests of clinical value to
+                the medical and patient community. We will deliver information
+                that is accurate, relevant, timely, and useful for guiding
+                patient care.”
+              </p>
+            </div>
+            <div className="col-md-4">
+              <h4>Our Vision</h4>
+              <p>
+                Our target is to ensure all health services are under one
+                umbrella.
+              </p>
+            </div>
+          </div>
+          
         </div>
+        
+        
       </div>
+      
 
       <FunFactStyleOne />
 

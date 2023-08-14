@@ -79,8 +79,8 @@ const ServiceReq = () => {
                     <FcManager />
                   </h1>{" "}
                 </span>
-                <h3>Request for Doctor</h3>
-                <Link href="/sign-up" className="read-more">
+                <h3>Request for Test</h3>
+                <Link href="/service-request/test" className="read-more">
                   Request Now <i className="bx bx-plus"></i>
                 </Link>
 

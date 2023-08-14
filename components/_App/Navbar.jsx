@@ -165,14 +165,14 @@ const NavbarFour = () => {
                         <div className="navbar-btn">
                           {currentUser?.image ? (
                             <img
-                              class="rounded-circle img-fluid "
+                              className="rounded-circle img-fluid "
                               src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/users/${currentUser?.image}`}
                               style={{ width: "40px", height: "40px" }}
                               alt=""
                             />
                           ) : (
                             <img
-                              class="rounded-circle img-fluid "
+                              className="rounded-circle img-fluid "
                               src="/img/avatar-user.png"
                               style={{ width: "40px", height: "40px" }}
                               alt=""
