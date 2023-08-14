@@ -102,12 +102,12 @@ const Profile = () => {
                 <div className="row mt-3">
                   {currentUser.role_id !== 13 && (
                     <>
-                      <div class="row col-md-12 mb-2">
-                        <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                      <div className="row col-md-12 mb-2">
+                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                           Gender
                         </div>
-                        <div class="col-md-1 col-sm-1 mb-2">:</div>
-                        <div class="col-md-4 col-sm-5 mb-2">
+                        <div className="col-md-1 col-sm-1 mb-2">:</div>
+                        <div className="col-md-4 col-sm-5 mb-2">
                           {parseInt(userDetails?.gender_id) === 1
                             ? "Male"
                             : parseInt(userDetails?.gender_id) === 2
@@ -115,12 +115,12 @@ const Profile = () => {
                             : "Not Defined"}
                         </div>
                       </div>
-                      <div class="row col-md-12 mb-2">
-                        <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                      <div className="row col-md-12 mb-2">
+                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                           Blood Group
                         </div>
-                        <div class="col-md-1 col-sm-1 mb-2">:</div>
-                        <div class="col-md-4 col-sm-5 mb-2">
+                        <div className="col-md-1 col-sm-1 mb-2">:</div>
+                        <div className="col-md-4 col-sm-5 mb-2">
                           {parseInt(userDetails?.blood_group) === 1
                             ? "A+"
                             : parseInt(userDetails?.blood_group) === 2
@@ -140,52 +140,52 @@ const Profile = () => {
                             : "Unknown"}
                         </div>
                       </div>
-                      <div class="row col-md-12 mb-2">
-                        <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                      <div className="row col-md-12 mb-2">
+                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                           Date of Birth
                         </div>
-                        <div class="col-md-1 col-sm-1 mb-2">:</div>
-                        <div class="col-md-4 col-sm-5 mb-2">
+                        <div className="col-md-1 col-sm-1 mb-2">:</div>
+                        <div className="col-md-4 col-sm-5 mb-2">
                           {currentUser?.date_of_birth}
                         </div>
                       </div>
                     </>
                   )}
                   {currentUser?.role_id === 10 && (
-                    <div class="row col-md-12 mb-2">
-                      <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                    <div className="row col-md-12 mb-2">
+                      <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                         Last Blood Donation Date
                       </div>
-                      <div class="col-md-1 col-sm-1 mb-2">:</div>
-                      <div class="col-md-4 col-sm-5 mb-2">
+                      <div className="col-md-1 col-sm-1 mb-2">:</div>
+                      <div className="col-md-4 col-sm-5 mb-2">
                         {userDetails?.last_blood_donate}
                       </div>
                     </div>
                   )}
-                  <div class="row col-md-12 mb-2">
-                    <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                  <div className="row col-md-12 mb-2">
+                    <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                       Country
                     </div>
-                    <div class="col-md-1 col-sm-1 mb-2">:</div>
-                    <div class="col-md-4 col-sm-5 mb-2">
+                    <div className="col-md-1 col-sm-1 mb-2">:</div>
+                    <div className="col-md-4 col-sm-5 mb-2">
                       {userDetails?.country?.name}
                     </div>
                   </div>
-                  <div class="row col-md-12 mb-2">
-                    <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                  <div className="row col-md-12 mb-2">
+                    <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                       Division/State
                     </div>
-                    <div class="col-md-1 col-sm-1 mb-2">:</div>
-                    <div class="col-md-4 col-sm-5 mb-2">
+                    <div className="col-md-1 col-sm-1 mb-2">:</div>
+                    <div className="col-md-4 col-sm-5 mb-2">
                       {userDetails?.state?.name}
                     </div>
                   </div>
-                  <div class="row col-md-12 mb-2">
-                    <div class="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                  <div className="row col-md-12 mb-2">
+                    <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                       District/City
                     </div>
-                    <div class="col-md-1 col-sm-1 mb-2">:</div>
-                    <div class="col-md-4 col-sm-5 mb-2">
+                    <div className="col-md-1 col-sm-1 mb-2">:</div>
+                    <div className="col-md-4 col-sm-5 mb-2">
                       {userDetails?.city?.name}
                     </div>
                   </div>

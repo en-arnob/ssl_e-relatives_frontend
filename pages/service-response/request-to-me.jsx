@@ -63,10 +63,7 @@ const RequestToMe = () => {
       <div>
         {acceptedRequest ? (
           <div className="card w-75 mx-auto my-2">
-            <div
-              className="card-body"
-              
-            >
+            <div className="card-body">
               <div className="row">
                 <div className="col">
                   <p className="mb-0 ">Request Type: Blood</p>

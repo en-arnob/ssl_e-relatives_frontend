@@ -27,6 +27,7 @@
     "react-icons": "^4.10.1",
     "react-modal-video": "^2.0.0",
     "react-responsive-modal": "^6.4.2",
+    "react-select": "^5.7.4",
     "rodal": "^2.1.0",
     "sass": "^1.43.4",
     "sweetalert2": "^11.7.3",

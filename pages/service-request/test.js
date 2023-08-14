@@ -3,78 +3,34 @@ import Navbar from "../../components/_App/Navbar";
 import Footer from "../../components/_App/Footer";
 import { UserContext } from "../../Context/UserContextAPI";
 import axios from "axios";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/router";
+import Select from "react-select";
 
-const bloodReq = () => {
-  const Router = useRouter();
+const Test = () => {
   const { currentUser } = useContext(UserContext);
-  const userId = currentUser?.id;
-  const [bloodGroup, setBloodGroup] = useState("");
-  const [bagNum, setBagNum] = useState(0);
-  const [dateTime, setDateTime] = useState("");
+
+  const [investigationsList, setInvestigationsList] = useState([]);
+  const [selectedInvestigations, setSelectedInvestigations] = useState([]);
   const [collectionPointObj, setCollectionPointObj] = useState({});
   const [collectionPointsArray, setCollectionPointsArray] = useState([]);
 
-  function getCollectionPoints() {
+  function getInvestigationsList() {
     axios
-      .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/blood/collection-points`
-      )
+      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/services/req-for-test`)
       .then((response) => {
         const data = response.data.data;
-        setCollectionPointsArray(data);
+        setInvestigationsList(data);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  const valid =
-    bloodGroup !== "" &&
-    bagNum > 0 &&
-    bagNum <= 5 &&
-    dateTime !== "" &&
-    collectionPointObj?.id;
-
-  const submitHandler = async (e) => {
-    const data = {
-      userId: userId,
-      bg: bloodGroup,
-      bags: bagNum,
-      dateTime: dateTime,
-      collectionPoint: collectionPointObj.id,
-    };
-    e.preventDefault();
-    if (valid) {
-      console.log(data);
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/blood`,
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (res.status === 200) {
-          // console.log(res);
-          toast.success("Successfully submitted the request.");
-          Router.push("/service-response");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      toast.error("Please fill-up the form properly.");
-    }
-  };
+  const submitHandler = async (e) => {};
 
   useEffect(() => {
-    getCollectionPoints();
+    getInvestigationsList();
   }, []);
-
+  console.log(selectedInvestigations);
   return (
     <>
       <Navbar />
@@ -111,11 +67,7 @@ const bloodReq = () => {
                         {currentUser?.role?.name}
                       </label>
                     </div>
-                    {/* <div className="col-md-11">
-                  <label className="labels fs-6">
-                    Service Category: Surgery
-                  </label>
-                </div> */}
+
                     <div className="col-md-11 text-center">
                       <label className="labels fs-6 fw-semibold">
                         Phone: {currentUser?.mobile}
@@ -131,61 +83,43 @@ const bloodReq = () => {
                 <div className="col-md-8 border-right">
                   <div className="p-3 py-5">
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h4 className="text-right ">Request for blood</h4>
+                      <h4 className="text-right ">Request for Test</h4>
                     </div>
 
                     <div className="row mt-3">
                       <div className="row col-md-12 mb-2">
                         <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Required Blood Group
-                        </div>
-                        <div className="col-md-6 col-sm-6">
-                          <div className="form-group">
-                            <select
-                              className="form-control"
-                              onChange={(e) => setBloodGroup(e.target.value)}
-                            >
-                              <option value="">
-                                Select Blood
-                              </option>
-                              <option value={1}>A+</option>
-                              <option value={2}>A-</option>
-                              <option value={3}>B+</option>
-                              <option value={4}>B-</option>
-                              <option value={5}>O+</option>
-                              <option value={6}>O-</option>
-                              <option value={7}>AB+</option>
-                              <option value={8}>AB-</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Number of Bags
-                        </div>
-                        <div className="col-md-6 col-sm-6">
-                          <div className="form-group">
-                            <input
-                              className="form-control"
-                              type="number"
-                              name="bagNum"
-                              onChange={(e) => setBagNum(e.target.value)}
-                              placeholder="Maximum 5"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Date & Time
+                          Selection Type:
                         </div>
                         <div className="col-md-6 col-sm-6">
                           <input
-                            className="form-control w-100"
-                            type="datetime-local"
-                            onChange={(e) => setDateTime(e.target.value)}
+                            className="form-control form-control-sm"
+                            id="formFileSm"
+                            type="file"
                           />
+                        </div>
+                      </div>
+
+                      <div className="row col-md-12 mb-2">
+                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                          Select From List
+                        </div>
+                        <div className="col-md-6 col-sm-6">
+                          <div className="form-group">
+                            <Select
+                              className="basic-multi-select"
+                              isMulti
+                              name="colors"
+                              options={investigationsList.map((item) => ({
+                                value: item.id,
+                                label: item.name,
+                              }))}
+                              onChange={(e) => {
+                                setSelectedInvestigations(e);
+                              }}
+                              classNamePrefix="select"
+                            />
+                          </div>
                         </div>
                       </div>
                       <div className="row col-md-12 mb-2">
@@ -204,7 +138,7 @@ const bloodReq = () => {
                                 );
                               }}
                             >
-                              <option value="">
+                              <option value="" >
                                 Select Collection Point
                               </option>
                               {collectionPointsArray?.map((cP) => {
@@ -240,11 +174,12 @@ const bloodReq = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="col-12 mt-2 justify-content-center">
                         <button
                           className="default-btn btn-two"
                           type="submit"
-                          onClick={submitHandler}
+                          //   onClick={submitHandler}
                         >
                           Send Request
                         </button>
@@ -262,4 +197,6 @@ const bloodReq = () => {
   );
 };
 
-export default bloodReq;
+export default Test;
+
+
