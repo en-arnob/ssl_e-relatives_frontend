@@ -5,6 +5,7 @@ import Subscribe from "../../components/Common/Subscribe";
 import Footer from "./../../components/_App/Footer";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { UserContext } from "../../Context/UserContextAPI";
 import {
   FcPortraitMode,
@@ -18,7 +19,11 @@ import {
 } from "react-icons/fc";
 import { FaAmbulance } from "react-icons/fa";
 
+import ProtectedRoute from "../../helpers/ProtectedRoute";
+
 const ServiceReq = () => {
+  const router = useRouter();
+  const { currentUser } = useContext(UserContext);
   //   const [roles, setRoles] = useState([]);
   //   function getRoles() {
   //     axios
@@ -35,10 +40,11 @@ const ServiceReq = () => {
     // getRoles();
   }, []);
   return (
-    <>
-      <Navbar />
+    // <ProtectedRoute>
+      <>
+        <Navbar />
 
-      {/* <PageBanner
+        {/* <PageBanner
         pageTitle="Service Request"
         homePageUrl="/"
         homePageText="Home"
@@ -46,91 +52,92 @@ const ServiceReq = () => {
         imgClass="bg-3"
       /> */}
 
-      <div className="services-area pt-100 pb-70 min-vh-100">
-        <div className="container">
-          <div className="section-title">
-            <span className="top-title">Our Service</span>
-            <h2>Service Request</h2>
-          </div>
-          <div className="row">
-            <div className="col-lg-3 col-sm-6">
-              <div className="single-services">
-                <span>
-                  {" "}
-                  <h1>
-                    <FcLike />
-                  </h1>{" "}
-                </span>
-                <h3>Request for Blood</h3>
-                <Link href="/service-request/blood" className="read-more">
-                  Request Now <i className="bx bx-plus"></i>
-                </Link>
+        <div className="services-area pt-100 pb-70 min-vh-100">
+          <div className="container">
+            <div className="section-title">
+              <span className="top-title">Our Service</span>
+              <h2>Service Request</h2>
+            </div>
+            <div className="row">
+              <div className="col-lg-3 col-sm-6">
+                <div className="single-services">
+                  <span>
+                    {" "}
+                    <h1>
+                      <FcLike />
+                    </h1>{" "}
+                  </span>
+                  <h3>Request for Blood</h3>
+                  <Link href="/service-request/blood" className="read-more">
+                    Request Now <i className="bx bx-plus"></i>
+                  </Link>
 
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
+                  <div className="services-shape">
+                    <img src="/img/services-card-shape.png" alt="Image" />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <div className="single-services">
-                <span>
-                  {" "}
-                  <h1>
-                    <FcManager />
-                  </h1>{" "}
-                </span>
-                <h3>Request for Test</h3>
-                <Link href="/service-request/test" className="read-more">
-                  Request Now <i className="bx bx-plus"></i>
-                </Link>
+              <div className="col-lg-3 col-sm-6">
+                <div className="single-services">
+                  <span>
+                    {" "}
+                    <h1>
+                      <FcManager />
+                    </h1>{" "}
+                  </span>
+                  <h3>Request for Test</h3>
+                  <Link href="/service-request/test" className="read-more">
+                    Request Now <i className="bx bx-plus"></i>
+                  </Link>
 
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
+                  <div className="services-shape">
+                    <img src="/img/services-card-shape.png" alt="Image" />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <div className="single-services">
-                <span>
-                  {" "}
-                  <h1>
-                    <FaAmbulance className="text-warning" />
-                  </h1>{" "}
-                </span>
-                <h3>Request for Ambulance/ Carcass</h3>
-                <Link href="/sign-up" className="read-more">
-                  Request Now <i className="bx bx-plus"></i>
-                </Link>
+              <div className="col-lg-3 col-sm-6">
+                <div className="single-services">
+                  <span>
+                    {" "}
+                    <h1>
+                      <FaAmbulance className="text-warning" />
+                    </h1>{" "}
+                  </span>
+                  <h3>Request for Ambulance/ Carcass</h3>
+                  <Link href="/sign-up" className="read-more">
+                    Request Now <i className="bx bx-plus"></i>
+                  </Link>
 
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
+                  <div className="services-shape">
+                    <img src="/img/services-card-shape.png" alt="Image" />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-3 col-sm-6">
-              <div className="single-services">
-                <span>
-                  {" "}
-                  <h1>
-                    <FcShop />
-                  </h1>{" "}
-                </span>
-                <h3>Request for Medicine/ Goods</h3>
-                <Link href="/sign-up" className="read-more">
-                  Request Now <i className="bx bx-plus"></i>
-                </Link>
+              <div className="col-lg-3 col-sm-6">
+                <div className="single-services">
+                  <span>
+                    {" "}
+                    <h1>
+                      <FcShop />
+                    </h1>{" "}
+                  </span>
+                  <h3>Request for Medicine/ Goods</h3>
+                  <Link href="/sign-up" className="read-more">
+                    Request Now <i className="bx bx-plus"></i>
+                  </Link>
 
-                <div className="services-shape">
-                  <img src="/img/services-card-shape.png" alt="Image" />
+                  <div className="services-shape">
+                    <img src="/img/services-card-shape.png" alt="Image" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <Footer />
-    </>
+        <Footer />
+      </>
+    // </ProtectedRoute> 
   );
 };
 
