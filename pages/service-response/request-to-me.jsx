@@ -57,7 +57,7 @@ const RequestToMe = () => {
     fetchData();
   }, [currentUser, accepted]);
 
-  const acceptedRequest = myReqs.find((item) => item.status === 1);
+  const acceptedRequest = myReqs?.find((item) => item.status === 1);
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
@@ -158,7 +158,7 @@ const RequestToMe = () => {
           </div>
         ) : (
           <>
-            {myReqs.length > 0 ? (
+            {myReqs?.length > 0 ? (
               <>
                 {myReqs?.map((item, i) => (
                   <div className="card w-75 mx-auto my-2" key={i}>
