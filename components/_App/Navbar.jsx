@@ -17,9 +17,9 @@ const NavbarFour = () => {
 
   // console.log(router.asPath)
 
-  useEffect(() => {
-    setCurrentPath(router.asPath);
-  }, [router]);
+  // useEffect(() => {
+  //   setCurrentPath(router.asPath);
+  // }, [router]);
 
   const [menu, setMenu] = React.useState(true);
 
@@ -97,16 +97,19 @@ const NavbarFour = () => {
                       </li>
                       {currentUser && currentUser?.id ? (
                         <>
-                          <li className="nav-item">
-                            <Link
-                              href="/service-request/"
-                              className={`nav-link ${
-                                currentPath == "/service-request/" && "active"
-                              }`}
-                            >
-                              Service Request
-                            </Link>
-                          </li>
+                          {!(currentUser?.role_id === 13) && (
+                            <li className="nav-item">
+                              <Link
+                                href="/service-request/"
+                                className={`nav-link ${
+                                  currentPath == "/service-request/" && "active"
+                                }`}
+                              >
+                                Service Request
+                              </Link>
+                            </li>
+                          )}
+
                           <li className="nav-item">
                             <Link
                               href="/service-response/"
@@ -203,9 +206,12 @@ const NavbarFour = () => {
                               className="btn btn-secondary py-0 px-2"
                               onClick={() => {
                                 localStorage.removeItem("jwtToken");
-                                setRefresh(!refresh);
-                                router.push("/");
-                                router.reload(window.location.pathname);
+                                // setRefresh(!refresh);
+                                // window.location.href ="/"
+                                router.push("/").then(() => {
+                                  router.reload();
+                                });
+                                // router.reload();
                               }}
                             >
                               Logout
