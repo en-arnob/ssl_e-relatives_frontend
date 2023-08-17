@@ -130,8 +130,8 @@ const RequestToMe = () => {
                         : acceptedRequest.status === 1
                         ? "Accepted"
                         : acceptedRequest.status === 2
-                        ? "Declined"
-                        : "Given"}
+                        ? "Donated"
+                        : "Other"}
                     </span>
                   </p>
                   {acceptedRequest.status === 0 && (
@@ -229,7 +229,7 @@ const RequestToMe = () => {
                                 : item.status === 1
                                 ? "Accepted"
                                 : item.status === 2
-                                ? "Declined"
+                                ? "Donated"
                                 : "Given"}
                             </span>
                           </p>
