@@ -56,12 +56,13 @@ const ServiceHistory = () => {
     const investigationsArray = investigationsList.filter((item) =>
       invArr.includes(item.id.toString())
     );
+    const investigationNamesArr = investigationsArray.map((item) => item.name);
+    const investigationNames = investigationNamesArr.join(", ");
+
     // console.log(investigationsArray);
     return (
       <div>
-        {investigationsArray?.map((inv) => {
-          return <div key={inv.id}>✅ {inv.name}</div>;
-        })}
+        <span className='fw-bold'>Investigation(s): {investigationNames}</span>
       </div>
     );
   }
@@ -182,9 +183,7 @@ const ServiceHistory = () => {
                                 : "Other"}
                             </span>
                           </p>
-                          
-                          <u className='fw-bold'>Investigation List:</u>
-                          <br/>
+
                           {item?.investigation_ids ? (
                             renderInvestigationNames(item.investigation_ids)
                           ) : (
