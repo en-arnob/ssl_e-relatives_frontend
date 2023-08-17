@@ -30,7 +30,7 @@ const ServiceResponse = () => {
   };
 
   useEffect(() => {
-    if (currentUser.role_id === 13) {
+    if (currentUser?.role_id === 13) {
       setRequestByMe(false);
     }
   }, [currentUser.role_id]);
@@ -63,7 +63,6 @@ const ServiceResponse = () => {
             </button>
           </>
         )}
-      
       </div>
       <div>
         {requestByMe && <RequestByMe />}
