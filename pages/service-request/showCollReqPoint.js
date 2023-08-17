@@ -115,7 +115,7 @@ const ShowCollReqPoint = () => {
                           </div>
 
                           <div className="col-md-3 d-flex align-items-center">
-                            {item.status === 0 && (
+                            {item.status === 1 && (
                               <span>
                                 <button
                                   onClick={() => {
