@@ -10,8 +10,8 @@ const Test = () => {
 
   const [investigationsList, setInvestigationsList] = useState([]);
   const [selectedInvestigations, setSelectedInvestigations] = useState([]);
-  const [collectionPointObj, setCollectionPointObj] = useState({});
-  const [collectionPointsArray, setCollectionPointsArray] = useState([]);
+  const [uploadFile, setUploadFile] = useState(false);
+  const [selectFromList, setSelectFromList] = useState(false);
 
   function getInvestigationsList() {
     axios
@@ -30,7 +30,21 @@ const Test = () => {
   useEffect(() => {
     getInvestigationsList();
   }, []);
-  console.log(selectedInvestigations);
+  const handleDropdownChange = (event) => {
+    const selectedValue = event.target.value;
+
+    if (selectedValue === "upload") {
+      setUploadFile(true);
+      setSelectFromList(false);
+    } else if (selectedValue === "select") {
+      setUploadFile(false);
+      setSelectFromList(true);
+    } else {
+      setUploadFile(false);
+      setSelectFromList(false);
+    }
+  };
+  console.log(uploadFile, selectFromList);
   return (
     <>
       <Navbar />
@@ -92,88 +106,57 @@ const Test = () => {
                           Selection Type:
                         </div>
                         <div className="col-md-6 col-sm-6">
-                          <input
+                          <select
                             className="form-control form-control-sm"
-                            id="formFileSm"
-                            type="file"
-                          />
+                            onChange={handleDropdownChange}
+                          >
+                            <option value="default">Select</option>
+                            <option value="upload">Upload File</option>
+                            <option value="select">Select From List</option>
+                          </select>
                         </div>
                       </div>
+                      {uploadFile && (
+                        <div className="row col-md-12 mb-2">
+                          <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                            Upload FIle:
+                          </div>
+                          <div className="col-md-6 col-sm-6">
+                            <div className="form-group">
+                              <input
+                                className="form-control form-control-sm"
+                                id="formFileSm"
+                                type="file"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Select From List
-                        </div>
-                        <div className="col-md-6 col-sm-6">
-                          <div className="form-group">
-                            <Select
-                              className="basic-multi-select"
-                              isMulti
-                              name="colors"
-                              options={investigationsList.map((item) => ({
-                                value: item.id,
-                                label: item.name,
-                              }))}
-                              onChange={(e) => {
-                                setSelectedInvestigations(e);
-                              }}
-                              classNamePrefix="select"
-                            />
+                      {selectFromList && (
+                        <div className="row col-md-12 mb-2">
+                          <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                            Select From List
+                          </div>
+                          <div className="col-md-6 col-sm-6">
+                            <div className="form-group">
+                              <Select
+                                className="basic-multi-select"
+                                isMulti
+                                name="colors"
+                                options={investigationsList.map((item) => ({
+                                  value: item.id,
+                                  label: item.name,
+                                }))}
+                                onChange={(e) => {
+                                  setSelectedInvestigations(e);
+                                }}
+                                classNamePrefix="select"
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Collection Point
-                        </div>
-                        <div className="col-md-6 col-sm-6">
-                          <div className="form-group">
-                            <select
-                              className="form-control"
-                              onChange={(e) => {
-                                setCollectionPointObj(
-                                  collectionPointsArray.find((cP) => {
-                                    return cP.id == e.target.value;
-                                  })
-                                );
-                              }}
-                            >
-                              <option value="" >
-                                Select Collection Point
-                              </option>
-                              {collectionPointsArray?.map((cP) => {
-                                return (
-                                  <option value={cP?.id} key={cP?.id}>
-                                    {cP?.f_name}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Address
-                        </div>
-                        <div className="col-md-6 col-sm-6">
-                          <div className="form-group">
-                            <textarea
-                              className="form-control"
-                              type="textarea"
-                              name="address"
-                              rows={3}
-                              // onChange={(e) => setMobile(e.target.value)}
-                              value={
-                                collectionPointObj?.id
-                                  ? `${collectionPointObj?.address_1}, ${collectionPointObj?.user_detail?.city?.name}, ${collectionPointObj?.user_detail?.state?.name}, ${collectionPointObj?.user_detail?.country?.name}`
-                                  : "Address will be imported from collection point"
-                              }
-                              disabled
-                            />
-                          </div>
-                        </div>
-                      </div>
+                      )}
 
                       <div className="col-12 mt-2 justify-content-center">
                         <button
@@ -198,5 +181,3 @@ const Test = () => {
 };
 
 export default Test;
-
-

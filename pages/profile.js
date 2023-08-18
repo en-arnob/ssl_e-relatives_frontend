@@ -24,6 +24,7 @@ const Profile = () => {
   useEffect(() => {
     getUserDetails();
   }, []);
+  console.log(userDetails);
   return (
     <div className="min-vh-100">
       <div>
@@ -211,11 +212,11 @@ const Profile = () => {
                     </div>
                   )}
 
-                  {currentUser?.role_id === 11 ||
+                  {(currentUser?.role_id === 11 ||
                     currentUser?.role_id === 12 ||
                     currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ||
-                    (currentUser?.role_id === 15 && (
+                    currentUser?.role_id === 15) && (
                       <div className="row col-md-12 mb-2">
                         <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
                           Designation
@@ -225,7 +226,7 @@ const Profile = () => {
                           {userDetails?.designation}
                         </div>
                       </div>
-                    ))}
+                    )}
 
                   {currentUser?.role_id === 11 ? (
                     <div className="row col-md-12 mb-2">
@@ -273,10 +274,10 @@ const Profile = () => {
                       </div>
                     </div>
                   ) : null}
-                  {currentUser?.role_id === 12 ||
+                  {(currentUser?.role_id === 12 ||
                     currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ||
-                    (currentUser?.role_id === 15 && (
+                    currentUser?.role_id === 15) && (
                       <div className="row col-md-12 mb-2">
                         <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
                           Owner/Chairman/Manageing Director Name
@@ -286,12 +287,12 @@ const Profile = () => {
                           {userDetails?.owner_name}
                         </div>
                       </div>
-                    ))}
+                    )}
 
-                  {currentUser?.role_id === 12 ||
+                  {(currentUser?.role_id === 12 ||
                     currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ||
-                    (currentUser?.role_id === 15 && (
+                    currentUser?.role_id === 15) && (
                       <div className="row col-md-12 mb-2">
                         <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
                           Responsiible Person Name
@@ -301,7 +302,7 @@ const Profile = () => {
                           {userDetails?.responsible_person_name}
                         </div>
                       </div>
-                    ))}
+                    )}
 
                   {currentUser?.role_id === 12 ||
                     (currentUser.role_id === 14 && (
@@ -363,8 +364,8 @@ const Profile = () => {
                       </div>
                     </div>
                   ) : null}
-                  {currentUser?.role_id === 13 ||
-                    (currentUser.role_id === 15 && (
+                  {(currentUser?.role_id === 13 ||
+                    currentUser.role_id === 15) && (
                       <div className="row col-md-12 mb-2">
                         <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
                           Trade License NO
@@ -374,7 +375,7 @@ const Profile = () => {
                           {userDetails?.trade_license}
                         </div>
                       </div>
-                    ))}
+                    )}
 
                   {currentUser?.role_id === 13 ||
                   currentUser?.role_id === 14 ? (

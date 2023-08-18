@@ -9,7 +9,7 @@ const ShowCollReqPoint = () => {
   const [bloodReqDetails, setBloodReqDetails] = useState([]);
   const [donor_id, setDonor_id] = useState();
 
-  console.log(bloodReqDetails);
+  // console.log(bloodReqDetails);
   const fetchData = () => {
     if (currentUser.role_id === 13) {
       axios
@@ -18,10 +18,17 @@ const ShowCollReqPoint = () => {
         )
         .then((response) => {
           const data = response.data.data;
+          console.log(data)
           setBloodReqDetails(data);
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response && error.response.status === 404) {
+            // console.log();
+            console.log("Data not found");
+          } else {
+            console.log("An error occurred:", error.message);
+            // Handle other errors
+          }
         });
     }
   };
@@ -35,9 +42,12 @@ const ShowCollReqPoint = () => {
       )
       .then((response) => {
         const responseData = response.data;
+        // console.log(responseData)
         if (responseData.status === "OK") {
-          toast.success("Status Updated Successfully!");
           fetchData();
+          toast.success("Status Updated Successfully!");
+          
+          console.log(bloodReqDetails);
         }
       })
       .catch((error) => {
@@ -47,13 +57,12 @@ const ShowCollReqPoint = () => {
 
   useEffect(() => {
     fetchData();
-    submitDonateBy(donor_id);
-  }, [donor_id]);
+  }, []);
 
   const background = {
     backgroundColor: "rgb(246, 241, 233)",
   };
-  console.log(filterStatus);
+  // console.log(bloodReqDetails);
   return (
     <div>
       <div className="cards min-vh-100 mt-4">
@@ -118,10 +127,8 @@ const ShowCollReqPoint = () => {
                             {item.status === 1 && (
                               <span>
                                 <button
-                                  onClick={() => {
-                                    submitDonateBy(
-                                      setDonor_id(item.accepted_donor)
-                                    );
+                                  onClick={(e) => {
+                                    submitDonateBy(item.accepted_donor);
                                   }}
                                   className="btn btn-primary"
                                 >
