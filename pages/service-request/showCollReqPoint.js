@@ -23,7 +23,6 @@ const ShowCollReqPoint = () => {
         })
         .catch((error) => {
           if (error.response && error.response.status === 404) {
-            // console.log();
             console.log("Data not found");
           } else {
             console.log("An error occurred:", error.message);
