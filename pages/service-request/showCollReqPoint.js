@@ -21,6 +21,7 @@ const ShowCollReqPoint = () => {
           console.log(data)
           setBloodReqDetails(data);
         })
+        
         .catch((error) => {
           if (error.response && error.response.status === 404) {
             console.log("Data not found");
