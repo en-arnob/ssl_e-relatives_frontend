@@ -61,7 +61,7 @@ const SignUp = () => {
       if (res.status === 201) {
         const userData = res?.data.data;
         // console.log(res.data);
-        toast.success("OTP sent to your mobile number.");
+        toast.success("Registration Success!");
         Router.push({
           pathname: "/sign-in",
           // query: {
