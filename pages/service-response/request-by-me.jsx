@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { UserContext } from "../../Context/UserContextAPI";
+import { toast } from "react-hot-toast";
 
 const RequestByMe = () => {
   const { currentUser } = useContext(UserContext);
@@ -19,8 +20,10 @@ const RequestByMe = () => {
     }
     return result;
   }, []);
-  // console.log(groupedReqs);
-
+  //cancel modal start
+  const [showCancel, setShowCancel] = useState(false);
+  const handleCancelModalClose = () => setShowCancel(false);
+  //cancel modal end
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
@@ -67,6 +70,21 @@ const RequestByMe = () => {
   useEffect(() => {
     fetchData();
   }, [currentUser]);
+  console.log(groupedReqs);
+
+  const handleCancelReqByMe = (req_no) => {
+    console.log(req_no);
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/cancel/${req_no}`
+      )
+      .then((response) => {
+        if (response.data.status === "OK") {
+          toast.success("Request cancelled successfully!");
+        }
+        fetchData();
+      });
+  };
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
@@ -126,15 +144,78 @@ const RequestByMe = () => {
                       <p className="mb-0">
                         Needed Date Time: {item?.date_time.split("T")[0]}
                       </p>
-                      <Button
-                        variant="primary"
-                        onClick={() => handleShow(item.req_no, item.user_id)}
-                      >
-                        Donor List
-                      </Button>
+                      <div className="mb-2">
+                        {item.status !== 3 && (
+                          <Button
+                            variant="primary"
+                            onClick={() =>
+                              handleShow(item.req_no, item.user_id)
+                            }
+                          >
+                            Donor List
+                          </Button>
+                        )}
+                      </div>
+                      <div>
+                        {item.status !== 3 ? (
+                          <Button
+                            variant="danger"
+                            className="me-2"
+                            onClick={() => {
+                              setShowCancel(true);
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                        ) : (
+                          <h6
+                            className="text-danger
+
+                          "
+                          >
+                            Cancelled
+                          </h6>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
+                {/* start cancel Modal */}
+                <>
+                  <Modal show={showCancel} onHide={handleCancelModalClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Cancel Request</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <div className="d-flex justify-content-center">
+                        <p>Are you sure to cancel the request?</p>
+                      </div>
+                      <hr />
+                      <div>
+                        <div className="d-flex justify-content-center ">
+                          <Button
+                            variant="danger"
+                            className="me-2"
+                            onClick={() => {
+                              handleCancelReqByMe(item.req_no);
+                              setShowCancel(false);
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            onClick={handleCancelModalClose}
+                          >
+                            Close
+                          </Button>
+                        </div>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                </>
+
+                {/* end cancel Modal */}
                 <>
                   <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>

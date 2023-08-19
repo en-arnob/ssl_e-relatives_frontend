@@ -7,6 +7,7 @@ import { UserContext } from "../Context/UserContextAPI";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import imagee from "../public/img/avatar/avatar.jpeg"
 
 const UpdateProfile = () => {
   const [userDetails, setUserDetails] = useState({});
@@ -72,6 +73,7 @@ const UpdateProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState(0);
   const [selectedState, setSelectedState] = useState(0);
   const [selectedCity, setSelectedCity] = useState(0);
+
   useEffect(() => {
     setGender(userDetails.gender_id);
     setBloodGroup(userDetails.blood_group);
@@ -89,6 +91,9 @@ const UpdateProfile = () => {
     setDrivingLicense(userDetails.driving_license);
     setDrivingExpYears(userDetails.driving_exp_years);
     setNid(currentUser.nid);
+    setLastBloodDonate(userDetails.last_blood_donate);
+    setTradeLicense(userDetails.trade_license);
+    setDghsLicense(userDetails.dghs_license);
   }, [
     userDetails.gender_id,
     userDetails.blood_group,
@@ -106,6 +111,9 @@ const UpdateProfile = () => {
     userDetails.driving_license,
     userDetails.driving_exp_years,
     currentUser.nid,
+    userDetails.last_blood_donate,
+    userDetails.trade_license,
+    userDetails.dghs_license,
   ]);
 
   const fetchCountryList = () => {
@@ -281,6 +289,7 @@ const UpdateProfile = () => {
     fetchStateList();
     fetchCityList();
   }, [selectedCountry, selectedState]);
+  console.log(currentUser);
 
   return (
     <>
@@ -333,6 +342,26 @@ const UpdateProfile = () => {
                   <div className="row">
                     <div className="col-12">
                       <div className="form-group content-center item-center text-center">
+                        {/* <label htmlFor="image">
+                          {currentUser?.image ? (
+                            <img
+                              className="rounded-circle img-fluid "
+                              src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/users/${currentUser?.image}`}
+                              style={{ width: "100px", height: "100px" }}
+                              alt=""
+                            />
+                          ) : (
+                              <input
+                                type="file"
+                                name="image"
+                                id="image"
+                                onChange={(e) => setImage(e.target.files[0])}
+                                // style={{ display: "none" }}
+                              />
+                          )}
+                        </label> */}
+                        <img src={imagee} alt="fse" />
+
                         <label for="image">
                           <input
                             type="file"
@@ -351,7 +380,7 @@ const UpdateProfile = () => {
                             />
                           ) : (
                             <Image
-                              src="/img/avatar-user.png"
+                              src="/img/avatar/avatar.jpeg"
                               width={100}
                               height={100}
                               alt="Picture of the author"
@@ -361,8 +390,7 @@ const UpdateProfile = () => {
                         </label>
                       </div>
                     </div>
-                    {
-                      currentUser.role_id !==13 &&
+                    {currentUser.role_id !== 13 && (
                       <>
                         <div className="col-12">
                           <div className="form-group">
@@ -418,7 +446,7 @@ const UpdateProfile = () => {
                           </div>
                         </div>
                       </>
-                    }
+                    )}
                     <div className="col-12">
                       <div className="form-group">
                         <select
