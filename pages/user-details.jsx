@@ -6,15 +6,16 @@ import axios from "axios";
 import { UserContext } from "../Context/UserContextAPI";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 const SignIn = () => {
   const Router = useRouter();
   const { currentUser } = useContext(UserContext);
+  // console.log(currentUser);
 
   // data states
   const [image, setImage] = useState("");
   const [gender, setGender] = useState("");
+  const [email, setEmail] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [dob, setDob] = useState("");
   const [address, setAddress] = useState("");
@@ -38,7 +39,7 @@ const SignIn = () => {
   const [nid, setNid] = useState("");
   const [requiredField, setRequiredField] = useState(false);
 
-  console.log(currentUser);
+  // console.log(currentUser);
 
   // form dynamic data states
   const [countryList, setCountryList] = useState([]);
@@ -91,23 +92,23 @@ const SignIn = () => {
   };
 
   const submitHandler = async (e) => {
-    console.log(
-      ownerName,
-      responsiblePName,
-      designation,
-      vehicleLicense,
-      nid,
-      deliveryPName,
-      drivingLicense,
-      drivingExpYears
-    );
-    console.log(requiredField);
+    // console.log(
+    //   ownerName,
+    //   responsiblePName,
+    //   designation,
+    //   vehicleLicense,
+    //   nid,
+    //   deliveryPName,
+    //   drivingLicense,
+    //   drivingExpYears
+    // );
+    // console.log(requiredField);
     e.preventDefault();
 
     const data = {
       gender,
-      bloodGroup,
       dob,
+      email,
       country: selectedCountry.id,
       state: selectedState.id,
       city: selectedCity.id,
@@ -132,19 +133,23 @@ const SignIn = () => {
       nid,
     };
     if (currentUser.role_id === 10) {
-      {
-        lastBloodDonate ? setRequiredField(true) : setRequiredField(false);
-      }
+      gender &&
+      dob &&
+      selectedCountry.id &&
+      selectedState.id &&
+      selectedCity.id &&
+      address &&
+      nid
+        ? setRequiredField(true)
+        : setRequiredField(false);
     } else if (currentUser.role_id === 11) {
-      {
-        institutionName &&
-        designation &&
-        bmdcLicense &&
-        onlineServiceTime &&
-        specializationDegree
-          ? setRequiredField(true)
-          : setRequiredField(false);
-      }
+      institutionName &&
+      designation &&
+      bmdcLicense &&
+      onlineServiceTime &&
+      specializationDegree
+        ? setRequiredField(true)
+        : setRequiredField(false);
     } else if (currentUser.role_id === 12) {
       {
         ownerName &&
@@ -175,7 +180,6 @@ const SignIn = () => {
       designation &&
       drivingLicense &&
       vehicleLicense &&
-      dghsLicense &&
       driverName &&
       drivingExpYears
         ? setRequiredField(true)
@@ -201,11 +205,11 @@ const SignIn = () => {
           formData
         );
         const imagePath = res.data.filename;
-        console.log("image", imagePath);
+        // console.log("image", imagePath);
         if (imagePath) {
           data.image = imagePath;
         }
-        console.log(data);
+        // console.log(data);
 
         const upd = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/details/update/${currentUser?.id}`,
@@ -295,7 +299,7 @@ const SignIn = () => {
                             style={{ display: "none" }}
                           />
                           {image !== "" ? (
-                            <Image
+                            <img
                               src={URL.createObjectURL(image)}
                               width={100}
                               height={100}
@@ -303,7 +307,7 @@ const SignIn = () => {
                               className="rounded-circle"
                             />
                           ) : (
-                            <Image
+                            <img
                               src="/img/avatar-user.png"
                               width={100}
                               height={100}
@@ -330,25 +334,38 @@ const SignIn = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <select
-                          className="form-control"
-                          onChange={(e) => setBloodGroup(e.target.value)}
-                        >
-                          <option value="" disabled selected>
-                            Blood Group *
-                          </option>
+                    {/* {currentUser?.role_id !== 10 && (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <select
+                            className="form-control"
+                            onChange={(e) => setBloodGroup(e.target.value)}
+                          >
+                            <option value="" disabled selected>
+                              Blood Group *
+                            </option>
 
-                          <option value={1}>A+</option>
-                          <option value={2}>A-</option>
-                          <option value={3}>B+</option>
-                          <option value={4}>B-</option>
-                          <option value={5}>O+</option>
-                          <option value={6}>O-</option>
-                          <option value={7}>AB+</option>
-                          <option value={8}>AB-</option>
-                        </select>
+                            <option value={1}>A+</option>
+                            <option value={2}>A-</option>
+                            <option value={3}>B+</option>
+                            <option value={4}>B-</option>
+                            <option value={5}>O+</option>
+                            <option value={6}>O-</option>
+                            <option value={7}>AB+</option>
+                            <option value={8}>AB-</option>
+                          </select>
+                        </div>
+                      </div>
+                    )} */}
+                    <div className="col-md-12 col-sm-12">
+                      <div className="form-group">
+                        <input
+                          className="form-control"
+                          type="email"
+                          name="email"
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Enter Your Email"
+                        />
                       </div>
                     </div>
                     <div className="col-12">
@@ -565,20 +582,20 @@ const SignIn = () => {
                         </div>
                       </div>
                     ) : null}
-                    {currentUser?.role_id === 12 ? (
-                      <div className="col-12">
-                        <div className="form-group">
-                          <input
-                            className="form-control"
-                            type="text"
-                            name="nid"
-                            placeholder="National ID No.  *"
-                            onChange={(e) => setNid(e.target.value)}
-                          />
-                        </div>
+
+                    <div className="col-12">
+                      <div className="form-group">
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="nid"
+                          placeholder="National ID No."
+                          onChange={(e) => setNid(e.target.value)}
+                        />
                       </div>
-                    ) : null}
-                    {currentUser?.role_id === 13 ||
+                    </div>
+
+                    {
                     currentUser?.role_id === 14 ? (
                       <div className="col-12">
                         <div className="form-group">

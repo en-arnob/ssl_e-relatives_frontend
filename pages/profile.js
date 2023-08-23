@@ -46,9 +46,8 @@ const Profile = () => {
                   />
                 )}
                 <div className="col-md-11 mt-1 text-center">
-                  <label className="labels fs-6">
-                    <span className="fw-semibold">{currentUser?.f_name}</span> (
-                    {currentUser?.username})
+                  <label className="labels fs-5">
+                    <span className="fw-bold">{currentUser?.f_name}</span>
                   </label>
                 </div>
                 <div className="col-md-11 text-center">
@@ -217,16 +216,16 @@ const Profile = () => {
                     currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ||
                     currentUser?.role_id === 15) && (
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
-                          Designation
-                        </div>
-                        <div className="col-md-1 col-sm-1">:</div>
-                        <div className="col-md-4 col-sm-5 ">
-                          {userDetails?.designation}
-                        </div>
+                    <div className="row col-md-12 mb-2">
+                      <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
+                        Designation
                       </div>
-                    )}
+                      <div className="col-md-1 col-sm-1">:</div>
+                      <div className="col-md-4 col-sm-5 ">
+                        {userDetails?.designation}
+                      </div>
+                    </div>
+                  )}
 
                   {currentUser?.role_id === 11 ? (
                     <div className="row col-md-12 mb-2">
@@ -278,31 +277,31 @@ const Profile = () => {
                     currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ||
                     currentUser?.role_id === 15) && (
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
-                          Owner/Chairman/Manageing Director Name
-                        </div>
-                        <div className="col-md-1 col-sm-1">:</div>
-                        <div className="col-md-4 col-sm-5 ">
-                          {userDetails?.owner_name}
-                        </div>
+                    <div className="row col-md-12 mb-2">
+                      <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
+                        Owner/Chairman/Manageing Director Name
                       </div>
-                    )}
+                      <div className="col-md-1 col-sm-1">:</div>
+                      <div className="col-md-4 col-sm-5 ">
+                        {userDetails?.owner_name}
+                      </div>
+                    </div>
+                  )}
 
                   {(currentUser?.role_id === 12 ||
                     currentUser?.role_id === 13 ||
                     currentUser?.role_id === 14 ||
                     currentUser?.role_id === 15) && (
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
-                          Responsiible Person Name
-                        </div>
-                        <div className="col-md-1 col-sm-1">:</div>
-                        <div className="col-md-4 col-sm-5 ">
-                          {userDetails?.responsible_person_name}
-                        </div>
+                    <div className="row col-md-12 mb-2">
+                      <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
+                        Responsiible Person Name
                       </div>
-                    )}
+                      <div className="col-md-1 col-sm-1">:</div>
+                      <div className="col-md-4 col-sm-5 ">
+                        {userDetails?.responsible_person_name}
+                      </div>
+                    </div>
+                  )}
 
                   {currentUser?.role_id === 12 ||
                     (currentUser.role_id === 14 && (
@@ -366,16 +365,16 @@ const Profile = () => {
                   ) : null}
                   {(currentUser?.role_id === 13 ||
                     currentUser.role_id === 15) && (
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
-                          Trade License NO
-                        </div>
-                        <div className="col-md-1 col-sm-1">:</div>
-                        <div className="col-md-4 col-sm-5 ">
-                          {userDetails?.trade_license}
-                        </div>
+                    <div className="row col-md-12 mb-2">
+                      <div className="col-md-4 col-sm-5 fs-6 fw-semibold">
+                        Trade License NO
                       </div>
-                    )}
+                      <div className="col-md-1 col-sm-1">:</div>
+                      <div className="col-md-4 col-sm-5 ">
+                        {userDetails?.trade_license}
+                      </div>
+                    </div>
+                  )}
 
                   {currentUser?.role_id === 13 ||
                   currentUser?.role_id === 14 ? (

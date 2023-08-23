@@ -205,7 +205,7 @@ const bloodReq = () => {
                               }}
                             >
                               <option value="">
-                                Select Collection Point
+                                Select Service Center
                               </option>
                               {collectionPointsArray?.map((cP) => {
                                 return (

@@ -119,7 +119,7 @@ const RequestByMe = () => {
                             : parseInt(item?.req_blood_group) === 7
                             ? "AB+"
                             : parseInt(item?.req_blood_group) === 8
-                            ? "A-"
+                            ? "AB-"
                             : "Unknown"}
                         </span>
                       </p>
