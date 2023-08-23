@@ -20,8 +20,10 @@ const SignUp = () => {
 
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [userName, setUserName] = useState("");
+  const [bg, setBg] = useState("");
+  const [dghsLicense, setDghsLicense] = useState("");
   const [passwd, setPassWd] = useState("");
   const [confirmPasswd, setConfirmPasswd] = useState("");
   const [tcAgree, setTCAgree] = useState(false);
@@ -40,8 +42,8 @@ const SignUp = () => {
       service_category_id: selectedServiceCat?.id,
       name: name,
       mobile: mobile,
-      email: email,
-      userName: userName,
+      bloodGroup: bg,
+      dghsLicense: dghsLicense,
       password: passwd,
     };
 
@@ -106,16 +108,47 @@ const SignUp = () => {
     }
   }
 
-  const valid =
+  let valid;
+  if (selectedRole?.id === 10) {
+    valid =
+      name !== "" &&
+      bg !== "" &&
+      mobile !== "" &&
+      passwd !== "" &&
+      confirmPasswd !== "" &&
+      tcAgree
+        ? true
+        : false;
+  } else if (selectedRole?.id === 11) {
+    valid =
+      selectedServiceCat?.id &&
+      name !== "" &&
+      mobile !== "" &&
+      passwd !== "" &&
+      confirmPasswd !== "" &&
+      tcAgree
+        ? true
+        : false;
+  } else if (selectedRole?.id === 13) {
+    valid =
+      selectedServiceCat?.id &&
+      name !== "" &&
+      mobile !== "" &&
+      dghsLicense &&
+      passwd !== "" &&
+      confirmPasswd !== "" &&
+      tcAgree
+        ? true
+        : false;
+  } else {
     name !== "" &&
-    email !== "" &&
-    userName !== "" &&
     mobile !== "" &&
     passwd !== "" &&
     confirmPasswd !== "" &&
     tcAgree
       ? true
       : false;
+  }
 
   function selectRoleHandler(e) {
     setSelectedRole(
@@ -234,7 +267,7 @@ const SignUp = () => {
                     <div className="col-md-12 col-sm-12">
                       <div className="form-group">
                         <select
-                          className="form-select"
+                          className="form-control"
                           onChange={selectRoleHandler}
                         >
                           <option value="" disabled selected>
@@ -255,7 +288,7 @@ const SignUp = () => {
                       <div className="col-md-12 col-sm-12">
                         <div className="form-group">
                           <select
-                            className="form-select"
+                            className="form-control"
                             onChange={selectServiceHandler}
                           >
                             <option value="" disabled selected>
@@ -263,6 +296,8 @@ const SignUp = () => {
                                 ? "Field of practice - "
                                 : selectedRole.id === 12
                                 ? "Vehicle type - "
+                                : selectedRole?.id === 13
+                                ? "Service center type -"
                                 : ""}
                             </option>
                             {serviceCats?.map((cat) => {
@@ -291,7 +326,7 @@ const SignUp = () => {
                               selectedRole?.id === 12
                                 ? "Company Name"
                                 : selectedRole?.id === 13
-                                ? "Collection Point Name"
+                                ? "Enter Name"
                                 : selectedRole?.id === 14
                                 ? "Company Name"
                                 : selectedRole?.id === 15
@@ -312,8 +347,44 @@ const SignUp = () => {
                           />
                         </div>
                       </div>
+                      {selectedRole?.id === 10 && (
+                        <div className="col-12">
+                          <div className="form-group">
+                            <select
+                              className="form-control"
+                              onChange={(e) => setBg(e.target.value)}
+                            >
+                              <option value="" disabled selected>
+                                Blood Group
+                              </option>
 
-                      <div className="col-md-12 col-sm-12">
+                              <option value={1}>A+</option>
+                              <option value={2}>A-</option>
+                              <option value={3}>B+</option>
+                              <option value={4}>B-</option>
+                              <option value={5}>O+</option>
+                              <option value={6}>O-</option>
+                              <option value={7}>AB+</option>
+                              <option value={8}>AB-</option>
+                            </select>
+                          </div>
+                        </div>
+                      )}
+                      {selectedRole?.id === 13 && (
+                        <div className="col-12">
+                          <div className="form-group">
+                            <input
+                              className="form-control"
+                              type="text"
+                              name="dghs_license"
+                              placeholder="DGHS License No. "
+                              onChange={(e) => setDghsLicense(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* <div className="col-md-12 col-sm-12">
                         <div className="form-group">
                           <input
                             className="form-control"
@@ -323,9 +394,9 @@ const SignUp = () => {
                             placeholder="Enter Your Email"
                           />
                         </div>
-                      </div>
+                      </div> */}
 
-                      <div className="col-md-12 col-sm-12">
+                      {/* <div className="col-md-12 col-sm-12">
                         <div className="form-group">
                           <input
                             className="form-control"
@@ -335,7 +406,7 @@ const SignUp = () => {
                             placeholder="Enter Your Username"
                           />
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="col-md-12 col-sm-12">
                         <div className="form-group">

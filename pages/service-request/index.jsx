@@ -41,10 +41,10 @@ const ServiceReq = () => {
   }, []);
   return (
     // <ProtectedRoute>
-      <>
-        <Navbar />
+    <>
+      <Navbar />
 
-        {/* <PageBanner
+      {/* <PageBanner
         pageTitle="Service Request"
         homePageUrl="/"
         homePageText="Home"
@@ -52,15 +52,16 @@ const ServiceReq = () => {
         imgClass="bg-3"
       /> */}
 
-        <div className="services-area pt-100 pb-70 min-vh-100">
-          <div className="container">
-            <div className="section-title">
-              <span className="top-title">Our Service</span>
-              <h2>Service Request</h2>
-            </div>
-            <div className="row">
-              <div className="col-lg-3 col-sm-6">
-                <div className="single-services">
+      <div className="services-area pt-100 pb-70 min-vh-100">
+        <div className="container">
+          <div className="section-title">
+            <span className="top-title">Our Service</span>
+            <h2>Service Request</h2>
+          </div>
+          <div className="row">
+            <div className="col-lg-3 col-sm-6">
+              <div className="single-services">
+                <Link href="/service-request/blood">
                   <span>
                     {" "}
                     <h1>
@@ -75,10 +76,12 @@ const ServiceReq = () => {
                   <div className="services-shape">
                     <img src="/img/services-card-shape.png" alt="Image" />
                   </div>
-                </div>
+                </Link>
               </div>
-              <div className="col-lg-3 col-sm-6">
-                <div className="single-services">
+            </div>
+            <div className="col-lg-3 col-sm-6">
+              <div className="single-services">
+                <Link href="/service-request/test">
                   <span>
                     {" "}
                     <h1>
@@ -93,9 +96,10 @@ const ServiceReq = () => {
                   <div className="services-shape">
                     <img src="/img/services-card-shape.png" alt="Image" />
                   </div>
-                </div>
+                </Link>
               </div>
-              <div className="col-lg-3 col-sm-6">
+            </div>
+            {/* <div className="col-lg-3 col-sm-6">
                 <div className="single-services">
                   <span>
                     {" "}
@@ -112,8 +116,8 @@ const ServiceReq = () => {
                     <img src="/img/services-card-shape.png" alt="Image" />
                   </div>
                 </div>
-              </div>
-              <div className="col-lg-3 col-sm-6">
+              </div> */}
+            {/* <div className="col-lg-3 col-sm-6">
                 <div className="single-services">
                   <span>
                     {" "}
@@ -130,14 +134,14 @@ const ServiceReq = () => {
                     <img src="/img/services-card-shape.png" alt="Image" />
                   </div>
                 </div>
-              </div>
-            </div>
+              </div> */}
           </div>
         </div>
+      </div>
 
-        <Footer />
-      </>
-    // </ProtectedRoute> 
+      <Footer />
+    </>
+    // </ProtectedRoute>
   );
 };
 

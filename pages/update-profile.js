@@ -360,7 +360,7 @@ const UpdateProfile = () => {
                               />
                           )}
                         </label> */}
-                        <img src={imagee} alt="fse" />
+                        
 
                         <label for="image">
                           <input
@@ -371,7 +371,7 @@ const UpdateProfile = () => {
                             style={{ display: "none" }}
                           />
                           {image !== "" ? (
-                            <Image
+                            <img
                               src={URL.createObjectURL(image)}
                               width={100}
                               height={100}
@@ -379,8 +379,8 @@ const UpdateProfile = () => {
                               className="rounded-circle"
                             />
                           ) : (
-                            <Image
-                              src="/img/avatar/avatar.jpeg"
+                            <img
+                              src="/img/avatar-user.png"
                               width={100}
                               height={100}
                               alt="Picture of the author"
