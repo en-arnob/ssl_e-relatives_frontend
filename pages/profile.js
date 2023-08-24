@@ -21,10 +21,17 @@ const Profile = () => {
         console.log(error);
       });
   }
+  function formatDate(inputDateString) {
+    if (inputDateString) {
+      const dateParts = inputDateString?.split("-");
+      return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    } else {
+      return null;
+    }
+  }
   useEffect(() => {
     getUserDetails();
   }, []);
-  console.log(userDetails);
   return (
     <div className="min-vh-100">
       <div>
@@ -146,7 +153,7 @@ const Profile = () => {
                         </div>
                         <div className="col-md-1 col-sm-1 mb-2">:</div>
                         <div className="col-md-4 col-sm-5 mb-2">
-                          {currentUser?.date_of_birth}
+                          {formatDate(currentUser?.date_of_birth)}
                         </div>
                       </div>
                     </>
@@ -158,7 +165,9 @@ const Profile = () => {
                       </div>
                       <div className="col-md-1 col-sm-1 mb-2">:</div>
                       <div className="col-md-4 col-sm-5 mb-2">
-                        {userDetails?.last_blood_donate}
+                        {userDetails?.last_blood_donate !== "0000-00-00"
+                          ? formatDate(userDetails?.last_blood_donate)
+                          : "Never Donated"}
                       </div>
                     </div>
                   )}

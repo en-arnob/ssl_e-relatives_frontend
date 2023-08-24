@@ -10,6 +10,7 @@ const RequestByMe = () => {
   const { currentUser } = useContext(UserContext);
   const [myReqs, setMyReqs] = useState([]);
   const [acceptedDonors, setAcceptedDonors] = useState([]); // State to store the filtered donors
+  const [reqIdToCancel, setReqIdToCancel] = useState("");
 
   const groupedReqs = myReqs.reduce((result, current) => {
     const existingItem = result.find((item) => item.req_no === current.req_no);
@@ -36,7 +37,7 @@ const RequestByMe = () => {
       )
       .then((response) => {
         const data = response.data.data;
-        console.log(data);
+        // console.log(data);
         setMyReqs(data);
       })
       .catch((error) => {
@@ -70,7 +71,7 @@ const RequestByMe = () => {
   useEffect(() => {
     fetchData();
   }, [currentUser]);
-  console.log(groupedReqs);
+  // console.log(groupedReqs);
 
   const handleCancelReqByMe = (req_no) => {
     console.log(req_no);
@@ -91,7 +92,7 @@ const RequestByMe = () => {
         {groupedReqs.length > 0 ? (
           <>
             {groupedReqs.map((item, i) => (
-              <div className="card w-75 mx-auto my-3">
+              <div className="card w-75 mx-auto my-3" key={item.id}>
                 <div
                   className="card-body"
                   style={i % 2 === 0 ? background : {}}
@@ -162,6 +163,7 @@ const RequestByMe = () => {
                             variant="danger"
                             className="me-2"
                             onClick={() => {
+                              setReqIdToCancel(item.req_no);
                               setShowCancel(true);
                             }}
                           >
@@ -197,7 +199,7 @@ const RequestByMe = () => {
                             variant="danger"
                             className="me-2"
                             onClick={() => {
-                              handleCancelReqByMe(item.req_no);
+                              handleCancelReqByMe(reqIdToCancel);
                               setShowCancel(false);
                             }}
                           >

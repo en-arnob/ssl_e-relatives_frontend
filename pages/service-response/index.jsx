@@ -14,11 +14,11 @@ const ServiceResponse = () => {
   const [requestByMe, setRequestByMe] = useState(true);
   const [requestToMe, setRequestToMe] = useState(false);
   const router = useRouter();
-  console.log(currentUser.role_id);
+  // console.log(currentUser.role_id);
 
   const [bloodReqDetails, setBloodReqDetails] = useState([]);
 
-  console.log(bloodReqDetails);
+  // console.log(bloodReqDetails);
 
   const reqByMeBtnStyle = {
     backgroundColor: requestByMe ? "blue" : "#bcb6b6",

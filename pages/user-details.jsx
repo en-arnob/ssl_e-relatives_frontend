@@ -92,17 +92,7 @@ const SignIn = () => {
   };
 
   const submitHandler = async (e) => {
-    // console.log(
-    //   ownerName,
-    //   responsiblePName,
-    //   designation,
-    //   vehicleLicense,
-    //   nid,
-    //   deliveryPName,
-    //   drivingLicense,
-    //   drivingExpYears
-    // );
-    // console.log(requiredField);
+    console.log(lastBloodDonate)
     e.preventDefault();
 
     const data = {
@@ -132,100 +122,98 @@ const SignIn = () => {
       drivingExpYears,
       nid,
     };
-    if (currentUser.role_id === 10) {
-      gender &&
-      dob &&
-      selectedCountry.id &&
-      selectedState.id &&
-      selectedCity.id &&
-      address &&
-      nid
-        ? setRequiredField(true)
-        : setRequiredField(false);
-    } else if (currentUser.role_id === 11) {
-      institutionName &&
-      designation &&
-      bmdcLicense &&
-      onlineServiceTime &&
-      specializationDegree
-        ? setRequiredField(true)
-        : setRequiredField(false);
-    } else if (currentUser.role_id === 12) {
-      {
-        ownerName &&
-        responsiblePName &&
-        designation &&
-        vehicleLicense &&
-        nid &&
-        deliveryPName &&
-        drivingLicense
-          ? // drivingExpYears
-            setRequiredField(true)
-          : setRequiredField(false);
-      }
-    } else if (currentUser.role_id === 13) {
-      {
-        ownerName &&
-        responsiblePName &&
-        designation &&
-        tradeLicense &&
-        dghsLicense &&
-        availableService
-          ? setRequiredField(true)
-          : setRequiredField(false);
-      }
-    } else if (currentUser.role_id === 14) {
-      ownerName &&
-      responsiblePName &&
-      designation &&
-      drivingLicense &&
-      vehicleLicense &&
-      driverName &&
-      drivingExpYears
-        ? setRequiredField(true)
-        : setRequiredField(false);
-    } else if (currentUser.role_id === 15) {
-      {
-        ownerName &&
-        responsiblePName &&
-        designation &&
-        tradeLicense &&
-        drugLicense
-          ? setRequiredField(true)
-          : setRequiredField(false);
-      }
-    }
+    // console.log(data);
+    // if (currentUser.role_id === 10) {
+    //   gender &&
+    //   dob &&
+    //   selectedCountry.id &&
+    //   selectedState.id &&
+    //   selectedCity.id &&
+    //   address &&
+    //   nid
+    //     ? setRequiredField(true)
+    //     : setRequiredField(false);
+    // } else if (currentUser.role_id === 11) {
+    //   institutionName &&
+    //   designation &&
+    //   bmdcLicense &&
+    //   onlineServiceTime &&
+    //   specializationDegree
+    //     ? setRequiredField(true)
+    //     : setRequiredField(false);
+    // } else if (currentUser.role_id === 12) {
+    //   {
+    //     ownerName &&
+    //     responsiblePName &&
+    //     designation &&
+    //     vehicleLicense &&
+    //     nid &&
+    //     deliveryPName &&
+    //     drivingLicense
+    //       ? // drivingExpYears
+    //         setRequiredField(true)
+    //       : setRequiredField(false);
+    //   }
+    // } else if (currentUser.role_id === 13) {
+    //   {
+    //     ownerName &&
+    //     responsiblePName &&
+    //     designation &&
+    //     tradeLicense &&
+    //     dghsLicense &&
+    //     availableService
+    //       ? setRequiredField(true)
+    //       : setRequiredField(false);
+    //   }
+    // } else if (currentUser.role_id === 14) {
+    //   ownerName &&
+    //   responsiblePName &&
+    //   designation &&
+    //   drivingLicense &&
+    //   vehicleLicense &&
+    //   driverName &&
+    //   drivingExpYears
+    //     ? setRequiredField(true)
+    //     : setRequiredField(false);
+    // } else if (currentUser.role_id === 15) {
+    //   {
+    //     ownerName &&
+    //     responsiblePName &&
+    //     designation &&
+    //     tradeLicense &&
+    //     drugLicense
+    //       ? setRequiredField(true)
+    //       : setRequiredField(false);
+    //   }
+    // }
     // console.log(data);
     const formData = new FormData();
     formData.append("image", image);
-    if (requiredField) {
-      try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/upload-image`,
-          formData
-        );
-        const imagePath = res.data.filename;
-        // console.log("image", imagePath);
-        if (imagePath) {
-          data.image = imagePath;
-        }
-        // console.log(data);
 
-        const upd = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/details/update/${currentUser?.id}`,
-          data
-        );
-        if (upd.status === 200) {
-          toast.success("Details Updated Successfully!");
-          Router.push("/");
-        } else {
-          toast.error("Error");
-        }
-      } catch (error) {
-        console.log(error);
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/upload-image`,
+        formData
+      );
+      const imagePath = res.data.filename;
+      // console.log("image", imagePath);
+      if (imagePath) {
+        data.image = imagePath;
       }
-    } else {
-      toast.error("Please fill all required fields!");
+      // console.log(data);
+
+      const upd = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/details/update/${currentUser?.id}`,
+        data
+      );
+      if (upd.status === 200) {
+        toast.success("Details Updated Successfully!");
+        Router.push("/");
+      } else {
+        toast.error("Error");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -595,8 +583,7 @@ const SignIn = () => {
                       </div>
                     </div>
 
-                    {
-                    currentUser?.role_id === 14 ? (
+                    {currentUser?.role_id === 14 ? (
                       <div className="col-12">
                         <div className="form-group">
                           <input

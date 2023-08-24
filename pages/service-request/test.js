@@ -111,8 +111,8 @@ const Test = () => {
                             onChange={handleDropdownChange}
                           >
                             <option value="default">Select</option>
-                            <option value="upload">Upload File</option>
-                            <option value="select">Select From List</option>
+                            <option value="upload">Upload Picture of Investigations List</option>
+                            <option value="select">Select Investigations</option>
                           </select>
                         </div>
                       </div>
