@@ -13,6 +13,7 @@ const bloodReq = () => {
   const [bloodGroup, setBloodGroup] = useState("");
   const [bagNum, setBagNum] = useState(0);
   const [dateTime, setDateTime] = useState("");
+  const [time, setTime] = useState("");
   const [collectionPointObj, setCollectionPointObj] = useState({});
   const [collectionPointsArray, setCollectionPointsArray] = useState([]);
 
@@ -35,6 +36,7 @@ const bloodReq = () => {
     bagNum > 0 &&
     bagNum <= 5 &&
     dateTime !== "" &&
+    time !== "" &&
     collectionPointObj?.id;
 
   const submitHandler = async (e) => {
@@ -43,6 +45,7 @@ const bloodReq = () => {
       bg: bloodGroup,
       bags: bagNum,
       dateTime: dateTime,
+      time: time,
       collectionPoint: collectionPointObj.id,
     };
     e.preventDefault();
@@ -145,9 +148,7 @@ const bloodReq = () => {
                               className="form-control"
                               onChange={(e) => setBloodGroup(e.target.value)}
                             >
-                              <option value="">
-                                Select Blood
-                              </option>
+                              <option value="">&#x2630; Select Blood</option>
                               <option value={1}>A+</option>
                               <option value={2}>A-</option>
                               <option value={3}>B+</option>
@@ -178,16 +179,56 @@ const bloodReq = () => {
                       </div>
                       <div className="row col-md-12 mb-2">
                         <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Date & Time
+                          Date
                         </div>
                         <div className="col-md-6 col-sm-6">
                           <input
                             className="form-control w-100"
-                            type="datetime-local"
+                            type="date"
                             onChange={(e) => setDateTime(e.target.value)}
                           />
                         </div>
                       </div>
+                      <div className="row col-md-12 mb-2">
+                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                          Time
+                        </div>
+                        <div className="col-md-6 col-sm-6">
+                          <div className="form-group">
+                            <select
+                              className="form-control"
+                              onChange={(e) => setTime(e.target.value)}
+                            >
+                              <option value="">&#x2630; Select Time </option>
+                              <option value="12:00 AM - 3:00 AM">
+                                12:00 AM - 3:00 AM
+                              </option>
+                              <option value="3:00 AM - 6:00 AM">
+                                3:00 AM - 6:00 AM
+                              </option>
+                              <option value="6:00 AM - 9:00 AM">
+                                6:00 AM - 9:00 AM
+                              </option>
+                              <option value="9:00 AM - 12:00 PM">
+                                9:00 AM - 12:00 PM
+                              </option>
+                              <option value="12:00 PM - 3:00 PM">
+                                12:00 PM - 3:00 PM
+                              </option>
+                              <option value="3:00 PM - 6:00 PM">
+                                3:00 PM - 6:00 PM
+                              </option>
+                              <option value="6:00 PM - 9:00 PM">
+                                6:00 PM - 9:00 PM
+                              </option>
+                              <option value="9:00 PM - 12:00 AM">
+                                9:00 PM - 12:00 AM
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
                       <div className="row col-md-12 mb-2">
                         <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
                           Collection Point
@@ -205,7 +246,7 @@ const bloodReq = () => {
                               }}
                             >
                               <option value="">
-                                Select Service Center
+                                &#x2630; Select Service Center
                               </option>
                               {collectionPointsArray?.map((cP) => {
                                 return (

@@ -111,7 +111,10 @@ const RequestToMe = () => {
                     {acceptedRequest?.createdAt.split("T")[0]}
                   </p>
                   <p className="mb-0 fw-bold text-primary">
-                    Needed Date Time: {acceptedRequest?.date_time.split("T")[0]}
+                    Needed Date: {acceptedRequest?.date_time.split("T")[0]}
+                  </p>
+                  <p className="mb-0 fw-bold text-primary">
+                    Time: {acceptedRequest?.time}
                   </p>
                   <p className="mb-0 fw-bold">
                     Requested By:{" "}
@@ -210,7 +213,10 @@ const RequestToMe = () => {
                             Request Date Time: {item?.createdAt.split("T")[0]}
                           </p>
                           <p className="mb-0 fw-bold text-primary">
-                            Needed Date Time: {item?.date_time.split("T")[0]}
+                            Needed Date: {item?.date_time.split("T")[0]}
+                          </p>
+                          <p className="mb-0 fw-bold text-primary">
+                            Time: {item?.time}
                           </p>
                           <p className="mb-0 fw-bold">
                             Requested By:{" "}
