@@ -7,7 +7,7 @@ import { UserContext } from "../Context/UserContextAPI";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import imagee from "../public/img/avatar/avatar.jpeg"
+import imagee from "../public/img/avatar/avatar.jpeg";
 
 const UpdateProfile = () => {
   const [userDetails, setUserDetails] = useState({});
@@ -157,6 +157,7 @@ const UpdateProfile = () => {
   };
 
   const submitHandler = async (e) => {
+    // console.log(lastBloodDonate);
     e.preventDefault();
 
     const data = {
@@ -177,7 +178,6 @@ const UpdateProfile = () => {
       dghsLicense,
       drugLicense,
       onlineServiceTime,
-      lastBloodDonate,
       availableService,
       deliveryPName,
       driverName,
@@ -186,6 +186,9 @@ const UpdateProfile = () => {
       drivingExpYears,
       nid,
     };
+    if (lastBloodDonate !== "0000-00-00") {
+      data.lastBloodDonate = lastBloodDonate;
+    }
 
     if (currentUser.role_id === 10) {
       {
@@ -360,7 +363,6 @@ const UpdateProfile = () => {
                               />
                           )}
                         </label> */}
-                        
 
                         <label for="image">
                           <input

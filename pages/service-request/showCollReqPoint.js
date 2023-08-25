@@ -7,21 +7,20 @@ const filterStatus = [];
 const ShowCollReqPoint = () => {
   const { currentUser } = useContext(UserContext);
   const [bloodReqDetails, setBloodReqDetails] = useState([]);
-  const [donor_id, setDonor_id] = useState();
 
   // console.log(bloodReqDetails);
   const fetchData = () => {
     if (currentUser.role_id === 13) {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/59`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/${currentUser?.id}`
         )
         .then((response) => {
           const data = response.data.data;
-          console.log(data)
+          // console.log(data);
           setBloodReqDetails(data);
         })
-        
+
         .catch((error) => {
           if (error.response && error.response.status === 404) {
             console.log("Data not found");
@@ -32,12 +31,13 @@ const ShowCollReqPoint = () => {
         });
     }
   };
-  const submitDonateBy = (donor_id) => {
+  const submitDonateBy = (donor_id, req_no) => {
     axios
       .post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/${donor_id}`,
         {
           accepted_donor: donor_id,
+          req_no: req_no
         }
       )
       .then((response) => {
@@ -46,7 +46,7 @@ const ShowCollReqPoint = () => {
         if (responseData.status === "OK") {
           fetchData();
           toast.success("Status Updated Successfully!");
-          
+
           console.log(bloodReqDetails);
         }
       })
@@ -62,7 +62,7 @@ const ShowCollReqPoint = () => {
   const background = {
     backgroundColor: "rgb(246, 241, 233)",
   };
-  // console.log(bloodReqDetails);
+  console.log(bloodReqDetails);
   return (
     <div>
       <div className="cards min-vh-100 mt-4">
@@ -128,12 +128,15 @@ const ShowCollReqPoint = () => {
                               <span>
                                 <button
                                   onClick={(e) => {
-                                    submitDonateBy(item.accepted_donor);
+                                    submitDonateBy(
+                                      item.accepted_donor,
+                                      item.req_no
+                                    );
                                   }}
-                                  className="btn btn-primary"
+                                  className="btn btn-danger"
                                 >
                                   {" "}
-                                  Collect
+                                  Mark as Collected
                                 </button>
                               </span>
                             )}

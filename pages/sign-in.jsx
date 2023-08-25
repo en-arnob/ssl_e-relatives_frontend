@@ -17,7 +17,7 @@ const SignIn = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(mobile, passwd);
+    // console.log(mobile, passwd);
     if (mobile && passwd) {
       const signinData = {
         mobile: mobile,
@@ -28,14 +28,13 @@ const SignIn = () => {
           // console.log(res);
           if (res.status === 200) {
             const userData = res.data;
-            console.log(userData.data.userQuery.user_details_added)
+            // console.log(userData.data.userQuery.user_details_added)
             window.localStorage.setItem("jwtToken", userData.token);
-            if(userData.data.userQuery.user_details_added === 0) {
-              Router.push("/user-details")
+            if (userData.data.userQuery.user_details_added === 0) {
+              Router.push("/user-details");
             } else {
               Router.push("/");
             }
-            
           }
         })
         .catch((error) => {
