@@ -90,7 +90,7 @@ const Profile = () => {
                       : parseInt(currentUser?.role_id) === 12
                       ? "Delivery Person's "
                       : parseInt(currentUser?.role_id) === 13
-                      ? "Collection Point "
+                      ? "Service Center "
                       : parseInt(currentUser?.role_id) === 14
                       ? "Ambulance/ Carcass "
                       : parseInt(currentUser?.role_id) === 15
@@ -143,7 +143,7 @@ const Profile = () => {
                             : parseInt(userDetails?.blood_group) === 7
                             ? "AB+"
                             : parseInt(userDetails?.blood_group) === 8
-                            ? "A-"
+                            ? "AB-"
                             : "Unknown"}
                         </div>
                       </div>
