@@ -92,7 +92,7 @@ const SignIn = () => {
   };
 
   const submitHandler = async (e) => {
-    console.log(lastBloodDonate)
+    console.log(lastBloodDonate);
     e.preventDefault();
 
     const data = {
@@ -306,22 +306,25 @@ const SignIn = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <select
-                          className="form-control"
-                          onChange={(e) => setGender(e.target.value)}
-                        >
-                          <option value="" disabled selected>
-                            Gender *
-                          </option>
+                    {currentUser?.role_id !== 13 && (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <select
+                            className="form-control"
+                            onChange={(e) => setGender(e.target.value)}
+                          >
+                            <option value="" disabled selected>
+                              Gender *
+                            </option>
 
-                          <option value={1}>Male</option>
-                          <option value={2}>Female</option>
-                          <option value={3}>Others</option>
-                        </select>
+                            <option value={1}>Male</option>
+                            <option value={2}>Female</option>
+                            <option value={3}>Others</option>
+                          </select>
+                        </div>
                       </div>
-                    </div>
+                    )}
+
                     {/* {currentUser?.role_id !== 10 && (
                       <div className="col-12">
                         <div className="form-group">
@@ -356,7 +359,7 @@ const SignIn = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-12">
+                    {currentUser?.role_id !== 13 && (<div className="col-12">
                       <div className="form-group">
                         <label className="px-1">Date of Birth *</label>
                         <input
@@ -369,7 +372,8 @@ const SignIn = () => {
                           placeholder="Date Picker..."
                         />
                       </div>
-                    </div>
+                    </div>)}
+                    
                     <div className="col-12">
                       <div className="form-group">
                         <select

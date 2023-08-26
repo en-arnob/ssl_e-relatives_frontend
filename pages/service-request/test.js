@@ -25,7 +25,22 @@ const Test = () => {
       });
   }
 
-  const submitHandler = async (e) => {};
+  const submitHandler = async (e) => {
+    const investigationArr = selectedInvestigations.map((inv) => inv.value);
+    if (uploadFile) {
+      const obj = {
+        selectionType: 2,
+        file: "filename.jpeg",
+      };
+      console.log(obj);
+    } else {
+      const obj = {
+        selectionType: 1,
+        investigationArr,
+      };
+      console.log(obj);
+    }
+  };
 
   useEffect(() => {
     getInvestigationsList();
@@ -44,7 +59,7 @@ const Test = () => {
       setSelectFromList(false);
     }
   };
-  console.log(uploadFile, selectFromList);
+  // console.log(uploadFile, selectFromList);
   return (
     <>
       <Navbar />
@@ -111,8 +126,12 @@ const Test = () => {
                             onChange={handleDropdownChange}
                           >
                             <option value="default">Select</option>
-                            <option value="upload">Upload Picture of Investigations List</option>
-                            <option value="select">Select Investigations</option>
+                            <option value="upload">
+                              Upload Picture of Investigations List
+                            </option>
+                            <option value="select">
+                              Select Investigations
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -162,7 +181,7 @@ const Test = () => {
                         <button
                           className="default-btn btn-two"
                           type="submit"
-                          //   onClick={submitHandler}
+                          onClick={submitHandler}
                         >
                           Send Request
                         </button>
