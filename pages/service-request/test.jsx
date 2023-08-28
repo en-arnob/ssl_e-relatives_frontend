@@ -4,14 +4,18 @@ import Footer from "../../components/_App/Footer";
 import { UserContext } from "../../Context/UserContextAPI";
 import axios from "axios";
 import Select from "react-select";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const Test = () => {
+  const Router = useRouter();
   const { currentUser } = useContext(UserContext);
 
   const [investigationsList, setInvestigationsList] = useState([]);
   const [selectedInvestigations, setSelectedInvestigations] = useState([]);
   const [uploadFile, setUploadFile] = useState(false);
   const [selectFromList, setSelectFromList] = useState(false);
+  const [image, setImage] = useState("");
 
   function getInvestigationsList() {
     axios
@@ -29,16 +33,54 @@ const Test = () => {
     const investigationArr = selectedInvestigations.map((inv) => inv.value);
     if (uploadFile) {
       const obj = {
+        userId: currentUser?.id,
         selectionType: 2,
-        file: "filename.jpeg",
       };
-      console.log(obj);
+      const formData = new FormData();
+      formData.append("image", image);
+      // console.log(image);
+      try {
+        const imgUpload = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/upload-image`,
+          formData
+        );
+        const imagePath = imgUpload.data.filename;
+        if (imagePath) {
+          obj.file = imagePath;
+          const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test`,
+            obj
+          );
+          if (res.status === 200) {
+            toast.success("Successfully submitted the request.");
+            Router.push("/service-response");
+          }
+        } else {
+          toast.error("Please upload investigation image/file");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       const obj = {
+        userId: currentUser?.id,
         selectionType: 1,
         investigationArr,
       };
-      console.log(obj);
+      // console.log(obj);
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test`,
+          obj
+        );
+        if (res.status === 200) {
+          toast.success("Successfully submitted the request.");
+          Router.push("/service-response");
+        }
+      } catch (error) {
+        toast.error("Error! Enter Investigations");
+        // console.log(error);
+      }
     }
   };
 
@@ -144,7 +186,9 @@ const Test = () => {
                             <div className="form-group">
                               <input
                                 className="form-control form-control-sm"
-                                id="formFileSm"
+                                id="image"
+                                name="image"
+                                onChange={(e) => setImage(e.target.files[0])}
                                 type="file"
                               />
                             </div>

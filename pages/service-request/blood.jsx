@@ -50,7 +50,7 @@ const bloodReq = () => {
     };
     e.preventDefault();
     if (valid) {
-      console.log(data);
+      // console.log(data);
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/blood`,

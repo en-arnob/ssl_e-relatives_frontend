@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Navbar from "../../components/_App/Navbar";
-import RequestByMe from "./request-by-me";
 import RequestToMe from "./request-to-me";
+import RequestByMe from "./request-by-me";
 import { useRouter } from "next/router";
 import Footer from "../../components/_App/Footer";
 import { UserContext } from "../../Context/UserContextAPI";
@@ -38,9 +38,10 @@ const ServiceResponse = () => {
   return (
     <div>
       <Navbar />
-      <div className="w-25 mx-auto d-flex justify-content-evenly align-item-center mt-2">
+      <h5 className="mx-auto text-center mt-2 mb-2">Request List</h5>
+      <div className="w-50 mx-auto d-flex justify-content-center gap-3 align-item-center mt-2  ">
         {currentUser.role_id !== 13 && (
-          <>
+          <div className="p-1 rounded bg-secondary">
             <button
               className="btn btn-outline me-3"
               style={reqToMeBtnStyle}
@@ -49,7 +50,7 @@ const ServiceResponse = () => {
                 setRequestToMe(true);
               }}
             >
-              Request To Me
+              To Me
             </button>
             <button
               className="btn btn-outline"
@@ -59,9 +60,9 @@ const ServiceResponse = () => {
                 setRequestToMe(false);
               }}
             >
-              Request By Me
+              By Me
             </button>
-          </>
+          </div>
         )}
       </div>
       <div>

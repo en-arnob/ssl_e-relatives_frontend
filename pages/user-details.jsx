@@ -92,7 +92,7 @@ const SignIn = () => {
   };
 
   const submitHandler = async (e) => {
-    console.log(lastBloodDonate);
+    // console.log(lastBloodDonate);
     e.preventDefault();
 
     const data = {
@@ -359,21 +359,23 @@ const SignIn = () => {
                         />
                       </div>
                     </div>
-                    {currentUser?.role_id !== 13 && (<div className="col-12">
-                      <div className="form-group">
-                        <label className="px-1">Date of Birth *</label>
-                        <input
-                          id="date"
-                          type="date"
-                          name="date_of_birth"
-                          value={dob}
-                          onChange={(e) => setDob(e.target.value)}
-                          className="form-control"
-                          placeholder="Date Picker..."
-                        />
+                    {currentUser?.role_id !== 13 && (
+                      <div className="col-12">
+                        <div className="form-group">
+                          <label className="px-1">Date of Birth *</label>
+                          <input
+                            id="date"
+                            type="date"
+                            name="date_of_birth"
+                            value={dob}
+                            onChange={(e) => setDob(e.target.value)}
+                            className="form-control"
+                            placeholder="Date Picker..."
+                          />
+                        </div>
                       </div>
-                    </div>)}
-                    
+                    )}
+
                     <div className="col-12">
                       <div className="form-group">
                         <select
