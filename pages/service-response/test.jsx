@@ -75,17 +75,19 @@ const Test = () => {
   // console.log(groupedReqs);
 
   const handleCancelReqByMe = (req_no) => {
-    console.log(req_no);
+    // console.log(req_no);
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/cancel/${req_no}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/cancel/${req_no}`
       )
       .then((response) => {
         if (response.data.status === "OK") {
           toast.success("Request cancelled successfully!");
         }
         fetchData();
-      });
+      }).catch((err) => {
+        console.log(err)
+      })
   };
   return (
     <div className="cards min-vh-100 mt-4">
