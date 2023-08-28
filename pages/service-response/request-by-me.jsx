@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import Blood from "./blood";
 import RequestToMe from "./request-to-me";
-import Test from "./test.jsx"
+import Test from "./test.jsx";
 import { useRouter } from "next/router";
 import { UserContext } from "../../Context/UserContextAPI";
 import axios from "axios";
 
 const ReqByMe = () => {
   const { currentUser } = useContext(UserContext);
-  const [blood, setBlood] = useState(true);
-  const [test, setTest] = useState(false);
+  const [blood, setBlood] = useState(false);
+  const [test, setTest] = useState(true);
   const router = useRouter();
   // console.log(currentUser.role_id);
 

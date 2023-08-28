@@ -5,6 +5,7 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { UserContext } from "../../Context/UserContextAPI";
 import { toast } from "react-hot-toast";
+import { formatDate } from "./../../utils/dateFormatter";
 
 const Test = () => {
   const { currentUser } = useContext(UserContext);
@@ -33,7 +34,7 @@ const Test = () => {
   function fetchData() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/${currentUser?.id}`
       )
       .then((response) => {
         const data = response.data.data;
@@ -89,9 +90,9 @@ const Test = () => {
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
-        {groupedReqs.length > 0 ? (
+        {myReqs.length > 0 ? (
           <>
-            {groupedReqs.map((item, i) => (
+            {myReqs.map((item, i) => (
               <div className="card w-75 mx-auto my-3" key={item.id}>
                 <div
                   className="card-body"
@@ -102,50 +103,15 @@ const Test = () => {
                       <p className="mb-0 fw-semibold">
                         Request No: {item.req_no}
                       </p>
+                    </div>
+                    <div className="col">
+                      <p className="mb-0 ">Request Type: Diagnosis Test</p>
                       <p className="mb-0">
-                        Blood Group:{" "}
-                        <span className="fw-semibold ">
-                          {parseInt(item?.req_blood_group) === 1
-                            ? "A+"
-                            : parseInt(item?.req_blood_group) === 2
-                            ? "A-"
-                            : parseInt(item?.req_blood_group) === 3
-                            ? "B+"
-                            : parseInt(item?.req_blood_group) === 4
-                            ? "B-"
-                            : parseInt(item?.req_blood_group) === 5
-                            ? "O+"
-                            : parseInt(item?.req_blood_group) === 6
-                            ? "O-"
-                            : parseInt(item?.req_blood_group) === 7
-                            ? "AB+"
-                            : parseInt(item?.req_blood_group) === 8
-                            ? "AB-"
-                            : "Unknown"}
-                        </span>
-                      </p>
-                      <p className="mb-0">
-                        Collection Point: {item?.col_point.f_name}
-                      </p>
-                      <p className="mb-0">
-                        Collection Point Address: {item?.col_point.address_1},{" "}
-                        {item?.col_point.user_detail.city.name},{" "}
-                        {item?.col_point.user_detail.state.name},{" "}
-                        {item?.col_point.user_detail.country.name}
+                        Request Date:{" "}
+                        {formatDate(item?.createdAt.split("T")[0])}
                       </p>
                     </div>
                     <div className="col">
-                      <p className="mb-0 ">Request Type: Blood</p>
-                      <p>Total: {item.count} Bag(s)</p>
-                    </div>
-                    <div className="col">
-                      <p className="mb-0">
-                        Request Date: {item?.createdAt.split("T")[0]}
-                      </p>
-                      <p className="mb-0">
-                        Needed Date: {item?.date_time.split("T")[0]}{" "}
-                      </p>
-                      <p className="mb-0">Time: {item.time}</p>
                       <div className="mb-2">
                         {item.status !== 3 && (
                           <Button
@@ -154,7 +120,7 @@ const Test = () => {
                               handleShow(item.req_no, item.user_id)
                             }
                           >
-                            Donor List
+                            Show Responses
                           </Button>
                         )}
                       </div>
@@ -168,7 +134,7 @@ const Test = () => {
                               setShowCancel(true);
                             }}
                           >
-                            Cancel
+                            Cancel Request
                           </Button>
                         ) : (
                           <h6
@@ -195,7 +161,7 @@ const Test = () => {
                       </div>
                       <hr />
                       <div>
-                        <div className="d-flex justify-content-center ">
+                        <div className="d-flex justify-content-center">
                           <Button
                             variant="danger"
                             className="me-2"
@@ -222,7 +188,7 @@ const Test = () => {
                 <>
                   <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
-                      <Modal.Title>Donor List</Modal.Title>
+                      <Modal.Title>Service Center Responses</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                       {acceptedDonors.length > 0 ? (
@@ -248,7 +214,7 @@ const Test = () => {
                           </tbody>
                         </Table>
                       ) : (
-                        "No accepted donor."
+                        "Data will be shown here"
                       )}
                     </Modal.Body>
                   </Modal>
