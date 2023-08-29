@@ -62,7 +62,7 @@ const ShowCollReqPoint = () => {
   const background = {
     backgroundColor: "rgb(246, 241, 233)",
   };
-  console.log(bloodReqDetails);
+  // console.log(bloodReqDetails);
   return (
     <div>
       <div className="cards min-vh-100 mt-4">

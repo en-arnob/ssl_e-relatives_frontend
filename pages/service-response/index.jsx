@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 import Footer from "../../components/_App/Footer";
 import { UserContext } from "../../Context/UserContextAPI";
 import axios from "axios";
-import ShowCollReqPoint from "../service-request/showCollReqPoint";
+
+import ServiceCenter from "./service-center";
 
 const ServiceResponse = () => {
   const { currentUser } = useContext(UserContext);
@@ -68,7 +69,7 @@ const ServiceResponse = () => {
       <div>
         {requestByMe && <RequestByMe />}
         {requestToMe && <RequestToMe />}
-        {currentUser.role_id === 13 && <ShowCollReqPoint />}
+        {currentUser.role_id === 13 && <ServiceCenter />}
       </div>
       <Footer />
     </div>
