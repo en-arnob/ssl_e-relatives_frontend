@@ -10,7 +10,7 @@ import { formatDate } from "./../../utils/dateFormatter";
 const Test = () => {
   const { currentUser } = useContext(UserContext);
   const [myReqs, setMyReqs] = useState([]);
-  const [acceptedDonors, setAcceptedDonors] = useState([]); // State to store the filtered donors
+  const [serviceCenterResponse, setServiceCenterResponse] = useState([]); // State to store the filtered donors
   const [reqIdToCancel, setReqIdToCancel] = useState("");
 
   const groupedReqs = myReqs.reduce((result, current) => {
@@ -29,7 +29,7 @@ const Test = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
-    setAcceptedDonors([]);
+    setServiceCenterResponse([]);
   };
   function fetchData() {
     axios
@@ -46,21 +46,21 @@ const Test = () => {
       });
   }
   const handleShow = (requestNo, userId) => {
-    function fetchDonors() {
+    function fetchServiceCenterResponse() {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/donors/${requestNo}/${userId}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/get-responses/${requestNo}`
         )
         .then((response) => {
           const data = response.data.data;
           // console.log(data);
-          setAcceptedDonors(data);
+          setServiceCenterResponse(data);
         })
         .catch((error) => {
           console.log(error);
         });
     }
-    fetchDonors();
+    fetchServiceCenterResponse();
     setShow(true);
   };
   const background = {
@@ -85,9 +85,10 @@ const Test = () => {
           toast.success("Request cancelled successfully!");
         }
         fetchData();
-      }).catch((err) => {
-        console.log(err)
       })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="cards min-vh-100 mt-4">
@@ -193,24 +194,32 @@ const Test = () => {
                       <Modal.Title>Service Center Responses</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                      {acceptedDonors.length > 0 ? (
+                      {serviceCenterResponse.length > 0 ? (
                         <Table striped bordered hover>
                           <thead>
                             <tr>
                               <th>#</th>
-                              <th>Name</th>
+                              <th>Service Center Name</th>
                               <th>Address</th>
-                              <th>Phone</th>
+                              <th>Invetsigation</th>
+                              <th>Price</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {acceptedDonors.map((donor, i) => (
+                            {serviceCenterResponse.map((response, i) => (
                               <tr key={i}>
                                 {/* {console.log(donor.name)} */}
                                 <td>{i + 1}</td>
-                                <td>{donor?.donor?.f_name}</td>
-                                <td>{donor?.donor?.address_1}</td>
-                                <td>{donor?.donor?.mobile}</td>
+                                <td>{response?.diagno_responder?.f_name}</td>
+                                <td>{response?.diagno_responder?.address_1}</td>
+                                <td>{response.investigationDetails?.name}</td>
+                                <td>{response.cost}</td>
+                                <td>
+                                  <button className="btn btn-primary btn-sm">
+                                    Confirm
+                                  </button>
+                                </td>
                               </tr>
                             ))}
                           </tbody>

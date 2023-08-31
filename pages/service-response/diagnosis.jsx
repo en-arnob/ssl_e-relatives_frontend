@@ -85,7 +85,7 @@ const Diagnosis = () => {
   useEffect(() => {
     fetchData();
     getInvestigationsList();
-  }, [currentUser]);
+  }, [currentUser, show]);
   // console.log(groupedReqs);
 
   const handleCancelReqByMe = (req_no) => {
@@ -134,13 +134,15 @@ const Diagnosis = () => {
                     </div>
                     <div className="col">
                       <div className="mb-2">
-                        {item.status !== 3 && (
+                        {item.status !== 1 ? (
                           <Button
                             variant="primary"
                             onClick={() => handleShow(item)}
                           >
                             View Request
                           </Button>
+                        ) : (
+                          "Submitted"
                         )}
                       </div>
                       {/* <div>

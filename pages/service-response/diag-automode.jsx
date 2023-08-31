@@ -3,12 +3,14 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../../Context/UserContextAPI";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-hot-toast";
 
 const DiagAutoMode = (props) => {
   const { currentUser } = useContext(UserContext);
   const selectedReq = props.requ;
   const [table, setTable] = useState([]);
   const [investigationsList, setInvestigationsList] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
 
   function getInvestigationsList() {
     axios
@@ -21,8 +23,25 @@ const DiagAutoMode = (props) => {
         console.log(error);
       });
   }
-  const submitHandler = () => {
-    console.log(table);
+  const submitHandler = async () => {
+    // console.log(table);
+    // console.log(selectedReq.req_no);
+    if (table[0].investigation === ``) {
+      toast.error("You Must Enter Response!");
+    } else {
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/${selectedReq.req_no}`,
+          table
+        );
+        if (res.status === 200) {
+          toast.success("Response Submitted Successfully. You may close this modal now.");
+          setSubmitted(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
   useEffect(() => {
     getInvestigationsList();
@@ -125,7 +144,7 @@ const DiagAutoMode = (props) => {
                         </td>
                         <td>
                           <input
-                            type="text"
+                            type="number"
                             name="cost"
                             onChange={(e) => handleOnChange(e, index)}
                             className="form-control form-control-input"
@@ -184,16 +203,18 @@ const DiagAutoMode = (props) => {
         </div>
         <div className="row col-md-12 mb-2 mt-4">
           <div className="justify-items-right align-items-right d-flex">
-            <button
-              onClick={() => submitHandler(selectedReq)}
-              type="submit"
-              className="ms-auto btn btn-success"
-              style={{
-                width: "6.25rem",
-              }}
-            >
-              Submit
-            </button>
+            {!submitted && (
+              <button
+                onClick={() => submitHandler(selectedReq)}
+                type="submit"
+                className="ms-auto btn btn-success"
+                style={{
+                  width: "6.25rem",
+                }}
+              >
+                Submit
+              </button>
+            )}
           </div>
         </div>
       </div>
