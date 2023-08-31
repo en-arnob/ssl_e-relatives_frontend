@@ -7,6 +7,8 @@ import { UserContext } from "../../Context/UserContextAPI";
 import { toast } from "react-hot-toast";
 import { formatDate } from "./../../utils/dateFormatter";
 import { v4 as uuidv4 } from "uuid";
+import DiagAutoMode from "./diag-automode";
+import DiagPhotoMode from "./diag-photomode";
 
 const Diagnosis = () => {
   const { currentUser } = useContext(UserContext);
@@ -27,48 +29,6 @@ const Diagnosis = () => {
         console.log(error);
       });
   }
-
-  //multi column table
-  const [table, setTable] = useState([
-    {
-      id: uuidv4(),
-      serviceCenterId: currentUser.id,
-      investigation: "",
-      cost: "",
-    },
-  ]);
-  function incrementTableRow() {
-    setTable((prevItems) => {
-      return [
-        ...prevItems,
-        {
-          id: uuidv4(),
-          serviceCenterId: currentUser.id,
-          investigation: "",
-          cost: "",
-        },
-      ];
-    });
-  }
-  function decrementTableRow(index) {
-    setTable((prevItems) => {
-      return prevItems.filter((_, i) => i !== index);
-    });
-  }
-  function handleOnChange(e, index) {
-    const tgName = e.target.name;
-    const tgValue = e.target.value;
-    // console.log(e.target.value);
-
-    setTable((prevItems) => {
-      prevItems[index][tgName] = tgValue;
-      return [...prevItems];
-    });
-  }
-
-  const submitHandler = () => {
-    console.log(table);
-  };
 
   //cancel modal start
   const [showCancel, setShowCancel] = useState(false);
@@ -145,224 +105,6 @@ const Diagnosis = () => {
       });
   };
 
-  const viewPhotoMode = () => {
-    return (
-      <div>
-        <h6 className="bg-success p-2 text-white fw-light">
-          Uploaded investigation image:
-        </h6>
-        <img
-          src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/investigations/${selectedReq.inv_image}`}
-        />
-        <div className="card-body">
-          <div className="border p-3 rounded">
-            <div className="card-box p-2 text-white rounded">
-              <h6 className="mb-0 text-uppercase ">
-                Investigation Price Table
-              </h6>
-            </div>
-            <hr />
-            <div className="mb-3 row">
-              <div className="row col-md-12">
-                <div className="col-md-12 col-sm-5 fs-6 fw-semibold ">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr className="bg-success">
-                        <th className="fw-light text-white">Investigation</th>
-                        <th className="fw-light text-white">Cost</th>
-                        <th className="fw-light text-white">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {table.map((feature, index) => (
-                        <tr key={feature.id}>
-                          <td>
-                            <select
-                              className="form-control"
-                              onChange={(e) => handleOnChange(e, index)}
-                              name="investigation"
-                            >
-                              <option value="" disable selected>
-                                Select Investigation
-                              </option>
-                              {investigationsList?.map((role) => {
-                                return (
-                                  <option value={role?.id} key={role?.id}>
-                                    {role?.name}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              name="cost"
-                              onChange={(e) => handleOnChange(e, index)}
-                              className="form-control form-control-input"
-                              placeholder="Enter cost"
-                            />
-                          </td>
-                          <td className="">
-                            <div className="d-flex gap-3">
-                              {table.length === 1 ||
-                              index === table.length - 1 ? (
-                                <button
-                                  type="button"
-                                  className="btn btn-success"
-                                  onClick={incrementTableRow}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    className="bi bi-plus-circle"
-                                    viewBox="0 0 16 16"
-                                  >
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                  </svg>
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  className="btn btn-danger"
-                                  onClick={() => decrementTableRow(index)}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    className="bi bi-x-octagon"
-                                    viewBox="0 0 16 16"
-                                  >
-                                    <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
-                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                  </svg>
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-  const viewAutoMode = () => {
-    return (
-      <div>
-        <div className="card-body">
-          <div className="border p-3 rounded">
-            <div className="card-box p-2 text-white rounded">
-              <h6 className="mb-0 text-uppercase ">
-                Investigation Price Table
-              </h6>
-            </div>
-            <hr />
-            <div className="mb-3 row">
-              <div className="row col-md-12">
-                <div className="col-md-12 col-sm-5 fs-6 fw-semibold ">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr className="bg-success">
-                        <th className="fw-light text-white">Investigation</th>
-                        <th className="fw-light text-white">Cost</th>
-                        <th className="fw-light text-white">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {table.map((feature, index) => (
-                        <tr key={feature.id}>
-                          <td>
-                            <select
-                              className="form-control"
-                              onChange={(e) => handleOnChange(e, index)}
-                              name="investigation"
-                            >
-                              <option value="" disable selected>
-                                Select Investigation
-                              </option>
-                              {investigationsList?.map((role) => {
-                                return (
-                                  <option value={role?.id} key={role?.id}>
-                                    {role?.name}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              name="cost"
-                              onChange={(e) => handleOnChange(e, index)}
-                              className="form-control form-control-input"
-                              placeholder="Enter cost"
-                            />
-                          </td>
-                          <td className="">
-                            <div className="d-flex gap-3">
-                              {table.length === 1 ||
-                              index === table.length - 1 ? (
-                                <button
-                                  type="button"
-                                  className="btn btn-success"
-                                  onClick={incrementTableRow}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    className="bi bi-plus-circle"
-                                    viewBox="0 0 16 16"
-                                  >
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                                  </svg>
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  className="btn btn-danger"
-                                  onClick={() => decrementTableRow(index)}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    fill="currentColor"
-                                    className="bi bi-x-octagon"
-                                    viewBox="0 0 16 16"
-                                  >
-                                    <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
-                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                  </svg>
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
@@ -474,25 +216,13 @@ const Diagnosis = () => {
                       <Modal.Title>Response to Request</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                      {selectedReq.select_type === 1
-                        ? viewAutoMode()
-                        : selectedReq.select_type === 2
-                        ? viewPhotoMode()
-                        : "Error"}
-                      <div className="row col-md-12 mb-2 mt-4">
-                        <div className="justify-items-right align-items-right d-flex">
-                          <button
-                            onClick={() => submitHandler(selectedReq)}
-                            type="submit"
-                            className="ms-auto btn btn-success"
-                            style={{
-                              width: "6.25rem",
-                            }}
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </div>
+                      {selectedReq.select_type === 1 ? (
+                        <DiagAutoMode requ={selectedReq} />
+                      ) : selectedReq.select_type === 2 ? (
+                        <DiagPhotoMode requ={selectedReq} />
+                      ) : (
+                        "Error"
+                      )}
                     </Modal.Body>
                   </Modal>
                 </>
