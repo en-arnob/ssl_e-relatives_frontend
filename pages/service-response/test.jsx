@@ -6,6 +6,7 @@ import axios from "axios";
 import { UserContext } from "../../Context/UserContextAPI";
 import { toast } from "react-hot-toast";
 import { formatDate } from "./../../utils/dateFormatter";
+import { Tooltip } from "react-tooltip";
 
 const Test = () => {
   const { currentUser } = useContext(UserContext);
@@ -14,14 +15,30 @@ const Test = () => {
   const [reqIdToCancel, setReqIdToCancel] = useState("");
 
   const groupedReqs = myReqs.reduce((result, current) => {
-    const existingItem = result.find((item) => item.req_no === current.req_no);
+    const existingItem = result.find(
+      (item) => item.service_center_id === current.service_center_id
+    );
     if (existingItem) {
-      existingItem.count += 1;
+      existingItem.cost += 1;
     } else {
       result.push({ ...current, count: 1 });
     }
     return result;
   }, []);
+
+  const groupedMap = new Map();
+  serviceCenterResponse.forEach((obj) => {
+    const serviceCenterId = obj.service_center_id;
+    if (groupedMap.has(serviceCenterId)) {
+      const existingObj = groupedMap.get(serviceCenterId);
+      existingObj.cost = parseFloat(existingObj.cost) + parseFloat(obj.cost);
+    } else {
+      groupedMap.set(serviceCenterId, { ...obj });
+    }
+  });
+  const mergedArray = Array.from(groupedMap.values());
+  console.log(mergedArray);
+
   //cancel modal start
   const [showCancel, setShowCancel] = useState(false);
   const handleCancelModalClose = () => setShowCancel(false);
@@ -90,6 +107,19 @@ const Test = () => {
         console.log(err);
       });
   };
+  function getInvestigationDetailsString(array, serviceCenterId) {
+    const filteredObjects = array.filter(
+      (obj) => obj.service_center_id === serviceCenterId
+    );
+    if (filteredObjects.length === 0) {
+      return "No data found for the provided service_center_id.";
+    }
+
+    const detailsStringArray = filteredObjects.map(
+      (obj) => `${obj.investigationDetails.name}: ${obj.cost} Tk`
+    );
+    return detailsStringArray.join(", ");
+  }
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
@@ -199,26 +229,36 @@ const Test = () => {
                           <thead>
                             <tr>
                               <th>#</th>
-                              <th>Service Center Name</th>
+                              <th>Service Center</th>
                               <th>Address</th>
-                              <th>Invetsigation</th>
                               <th>Price</th>
                               <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {serviceCenterResponse.map((response, i) => (
+                            {mergedArray?.map((response, i) => (
                               <tr key={i}>
                                 {/* {console.log(donor.name)} */}
                                 <td>{i + 1}</td>
                                 <td>{response?.diagno_responder?.f_name}</td>
                                 <td>{response?.diagno_responder?.address_1}</td>
-                                <td>{response.investigationDetails?.name}</td>
                                 <td>{response.cost}</td>
+
                                 <td>
                                   <button className="btn btn-primary btn-sm">
                                     Confirm
                                   </button>
+                                  <a
+                                    className="mt-1 btn btn-success btn-sm"
+                                    data-tooltip-id="my-tooltip"
+                                    data-tooltip-content={getInvestigationDetailsString(
+                                      serviceCenterResponse,
+                                      response.service_center_id
+                                    )}
+                                  >
+                                    Details
+                                  </a>
+                                  <Tooltip id="my-tooltip" />
                                 </td>
                               </tr>
                             ))}
