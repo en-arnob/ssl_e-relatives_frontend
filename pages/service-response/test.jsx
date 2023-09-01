@@ -179,7 +179,8 @@ const Test = () => {
                         )}
                       </div>
                       <div>
-                        {item.status === 0 ? (<Button
+                        {item.status === 0 ? (
+                          <Button
                             variant="danger"
                             className="me-2"
                             onClick={() => {
@@ -188,7 +189,9 @@ const Test = () => {
                             }}
                           >
                             Cancel Request
-                          </Button>) : item.status === 1 ? (<Button
+                          </Button>
+                        ) : item.status === 1 ? (
+                          <Button
                             variant="danger"
                             className="me-2"
                             onClick={() => {
@@ -197,8 +200,14 @@ const Test = () => {
                             }}
                           >
                             Cancel Request
-                          </Button>) : item.status === 2 ? "Confirmed" : item.status === 3 ? "Cancelled": "Completed"  }
-                        
+                          </Button>
+                        ) : item.status === 2 ? (
+                          "Confirmed"
+                        ) : item.status === 3 ? (
+                          "Cancelled"
+                        ) : (
+                          "Completed"
+                        )}
                       </div>
                     </div>
                   </div>
@@ -266,8 +275,10 @@ const Test = () => {
                                 <td>{response.cost}</td>
 
                                 <td>
-                                  {selectedItem?.status === 2 || 4 ? (
+                                  {selectedItem.status === 2 ? (
                                     "Confirmed"
+                                  ) : selectedItem.status === 4 ? (
+                                    "Completed"
                                   ) : (
                                     <button
                                       onClick={() =>

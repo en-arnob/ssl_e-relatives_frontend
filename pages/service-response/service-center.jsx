@@ -27,20 +27,8 @@ const ServiceCenter = () => {
     <div>
       <div className="w-50 w-sm-100 mx-auto d-flex justify-content-center gap-3 align-item-center mt-2 ">
         <div className="bg-secondary p-1 rounded">
-          {currentUser.service_category_id === 12 && (
-            <button
-              className="btn btn-outline me-3"
-              style={testBtnStyle}
-              onClick={() => {
-                setBlood(false);
-                setDiagnosis(true);
-              }}
-            >
-              Test
-            </button>
-          )}
-          <button
-            className="btn btn-outline"
+        <button
+            className="btn btn-outline me-3"
             style={bloodBtnStle}
             onClick={() => {
               setBlood(true);
@@ -49,6 +37,19 @@ const ServiceCenter = () => {
           >
             Blood
           </button>
+          {currentUser.service_category_id === 12 && (
+            <button
+              className="btn btn-outline "
+              style={testBtnStyle}
+              onClick={() => {
+                setBlood(false);
+                setDiagnosis(true);
+              }}
+            >
+              Investigation
+            </button>
+          )}
+          
         </div>
       </div>
       <div>

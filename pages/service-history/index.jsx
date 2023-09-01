@@ -26,7 +26,7 @@ const ServiceHistory = () => {
   function fetchData() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/history/${currentUser?.id}`
       )
       .then((response) => {
         const data = response.data.data;
@@ -106,9 +106,7 @@ const ServiceHistory = () => {
     <>
       <Navbar />
       <div className="cards min-vh-100 mt-4">
-        <h3 className="text-center mb-1 text-success">
-          Service History
-        </h3>
+        <h3 className="text-center mb-1 text-success">Service History</h3>
         <div className="mt-4">
           <>
             {myReqs?.length > 0 ? (
@@ -121,51 +119,18 @@ const ServiceHistory = () => {
                     >
                       <div className="row">
                         <div className="col">
-                          <p className="mb-0 ">Request Type: Blood</p>
+                          <p className="mb-0 ">Request Type: Test</p>
                           <p className="mb-0 ">
                             Request ID:{" "}
                             <span className="fw-semibold">{item.req_no}</span>{" "}
                           </p>
-                          <p className="mb-0 text-danger">
-                            Blood Group:{" "}
-                            <span className="fw-semibold ">
-                              {parseInt(item?.req_blood_group) === 1
-                                ? "A+"
-                                : parseInt(item?.req_blood_group) === 2
-                                ? "A-"
-                                : parseInt(item?.req_blood_group) === 3
-                                ? "B+"
-                                : parseInt(item?.req_blood_group) === 4
-                                ? "B-"
-                                : parseInt(item?.req_blood_group) === 5
-                                ? "O+"
-                                : parseInt(item?.req_blood_group) === 6
-                                ? "O-"
-                                : parseInt(item?.req_blood_group) === 7
-                                ? "AB+"
-                                : parseInt(item?.req_blood_group) === 8
-                                ? "A-"
-                                : "Unknown"}
-                            </span>
-                          </p>
-                          <p className="mb-0">
-                            Collection Point: {item?.col_point.f_name}
-                          </p>
-                          <p className="mb-0">
-                            Address: {item?.col_point.address_1},{" "}
-                            {item?.col_point.user_detail.city.name},{" "}
-                            {item?.col_point.user_detail.state.name},{" "}
-                            {item?.col_point.user_detail.country.name}
-                          </p>
+
                         </div>
                         <div className="col">
-                          <p className="mb-0 fw-bold text-success">
-                            Donate Date: {item?.date_time.split("T")[0]}
-                          </p>
                           <p className="mb-0 fw-bold">
                             Requested By:{" "}
-                            {item?.req_by ? (
-                              item?.req_by?.f_name
+                            {item?.test_requester ? (
+                              item?.test_requester?.f_name
                             ) : (
                               <span className="text-danger">"Unknown"</span>
                             )}
@@ -174,23 +139,17 @@ const ServiceHistory = () => {
                           <p className="mb-0 ">
                             Status:{" "}
                             <span className="text-success fw-bold">
-                              {item.status === 0
-                                ? "Pending"
-                                : item.status === 1
-                                ? "Accepted"
-                                : item.status === 2
-                                ? "Donated"
-                                : "Other"}
+                              {item.status === 4 && "Completed"}
                             </span>
                           </p>
 
-                          {item?.investigation_ids ? (
+                          {/* {item?.investigation_ids ? (
                             renderInvestigationNames(item.investigation_ids)
                           ) : (
                             <Button variant="success" onClick={handleShow}>
                               Add Investigations
                             </Button>
-                          )}
+                          )} */}
                         </div>
                       </div>
                     </div>

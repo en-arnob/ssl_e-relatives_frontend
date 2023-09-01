@@ -39,16 +39,6 @@ const ReqByMe = () => {
           <div className="bg-secondary p-1 rounded">
             <button
               className="btn btn-outline me-3"
-              style={testBtnStyle}
-              onClick={() => {
-                setBlood(false);
-                setTest(true);
-              }}
-            >
-              Test
-            </button>
-            <button
-              className="btn btn-outline"
               style={bloodBtnStle}
               onClick={() => {
                 setBlood(true);
@@ -57,6 +47,17 @@ const ReqByMe = () => {
             >
               Blood
             </button>
+            <button
+              className="btn btn-outline"
+              style={testBtnStyle}
+              onClick={() => {
+                setBlood(false);
+                setTest(true);
+              }}
+            >
+              Investigation
+            </button>
+            
           </div>
         )}
       </div>
