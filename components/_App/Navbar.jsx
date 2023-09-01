@@ -120,16 +120,29 @@ const NavbarFour = () => {
                               Request List
                             </Link>
                           </li>
-                          <li className="nav-item">
-                            <Link
-                              href="/service-history"
-                              className={`nav-link ${
-                                currentPath == "/service-history" && "active"
-                              }`}
-                            >
-                              Service History
-                            </Link>
-                          </li>
+                          {currentUser?.role_id === 10 ? (
+                            <li className="nav-item">
+                              <Link
+                                href="/donation-history"
+                                className={`nav-link ${
+                                  currentPath == "/donation-history" && "active"
+                                }`}
+                              >
+                                Donation History
+                              </Link>
+                            </li>
+                          ) : (
+                            <li className="nav-item">
+                              <Link
+                                href="/service-history"
+                                className={`nav-link ${
+                                  currentPath == "/service-history" && "active"
+                                }`}
+                              >
+                                Service History
+                              </Link>
+                            </li>
+                          )}
                         </>
                       ) : (
                         <>

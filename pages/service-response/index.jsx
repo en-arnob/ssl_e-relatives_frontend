@@ -51,7 +51,7 @@ const ServiceResponse = () => {
                 setRequestToMe(true);
               }}
             >
-              To Me
+              Request To Me
             </button>
             <button
               className="btn btn-outline"
@@ -61,7 +61,7 @@ const ServiceResponse = () => {
                 setRequestToMe(false);
               }}
             >
-              By Me
+              Request By Me
             </button>
           </div>
         )}

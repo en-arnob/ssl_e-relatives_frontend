@@ -104,132 +104,159 @@ const Diagnosis = () => {
         console.log(err);
       });
   };
+  const markCompleted = (req_no) => {
+    axios
+      .put(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/mark-as-completed/${req_no}/${currentUser?.id}`
+      )
+      .then((response) => {
+        if (response.data.status === "OK") {
+          toast.success("Saved as completed!");
+        }
+        fetchData();
+      });
+  };
 
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
         {testReqs.length > 0 ? (
           <>
-            {testReqs.map((item, i) => (
-              <div className="card w-75 mx-auto my-3" key={item.id}>
-                <div
-                  className="card-body"
-                  style={i % 2 === 0 ? background : {}}
-                >
-                  <div className="row">
-                    <div className="col">
-                      <p className="mb-0 fw-semibold">
-                        Request No: {item.req_no}
-                      </p>
-                      <p className="mb-0 fw-semibold">
-                        Requested By: {item.test_requester?.f_name}
-                      </p>
-                    </div>
-                    <div className="col">
-                      <p className="mb-0 ">Request Type: Diagnosis Test</p>
-                      <p className="mb-0">
-                        Request Date:{" "}
-                        {formatDate(item?.createdAt.split("T")[0])}
-                      </p>
-                    </div>
-                    <div className="col">
-                      <div className="mb-2">
-                        {item.status !== 1 ? (
-                          <Button
-                            variant="primary"
-                            onClick={() => handleShow(item)}
-                          >
-                            View Request
-                          </Button>
-                        ) : (
-                          "Submitted"
-                        )}
-                      </div>
-                      {/* <div>
-                        {item.status !== 3 ? (
-                          <Button
-                            variant="danger"
-                            className="me-2"
-                            onClick={() => {
-                              setReqIdToCancel(item.req_no);
-                              setShowCancel(true);
-                            }}
-                          >
-                            Cancel Request
-                          </Button>
-                        ) : (
-                          <h6
-                            className="text-danger
+            {testReqs.map(
+              (item, i) =>
+                item.status !== 4 && (
+                  <div className="card w-75 mx-auto my-3" key={item.id}>
+                    <div
+                      className="card-body"
+                      style={i % 2 === 0 ? background : {}}
+                    >
+                      <div className="row">
+                        <div className="col">
+                          <p className="mb-0 fw-semibold">
+                            Request No: {item.req_no}
+                          </p>
+                          <p className="mb-0 fw-semibold">
+                            Requested By: {item.test_requester?.f_name}
+                          </p>
+                        </div>
+                        <div className="col">
+                          <p className="mb-0 ">Request Type: Diagnosis Test</p>
+                          <p className="mb-0">
+                            Request Date:{" "}
+                            {formatDate(item?.createdAt.split("T")[0])}
+                          </p>
+                        </div>
+                        <div className="col">
+                          <div className="mb-2">
+                            {item.status === 0 ? (
+                              <Button
+                                variant="primary"
+                                onClick={() => handleShow(item)}
+                              >
+                                View Request
+                              </Button>
+                            ) : item.status === 1 ? (
+                              "Submitted"
+                            ) : item.status === 2 ? (
+                              <>
+                                <p className='text-success'>Request Confirmed</p>
+                                <Button
+                                  variant="success"
+                                  onClick={() => markCompleted(item.req_no)}
+                                >
+                                  Mark As Completed
+                                </Button>
+                              </>
+                            ) : (
+                              "Completed"
+                            )}
+                          </div>
+                          {/* <div>
+                      {item.status !== 3 ? (
+                        <Button
+                          variant="danger"
+                          className="me-2"
+                          onClick={() => {
+                            setReqIdToCancel(item.req_no);
+                            setShowCancel(true);
+                          }}
+                        >
+                          Cancel Request
+                        </Button>
+                      ) : (
+                        <h6
+                          className="text-danger
 
-                          "
-                          >
-                            Cancelled
-                          </h6>
-                        )}
-                      </div> */}
-                    </div>
-                  </div>
-                </div>
-                {/* start cancel Modal */}
-                <>
-                  <Modal show={showCancel} onHide={handleCancelModalClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Cancel Request</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <div className="d-flex justify-content-center">
-                        <p>Are you sure to cancel the request?</p>
-                      </div>
-                      <hr />
-                      <div>
-                        <div className="d-flex justify-content-center">
-                          <Button
-                            variant="danger"
-                            className="me-2"
-                            onClick={() => {
-                              handleCancelReqByMe(reqIdToCancel);
-                              setShowCancel(false);
-                            }}
-                          >
-                            Cancel
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            onClick={handleCancelModalClose}
-                          >
-                            Close
-                          </Button>
+                        "
+                        >
+                          Cancelled
+                        </h6>
+                      )}
+                    </div> */}
                         </div>
                       </div>
-                    </Modal.Body>
-                  </Modal>
-                </>
+                    </div>
+                    {/* start cancel Modal */}
+                    <>
+                      <Modal show={showCancel} onHide={handleCancelModalClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Cancel Request</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <div className="d-flex justify-content-center">
+                            <p>Are you sure to cancel the request?</p>
+                          </div>
+                          <hr />
+                          <div>
+                            <div className="d-flex justify-content-center">
+                              <Button
+                                variant="danger"
+                                className="me-2"
+                                onClick={() => {
+                                  handleCancelReqByMe(reqIdToCancel);
+                                  setShowCancel(false);
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                onClick={handleCancelModalClose}
+                              >
+                                Close
+                              </Button>
+                            </div>
+                          </div>
+                        </Modal.Body>
+                      </Modal>
+                    </>
 
-                {/* end cancel Modal */}
-                <>
-                  <Modal
-                    scrollable={true}
-                    show={show}
-                    onHide={handleClose}
-                    size="xl"
-                    aria-labelledby="contained-modal-title-vcenter"
-                  >
-                    <Modal.Header closeButton>
-                      <Modal.Title>Response to Request</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      {selectedReq.select_type === 1 ? (
-                        <DiagAutoMode requ={selectedReq} />
-                      ) : selectedReq.select_type === 2 ? (
-                        <DiagPhotoMode requ={selectedReq} />
-                      ) : (
-                        "Error"
-                      )}
-                    </Modal.Body>
-                  </Modal>
-                </>
-              </div>
-            ))}
+                    {/* end cancel Modal */}
+                    <>
+                      <Modal
+                        scrollable={true}
+                        show={show}
+                        onHide={handleClose}
+                        size="xl"
+                        aria-labelledby="contained-modal-title-vcenter"
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title>Response to Request</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          {selectedReq.select_type === 1 ? (
+                            <DiagAutoMode requ={selectedReq} />
+                          ) : selectedReq.select_type === 2 ? (
+                            <DiagPhotoMode requ={selectedReq} />
+                          ) : (
+                            "Error"
+                          )}
+                        </Modal.Body>
+                      </Modal>
+                    </>
+                  </div>
+                )
+            )}
           </>
         ) : (
           <div className="card w-75 mx-auto my-3">
