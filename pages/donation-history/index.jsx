@@ -62,7 +62,7 @@ const ServiceHistory = () => {
     // console.log(investigationsArray);
     return (
       <div>
-        <span className="fw-bold">Investigation(s): {investigationNames}</span>
+        <span className='fw-bold'>Investigation(s): {investigationNames}</span>
       </div>
     );
   }
@@ -107,7 +107,7 @@ const ServiceHistory = () => {
       <Navbar />
       <div className="cards min-vh-100 mt-4">
         <h3 className="text-center mb-1 text-success">
-          Service History
+          Blood Donation History
         </h3>
         <div className="mt-4">
           <>

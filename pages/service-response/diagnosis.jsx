@@ -105,7 +105,16 @@ const Diagnosis = () => {
       });
   };
   const markCompleted = (req_no) => {
-    console.log(req_no);
+    axios
+      .put(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/mark-as-completed/${req_no}/${currentUser?.id}`
+      )
+      .then((response) => {
+        if (response.data.status === "OK") {
+          toast.success("Saved as completed!");
+        }
+        fetchData();
+      });
   };
 
   return (
