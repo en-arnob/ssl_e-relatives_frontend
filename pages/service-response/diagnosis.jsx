@@ -104,6 +104,9 @@ const Diagnosis = () => {
         console.log(err);
       });
   };
+  const markCompleted = (req_no) => {
+    console.log(req_no);
+  };
 
   return (
     <div className="cards min-vh-100 mt-4">
@@ -134,15 +137,27 @@ const Diagnosis = () => {
                     </div>
                     <div className="col">
                       <div className="mb-2">
-                        {item.status !== 1 ? (
+                        {item.status === 0 ? (
                           <Button
                             variant="primary"
                             onClick={() => handleShow(item)}
                           >
                             View Request
                           </Button>
-                        ) : (
+                        ) : item.status === 1 ? (
                           "Submitted"
+                        ) : item.status === 2 ? (
+                          <>
+                            <p>Requester confirmed this deal.</p>
+                            <Button
+                              variant="success"
+                              onClick={() => markCompleted(item.req_no)}
+                            >
+                              Mark as completed.
+                            </Button>
+                          </>
+                        ) : (
+                          "Completed"
                         )}
                       </div>
                       {/* <div>

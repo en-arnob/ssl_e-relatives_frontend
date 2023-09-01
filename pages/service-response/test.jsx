@@ -13,6 +13,7 @@ const Test = () => {
   const [myReqs, setMyReqs] = useState([]);
   const [serviceCenterResponse, setServiceCenterResponse] = useState([]); // State to store the filtered donors
   const [reqIdToCancel, setReqIdToCancel] = useState("");
+  const [selectedItem, setSelectedItem] = useState({});
 
   const groupedReqs = myReqs.reduce((result, current) => {
     const existingItem = result.find(
@@ -62,7 +63,8 @@ const Test = () => {
         console.log(error);
       });
   }
-  const handleShow = (requestNo, userId) => {
+
+  const handleShow = (requestNo, userId, item) => {
     function fetchServiceCenterResponse() {
       axios
         .get(
@@ -79,13 +81,17 @@ const Test = () => {
     }
     fetchServiceCenterResponse();
     setShow(true);
+    setSelectedItem(item);
   };
+
   const background = {
     backgroundColor: "rgb(246, 241, 233)",
   };
+
   const background2 = {
     backgroundColor: "rgb(248, 246, 244)",
   };
+
   useEffect(() => {
     fetchData();
   }, [currentUser]);
@@ -120,6 +126,21 @@ const Test = () => {
     );
     return detailsStringArray.join(", ");
   }
+  function confirmResponse(testId) {
+    axios
+      .put(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/confirm/${testId}`
+      )
+      .then((response) => {
+        if (response.data.status === "OK") {
+          toast.success("Successfully Confirmed!");
+        }
+        fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
@@ -150,7 +171,7 @@ const Test = () => {
                           <Button
                             variant="primary"
                             onClick={() =>
-                              handleShow(item.req_no, item.user_id)
+                              handleShow(item.req_no, item.user_id, item)
                             }
                           >
                             Show Responses
@@ -158,8 +179,7 @@ const Test = () => {
                         )}
                       </div>
                       <div>
-                        {item.status !== 3 ? (
-                          <Button
+                        {item.status === 0 ? (<Button
                             variant="danger"
                             className="me-2"
                             onClick={() => {
@@ -168,16 +188,17 @@ const Test = () => {
                             }}
                           >
                             Cancel Request
-                          </Button>
-                        ) : (
-                          <h6
-                            className="text-danger
-
-                          "
+                          </Button>) : item.status === 1 ? (<Button
+                            variant="danger"
+                            className="me-2"
+                            onClick={() => {
+                              setReqIdToCancel(item.req_no);
+                              setShowCancel(true);
+                            }}
                           >
-                            Cancelled
-                          </h6>
-                        )}
+                            Cancel Request
+                          </Button>) : item.status === 2 ? "Confirmed" : item.status === 3 ? "Cancelled": "Completed"  }
+                        
                       </div>
                     </div>
                   </div>
@@ -245,9 +266,19 @@ const Test = () => {
                                 <td>{response.cost}</td>
 
                                 <td>
-                                  <button className="btn btn-primary btn-sm">
-                                    Confirm
-                                  </button>
+                                  {selectedItem?.status === 2 || 4 ? (
+                                    "Confirmed"
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        confirmResponse(response?.req_no)
+                                      }
+                                      className="btn btn-primary btn-sm"
+                                    >
+                                      Confirm
+                                    </button>
+                                  )}
+
                                   <a
                                     className="mt-1 btn btn-success btn-sm"
                                     data-tooltip-id="my-tooltip"
