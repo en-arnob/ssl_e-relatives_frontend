@@ -5,7 +5,7 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { UserContext } from "../../Context/UserContextAPI";
 import { toast } from "react-hot-toast";
-import { formatDate } from "./../../utils/dateFormatter";
+import { formatDate } from "../../utils/dateFormatter";
 import { Tooltip } from "react-tooltip";
 
 const Test = () => {
@@ -17,7 +17,7 @@ const Test = () => {
 
   const groupedReqs = myReqs.reduce((result, current) => {
     const existingItem = result.find(
-      (item) => item.service_center_id === current.service_center_id
+      (item) => item.service_center_id === current.service_center_id,
     );
     if (existingItem) {
       existingItem.cost += 1;
@@ -49,10 +49,11 @@ const Test = () => {
     setShow(false);
     setServiceCenterResponse([]);
   };
+
   function fetchData() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/${currentUser?.id}`,
       )
       .then((response) => {
         const data = response.data.data;
@@ -68,7 +69,7 @@ const Test = () => {
     function fetchServiceCenterResponse() {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/get-responses/${requestNo}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/get-responses/${requestNo}`,
         )
         .then((response) => {
           const data = response.data.data;
@@ -79,6 +80,7 @@ const Test = () => {
           console.log(error);
         });
     }
+
     fetchServiceCenterResponse();
     setShow(true);
     setSelectedItem(item);
@@ -101,7 +103,7 @@ const Test = () => {
     // console.log(req_no);
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/cancel/${req_no}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/cancel/${req_no}`,
       )
       .then((response) => {
         if (response.data.status === "OK") {
@@ -113,23 +115,25 @@ const Test = () => {
         console.log(err);
       });
   };
+
   function getInvestigationDetailsString(array, serviceCenterId) {
     const filteredObjects = array.filter(
-      (obj) => obj.service_center_id === serviceCenterId
+      (obj) => obj.service_center_id === serviceCenterId,
     );
     if (filteredObjects.length === 0) {
       return "No data found for the provided service_center_id.";
     }
 
     const detailsStringArray = filteredObjects.map(
-      (obj) => `${obj.investigationDetails.name}: ${obj.cost} Tk`
+      (obj) => `${obj.investigationDetails.name}: ${obj.cost} Tk`,
     );
     return detailsStringArray.join(", ");
   }
+
   function confirmResponse(testId) {
     axios
       .put(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/confirm/${testId}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/confirm/${testId}`,
       )
       .then((response) => {
         if (response.data.status === "OK") {
@@ -141,6 +145,7 @@ const Test = () => {
         console.log(err);
       });
   }
+
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
@@ -272,7 +277,18 @@ const Test = () => {
                                 <td>{i + 1}</td>
                                 <td>{response?.diagno_responder?.f_name}</td>
                                 <td>{response?.diagno_responder?.address_1}</td>
-                                <td>{response.cost}</td>
+                                <td>
+                                  <a
+                                    data-tooltip-id="my-tooltip"
+                                    data-tooltip-content={getInvestigationDetailsString(
+                                      serviceCenterResponse,
+                                      response.service_center_id,
+                                    )}
+                                  >
+                                    {response.cost}
+                                  </a>
+                                  <Tooltip id="my-tooltip" />
+                                </td>
 
                                 <td>
                                   {selectedItem.status === 2 ? (
@@ -289,18 +305,6 @@ const Test = () => {
                                       Confirm
                                     </button>
                                   )}
-
-                                  <a
-                                    className="mt-1 btn btn-success btn-sm"
-                                    data-tooltip-id="my-tooltip"
-                                    data-tooltip-content={getInvestigationDetailsString(
-                                      serviceCenterResponse,
-                                      response.service_center_id
-                                    )}
-                                  >
-                                    Details
-                                  </a>
-                                  <Tooltip id="my-tooltip" />
                                 </td>
                               </tr>
                             ))}
