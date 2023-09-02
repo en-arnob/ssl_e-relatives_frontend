@@ -18,6 +18,7 @@ const Diagnosis = () => {
 
   const [selectedReq, setSelectedReq] = useState({});
   const [investigationsList, setInvestigationsList] = useState([]);
+
   function getInvestigationsList() {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/services/req-for-test`)
@@ -42,10 +43,11 @@ const Diagnosis = () => {
     setShow(false);
     setAcceptedDonors([]);
   };
+
   function fetchData() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/${currentUser?.id}`,
       )
       .then((response) => {
         const data = response.data.data;
@@ -56,6 +58,7 @@ const Diagnosis = () => {
         console.log(error);
       });
   }
+
   const handleShow = (item) => {
     setSelectedReq(item);
     // console.log(selectedReq.req_no)
@@ -92,7 +95,7 @@ const Diagnosis = () => {
     // console.log(req_no);
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/cancel/${req_no}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/cancel/${req_no}`,
       )
       .then((response) => {
         if (response.data.status === "OK") {
@@ -107,7 +110,7 @@ const Diagnosis = () => {
   const markCompleted = (req_no) => {
     axios
       .put(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/mark-as-completed/${req_no}/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/mark-as-completed/${req_no}/${currentUser?.id}`,
       )
       .then((response) => {
         if (response.data.status === "OK") {
@@ -159,16 +162,18 @@ const Diagnosis = () => {
                               "Submitted"
                             ) : item.status === 2 ? (
                               <>
-                                <p className='text-success'>Request Confirmed</p>
+                                <p className="text-success">
+                                  Request Confirmed
+                                </p>
                                 <Button
                                   variant="success"
                                   onClick={() => markCompleted(item.req_no)}
                                 >
-                                  Mark As Completed
+                                  Mark As Collected
                                 </Button>
                               </>
                             ) : (
-                              "Completed"
+                              "Collected"
                             )}
                           </div>
                           {/* <div>
@@ -255,7 +260,7 @@ const Diagnosis = () => {
                       </Modal>
                     </>
                   </div>
-                )
+                ),
             )}
           </>
         ) : (
