@@ -19,6 +19,7 @@ import { FaAmbulance } from "react-icons/fa";
 
 const Services2 = () => {
   const [roles, setRoles] = useState([]);
+
   function getRoles() {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/roles/priority/5/6`)
@@ -30,6 +31,7 @@ const Services2 = () => {
         console.log(error);
       });
   }
+
   useEffect(() => {
     getRoles();
   }, []);
@@ -60,38 +62,40 @@ const Services2 = () => {
               ? roles?.map((role) => (
                   <div key={role?.id} className="col-lg-4 col-sm-6">
                     <div className="single-services">
-                      <span>
-                        {" "}
-                        <h1>
-                          {role.id === 3 ? (
-                            <FcPortraitMode />
-                          ) : role.id === 10 ? (
-                            <FcLike />
-                          ) : role.id === 11 ? (
-                            <FcManager />
-                          ) : role.id === 12 ? (
-                            <FcSportsMode />
-                          ) : role.id === 13 ? (
-                            <FcPaid />
-                          ) : role.id === 14 ? (
-                            <FaAmbulance className="text-warning" />
-                          ) : role.id === 15 ? (
-                            <FcShop />
-                          ) : (
-                            <FcAbout />
-                          )}
-                        </h1>{" "}
-                      </span>
-                      <h3>{role.name}</h3>
-                      <p>{role.info}</p>
+                      <Link href="/sign-up">
+                        <span>
+                          {" "}
+                          <h1>
+                            {role.id === 3 ? (
+                              <FcPortraitMode />
+                            ) : role.id === 10 ? (
+                              <FcLike />
+                            ) : role.id === 11 ? (
+                              <FcManager />
+                            ) : role.id === 12 ? (
+                              <FcSportsMode />
+                            ) : role.id === 13 ? (
+                              <FcPaid />
+                            ) : role.id === 14 ? (
+                              <FaAmbulance className="text-warning" />
+                            ) : role.id === 15 ? (
+                              <FcShop />
+                            ) : (
+                              <FcAbout />
+                            )}
+                          </h1>{" "}
+                        </span>
+                        <h3>{role.name}</h3>
+                        <p>{role.info}</p>
 
-                      <Link href="/sign-up" className="read-more">
-                        Register Now <i className="bx bx-plus"></i>
+                        <Link href="/sign-up" className="read-more">
+                          Register Now <i className="bx bx-plus"></i>
+                        </Link>
+
+                        <div className="services-shape">
+                          <img src="/img/services-card-shape.png" alt="Image" />
+                        </div>
                       </Link>
-
-                      <div className="services-shape">
-                        <img src="/img/services-card-shape.png" alt="Image" />
-                      </div>
                     </div>
                   </div>
                 ))

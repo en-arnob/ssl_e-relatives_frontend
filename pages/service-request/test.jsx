@@ -42,14 +42,14 @@ const Test = () => {
       try {
         const imgUpload = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/upload-image`,
-          formData
+          formData,
         );
         const imagePath = imgUpload.data.filename;
         if (imagePath) {
           obj.file = imagePath;
           const res = await axios.post(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test`,
-            obj
+            obj,
           );
           if (res.status === 200) {
             toast.success("Successfully submitted the request.");
@@ -71,7 +71,7 @@ const Test = () => {
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test`,
-          obj
+          obj,
         );
         if (res.status === 200) {
           toast.success("Successfully submitted the request.");
@@ -209,7 +209,7 @@ const Test = () => {
                                 name="colors"
                                 options={investigationsList.map((item) => ({
                                   value: item.id,
-                                  label: item.name,
+                                  label: `${item.code} - ${item.name}`,
                                 }))}
                                 onChange={(e) => {
                                   setSelectedInvestigations(e);

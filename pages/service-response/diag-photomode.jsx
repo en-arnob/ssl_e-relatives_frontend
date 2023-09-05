@@ -3,6 +3,7 @@ import axios from "axios";
 import { UserContext } from "../../Context/UserContextAPI";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 const DiagPhotoMode = (props) => {
   const { currentUser } = useContext(UserContext);
@@ -29,6 +30,7 @@ const DiagPhotoMode = (props) => {
         console.log(error);
       });
   }
+
   const submitHandler = async () => {
     // console.log(table);
     // console.log(selectedReq.req_no);
@@ -38,11 +40,11 @@ const DiagPhotoMode = (props) => {
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/${selectedReq.req_no}`,
-          table
+          table,
         );
         if (res.status === 200) {
           toast.success(
-            "Response Submitted Successfully. You may close this modal now."
+            "Response Submitted Successfully. You may close this modal now.",
           );
           setSubmitted(true);
         }
@@ -68,11 +70,13 @@ const DiagPhotoMode = (props) => {
       ];
     });
   }
+
   function decrementTableRow(index) {
     setTable((prevItems) => {
       return prevItems.filter((_, i) => i !== index);
     });
   }
+
   function handleOnChange(e, index) {
     const tgName = e.target.name;
     const tgValue = e.target.value;
@@ -89,9 +93,13 @@ const DiagPhotoMode = (props) => {
       <h6 className="bg-success p-2 text-white fw-light">
         Uploaded investigation image:
       </h6>
-      <img
-        src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/investigations/${selectedReq.inv_image}`}
-      />
+      {selectedReq?.inv_image && (
+        <img
+          src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/investigations/${selectedReq?.inv_image}`}
+          alt="img"
+        />
+      )}
+
       <div className="card-body">
         <div className="border p-3 rounded">
           <div className="card-box p-2 text-white rounded">
@@ -110,7 +118,7 @@ const DiagPhotoMode = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {table.map((feature, index) => (
+                    {table?.map((feature, index) => (
                       <tr key={feature.id}>
                         <td>
                           <select

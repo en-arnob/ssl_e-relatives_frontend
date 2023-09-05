@@ -2,18 +2,70 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../Context/UserContextAPI";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import Modal from "react-bootstrap/Modal";
+import Select from "react-select";
+import Button from "react-bootstrap/Button";
+
 const filterStatus = [];
 
 const ShowCollReqPoint = () => {
   const { currentUser } = useContext(UserContext);
   const [bloodReqDetails, setBloodReqDetails] = useState([]);
+  const [show, setShow] = useState(false);
+  const [investigationsList, setInvestigationsList] = useState([]);
+  const [selectedInvestigations, setSelectedInvestigations] = useState([]);
+  const [selectedReq, setSelectedReq] = useState({});
+
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = (item) => {
+    setShow(true);
+    setSelectedReq(item);
+  };
+
+  function getInvestigationsList() {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/services/req-for-test`)
+      .then((response) => {
+        const data = response.data.data;
+        setInvestigationsList(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async function saveInvestigations() {
+    const invs = selectedInvestigations.map((item) => item.value);
+    const invsCsv = invs.join(",");
+    const obj = {
+      invsCsv,
+      reqNo: selectedReq?.req_no,
+      donorId: selectedReq?.accepted_donor,
+    };
+    // console.log(obj);
+    try {
+      const upd = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/save-investigations`,
+        obj,
+      );
+      if (upd.status === 200) {
+        toast.success("Investigations added successfully");
+        fetchData();
+        setShow(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // console.log(bloodReqDetails);
   const fetchData = () => {
     if (currentUser.role_id === 13) {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/${currentUser?.id}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/${currentUser?.id}`,
         )
         .then((response) => {
           const data = response.data.data;
@@ -31,14 +83,15 @@ const ShowCollReqPoint = () => {
         });
     }
   };
+
   const submitDonateBy = (donor_id, req_no) => {
     axios
       .post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/${donor_id}`,
         {
           accepted_donor: donor_id,
-          req_no: req_no
-        }
+          req_no: req_no,
+        },
       )
       .then((response) => {
         const responseData = response.data;
@@ -57,6 +110,7 @@ const ShowCollReqPoint = () => {
 
   useEffect(() => {
     fetchData();
+    getInvestigationsList();
   }, []);
 
   const background = {
@@ -130,13 +184,24 @@ const ShowCollReqPoint = () => {
                                   onClick={(e) => {
                                     submitDonateBy(
                                       item.accepted_donor,
-                                      item.req_no
+                                      item.req_no,
                                     );
                                   }}
                                   className="btn btn-danger"
                                 >
                                   {" "}
-                                  Mark as Collected
+                                  Collected
+                                </button>
+                              </span>
+                            )}
+                            {item.status === 2 && (
+                              <span>
+                                <button
+                                  onClick={() => handleShow(item)}
+                                  className="btn btn-sm btn-info"
+                                >
+                                  {" "}
+                                  Add Investigations
                                 </button>
                               </span>
                             )}
@@ -145,6 +210,49 @@ const ShowCollReqPoint = () => {
                       </div>
                     </div>
                   </div>
+                  <>
+                    <Modal show={show} onHide={handleClose}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Investigation List</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <>
+                          <div className="row col-md-12 mb-2">
+                            <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
+                              Select Investigation(s)
+                            </div>
+                            <div className="col-md-6 col-sm-6">
+                              <div className="form-group">
+                                <Select
+                                  className="basic-multi-select"
+                                  isMulti
+                                  name="colors"
+                                  options={investigationsList.map((item) => ({
+                                    value: item.id,
+                                    label: item.name,
+                                  }))}
+                                  onChange={(e) => {
+                                    setSelectedInvestigations(e);
+                                  }}
+                                  classNamePrefix="select"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row col-md-12">
+                            <div className="col-md-6 justify-content-right">
+                              <Button
+                                variant="success"
+                                onClick={(e) => saveInvestigations()}
+                              >
+                                Save
+                              </Button>
+                            </div>
+                          </div>
+                        </>
+                      </Modal.Body>
+                    </Modal>
+                  </>
                 </div>
               ))}
             </>

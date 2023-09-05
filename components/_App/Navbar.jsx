@@ -202,6 +202,9 @@ const NavbarFour = () => {
                           <Link href="/sign-up" className="default-btn">
                             Registration
                           </Link>
+                          <Link href="/sign-up" className="default-btn">
+                            Request
+                          </Link>
                         </div>
                       )}
                     </Dropdown.Toggle>
