@@ -14,12 +14,15 @@ const DonationHistory = () => {
   const [show, setShow] = useState(false);
   const [investigationsList, setInvestigationsList] = useState([]);
   const [selectedInvestigations, setSelectedInvestigations] = useState([]);
+  const [selectedReq, setSelectedReq] = useState({});
 
   const handleClose = () => {
     setShow(false);
   };
-  const handleShow = () => {
+  const handleShow = (item) => {
     setShow(true);
+    // console.log(item);
+    setSelectedReq(item);
   };
 
   function fetchData() {
@@ -55,7 +58,9 @@ const DonationHistory = () => {
     const investigationsArray = investigationsList.filter((item) =>
       invArr.includes(item.id.toString()),
     );
-    const investigationNamesArr = investigationsArray.map((item) => item.name);
+    const investigationNamesArr = investigationsArray.map(
+      (item) => `${item.code} - ${item.name}`,
+    );
     const investigationNames = investigationNamesArr.join(", ");
 
     // console.log(investigationsArray);
@@ -66,15 +71,15 @@ const DonationHistory = () => {
     );
   }
 
-  async function saveInvestigations(reqNo) {
+  async function saveInvestigations() {
     const invs = selectedInvestigations.map((item) => item.value);
     const invsCsv = invs.join(",");
     const obj = {
       invsCsv,
-      reqNo,
+      reqNo: selectedReq?.req_no,
       donorId: currentUser?.id,
     };
-    // console.log(obj);
+    console.log(obj);
     try {
       const upd = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/save-investigations`,
@@ -182,7 +187,10 @@ const DonationHistory = () => {
                           {item?.investigation_ids ? (
                             renderInvestigationNames(item.investigation_ids)
                           ) : (
-                            <Button variant="success" onClick={handleShow}>
+                            <Button
+                              variant="success"
+                              onClick={() => handleShow(item)}
+                            >
                               Add Investigations
                             </Button>
                           )}
@@ -199,6 +207,7 @@ const DonationHistory = () => {
                             <div className="row col-md-12 mb-2">
                               <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
                                 Select Investigation(s)
+                                {/*{selectedReq?.req_no}*/}
                               </div>
                               <div className="col-md-6 col-sm-6">
                                 <div className="form-group">
@@ -222,9 +231,7 @@ const DonationHistory = () => {
                               <div className="col-md-6 justify-content-right">
                                 <Button
                                   variant="success"
-                                  onClick={(e) =>
-                                    saveInvestigations(item.req_no)
-                                  }
+                                  onClick={(e) => saveInvestigations()}
                                 >
                                   Save
                                 </Button>

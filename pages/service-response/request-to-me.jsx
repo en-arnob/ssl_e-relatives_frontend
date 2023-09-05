@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { UserContext } from "../../Context/UserContextAPI";
+import { toast } from "react-hot-toast";
+import Select from "react-select";
 
 const RequestToMe = () => {
   const { currentUser } = useContext(UserContext);
@@ -10,21 +12,62 @@ const RequestToMe = () => {
   const [myReqs, setMyReqs] = useState([]);
   const [show, setShow] = useState(false);
   const [accepted, setAccepted] = useState(false);
+  const [selectedReq, setSelectedReq] = useState({});
+  const [investigationsList, setInvestigationsList] = useState([]);
+  const [selectedInvestigations, setSelectedInvestigations] = useState([]);
 
   const handleClose = () => {
     setShow(false);
   };
-  const handleShow = () => {
+  const handleShow = (item) => {
     setShow(true);
+    setSelectedReq(item);
   };
+
+  function getInvestigationsList() {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/services/req-for-test`)
+      .then((response) => {
+        const data = response.data.data;
+        setInvestigationsList(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async function saveInvestigations() {
+    const invs = selectedInvestigations.map((item) => item.value);
+    const invsCsv = invs.join(",");
+    const obj = {
+      invsCsv,
+      reqNo: selectedReq?.req_no,
+      donorId: currentUser.id,
+    };
+    // console.log(obj);
+    try {
+      const upd = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/save-investigations`,
+        obj,
+      );
+      if (upd.status === 200) {
+        toast.success("Investigations added successfully");
+        fetchData();
+        setShow(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function acceptReq(id) {
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-to-me/accept/${id}/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-to-me/accept/${id}/${currentUser?.id}`,
       )
       .then((response) => {
         const data = response.data.data;
-        console.log(data);
+        // console.log(data);
         setAccepted(true);
       })
       .catch((error) => {
@@ -32,14 +75,38 @@ const RequestToMe = () => {
       });
   }
 
+  const markGiven = (req_no) => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/${currentUser?.id}`,
+        {
+          accepted_donor: currentUser?.id,
+          req_no: req_no,
+        },
+      )
+      .then((response) => {
+        const responseData = response.data;
+        // console.log(responseData)
+        if (responseData.status === "OK") {
+          fetchData();
+          toast.success("Status Updated Successfully!");
+
+          // console.log(bloodReqDetails);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   function fetchData() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-to-me/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-to-me/${currentUser?.id}`,
       )
       .then((response) => {
         const data = response.data.data;
-        // console.log(data);
+        console.log(data);
         setMyReqs(data);
       })
       .catch((error) => {
@@ -55,9 +122,11 @@ const RequestToMe = () => {
   };
   useEffect(() => {
     fetchData();
+    getInvestigationsList();
   }, [currentUser, accepted]);
-
-  const acceptedRequest = myReqs?.find((item) => item.status === 1);
+  const acceptedRequest = myReqs?.find(
+    (item) => item.status === 1 || item.status === 2,
+  );
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
@@ -145,16 +214,70 @@ const RequestToMe = () => {
                       Accept
                     </Button>
                   )}
+                  {acceptedRequest.status === 1 && (
+                    <Button
+                      variant="success"
+                      onClick={(e) => {
+                        markGiven(acceptedRequest.req_no);
+                      }}
+                    >
+                      Given
+                    </Button>
+                  )}
+                  {acceptedRequest.status === 2 && (
+                    <span>
+                      <button
+                        onClick={() => handleShow(acceptedRequest)}
+                        className="btn btn-sm btn-info"
+                      >
+                        {" "}
+                        Add Investigations
+                      </button>
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
             <>
               <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Donors List</Modal.Title>
+                  <Modal.Title>Investigation List</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <p>{acceptedRequest.assigned_donor?.f_name}</p>
+                  <>
+                    <div className="row col-md-12 mb-2">
+                      <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
+                        Select Investigation(s)
+                      </div>
+                      <div className="col-md-6 col-sm-6">
+                        <div className="form-group">
+                          <Select
+                            className="basic-multi-select"
+                            isMulti
+                            name="colors"
+                            options={investigationsList.map((item) => ({
+                              value: item.id,
+                              label: item.name,
+                            }))}
+                            onChange={(e) => {
+                              setSelectedInvestigations(e);
+                            }}
+                            classNamePrefix="select"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row col-md-12">
+                      <div className="col-md-6 justify-content-right">
+                        <Button
+                          variant="success"
+                          onClick={(e) => saveInvestigations()}
+                        >
+                          Save
+                        </Button>
+                      </div>
+                    </div>
+                  </>
                 </Modal.Body>
               </Modal>
             </>

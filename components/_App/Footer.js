@@ -104,10 +104,10 @@ const Footer = () => {
                 data-aos-delay="300"
                 data-aos-duration="1200"
               >
-                <h3>Opening Hours</h3>
+                <h3>Service Hours</h3>
                 <ul>
                   <li>
-                    <span>24/7</span>
+                    <span>We are available 24/7 at your service.</span>
                     {/* <span className="right">24/7</span> */}
                   </li>
                 </ul>
