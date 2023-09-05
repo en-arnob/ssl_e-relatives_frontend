@@ -106,7 +106,7 @@ const RequestToMe = () => {
       )
       .then((response) => {
         const data = response.data.data;
-        console.log(data);
+        // console.log(data);
         setMyReqs(data);
       })
       .catch((error) => {

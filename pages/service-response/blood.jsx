@@ -5,12 +5,18 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { UserContext } from "../../Context/UserContextAPI";
 import { toast } from "react-hot-toast";
+import Select from "react-select";
 
 const RequestByMe = () => {
   const { currentUser } = useContext(UserContext);
   const [myReqs, setMyReqs] = useState([]);
   const [acceptedDonors, setAcceptedDonors] = useState([]); // State to store the filtered donors
   const [reqIdToCancel, setReqIdToCancel] = useState("");
+  const [selectedReq, setSelectedReq] = useState(0);
+  const [dataWAcceptedDonor, setDataWAcceptedDonor] = useState([]);
+  const [investigationsList, setInvestigationsList] = useState([]);
+  const [selectedInvestigations, setSelectedInvestigations] = useState([]);
+  const [selectedDonorResponse, setSelectedDonorResponse] = useState({});
 
   const groupedReqs = myReqs.reduce((result, current) => {
     const existingItem = result.find((item) => item.req_no === current.req_no);
@@ -26,14 +32,63 @@ const RequestByMe = () => {
   const handleCancelModalClose = () => setShowCancel(false);
   //cancel modal end
   const [show, setShow] = useState(false);
+  const [invAddShow, setInvAddShow] = useState(false);
+
+  const handleInvAddShow = (item) => {
+    // console.log(item);
+    setInvAddShow(true);
+    setShow(false);
+    setSelectedDonorResponse(item);
+  };
+  const handleInvAddClose = () => {
+    setInvAddShow(false);
+  };
+
+  async function saveInvestigations() {
+    const invs = selectedInvestigations.map((item) => item.value);
+    const invsCsv = invs.join(",");
+    const obj = {
+      invsCsv,
+      reqNo: selectedDonorResponse?.req_no,
+      donorId: selectedDonorResponse.accepted_donor,
+    };
+    // console.log(obj);
+    try {
+      const upd = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/save-investigations`,
+        obj,
+      );
+      if (upd.status === 200) {
+        toast.success("Investigations added successfully");
+        fetchData();
+        setInvAddShow(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const handleClose = () => {
     setShow(false);
     setAcceptedDonors([]);
   };
+
+  function getInvestigationsList() {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/services/req-for-test`)
+      .then((response) => {
+        const data = response.data.data;
+        setInvestigationsList(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   function fetchData() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/${currentUser?.id}`,
       )
       .then((response) => {
         const data = response.data.data;
@@ -44,22 +99,51 @@ const RequestByMe = () => {
         console.log(error);
       });
   }
-  const handleShow = (requestNo, userId) => {
-    function fetchDonors() {
-      axios
-        .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/donors/${requestNo}/${userId}`
-        )
-        .then((response) => {
-          const data = response.data.data;
-          // console.log(data);
-          setAcceptedDonors(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-    fetchDonors();
+
+  const markReceived = (req_no, donorId) => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/coll-point-requests/${donorId}`,
+        {
+          accepted_donor: donorId,
+          req_no: req_no,
+        },
+      )
+      .then((response) => {
+        const responseData = response.data;
+        // console.log(responseData)
+        if (responseData.status === "OK") {
+          fetchData();
+          fetchDonors(req_no);
+          toast.success("Status Updated Successfully!");
+
+          // console.log(bloodReqDetails);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  function fetchDonors(requestNo) {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/donors/${requestNo}/${currentUser.id}`,
+      )
+      .then((response) => {
+        const data = response.data.data;
+        console.log(data);
+        setAcceptedDonors(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const handleShow = (requestNo) => {
+    setSelectedReq(requestNo);
+
+    fetchDonors(requestNo);
     setShow(true);
   };
   const background = {
@@ -70,6 +154,7 @@ const RequestByMe = () => {
   };
   useEffect(() => {
     fetchData();
+    getInvestigationsList();
   }, [currentUser]);
   // console.log(groupedReqs);
 
@@ -77,7 +162,7 @@ const RequestByMe = () => {
     console.log(req_no);
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/cancel/${req_no}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/cancel/${req_no}`,
       )
       .then((response) => {
         if (response.data.status === "OK") {
@@ -159,7 +244,7 @@ const RequestByMe = () => {
                         )}
                       </div>
                       <div>
-                        {item.status !== 3 ? (
+                        {item.status === 0 && (
                           <Button
                             variant="danger"
                             className="me-2"
@@ -170,7 +255,8 @@ const RequestByMe = () => {
                           >
                             Cancel
                           </Button>
-                        ) : (
+                        )}
+                        {item.status === 3 && (
                           <h6
                             className="text-danger
 
@@ -217,10 +303,9 @@ const RequestByMe = () => {
                     </Modal.Body>
                   </Modal>
                 </>
-
                 {/* end cancel Modal */}
                 <>
-                  <Modal show={show} onHide={handleClose}>
+                  <Modal show={show} size="xl" onHide={handleClose}>
                     <Modal.Header closeButton>
                       <Modal.Title>Donor List</Modal.Title>
                     </Modal.Header>
@@ -233,6 +318,7 @@ const RequestByMe = () => {
                               <th>Name</th>
                               <th>Address</th>
                               <th>Phone</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -240,9 +326,36 @@ const RequestByMe = () => {
                               <tr key={i}>
                                 {/* {console.log(donor.name)} */}
                                 <td>{i + 1}</td>
-                                <td>{donor?.donor?.f_name}</td>
+                                <td>
+                                  {donor?.donor?.f_name} {donor.donor.id}{" "}
+                                  {selectedReq}
+                                </td>
                                 <td>{donor?.donor?.address_1}</td>
                                 <td>{donor?.donor?.mobile}</td>
+                                <td>
+                                  {donor.status === 1 && (
+                                    <Button
+                                      variant="success"
+                                      onClick={(e) => {
+                                        markReceived(
+                                          donor.req_no,
+                                          donor.donor.id,
+                                        );
+                                      }}
+                                    >
+                                      Received
+                                    </Button>
+                                  )}
+                                  {donor.status === 2 && (
+                                    <button
+                                      onClick={() => handleInvAddShow(donor)}
+                                      className="btn btn-sm btn-info"
+                                    >
+                                      {" "}
+                                      Add Investigations
+                                    </button>
+                                  )}
+                                </td>
                               </tr>
                             ))}
                           </tbody>
@@ -250,6 +363,49 @@ const RequestByMe = () => {
                       ) : (
                         "No accepted donor."
                       )}
+                    </Modal.Body>
+                  </Modal>
+                </>
+                <>
+                  <Modal show={invAddShow} onHide={handleInvAddClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Investigation List</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <>
+                        <div className="row col-md-12 mb-2">
+                          <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
+                            Select Investigation(s)
+                          </div>
+                          <div className="col-md-6 col-sm-6">
+                            <div className="form-group">
+                              <Select
+                                className="basic-multi-select"
+                                isMulti
+                                name="colors"
+                                options={investigationsList.map((item) => ({
+                                  value: item.id,
+                                  label: item.name,
+                                }))}
+                                onChange={(e) => {
+                                  setSelectedInvestigations(e);
+                                }}
+                                classNamePrefix="select"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row col-md-12">
+                          <div className="col-md-6 justify-content-right">
+                            <Button
+                              variant="success"
+                              onClick={(e) => saveInvestigations()}
+                            >
+                              Save
+                            </Button>
+                          </div>
+                        </div>
+                      </>
                     </Modal.Body>
                   </Modal>
                 </>
