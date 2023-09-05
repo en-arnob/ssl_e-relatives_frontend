@@ -257,7 +257,7 @@ const RequestToMe = () => {
                             name="colors"
                             options={investigationsList.map((item) => ({
                               value: item.id,
-                              label: item.name,
+                              label: `${item.code} - ${item.name}`,
                             }))}
                             onChange={(e) => {
                               setSelectedInvestigations(e);
