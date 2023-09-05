@@ -326,10 +326,7 @@ const RequestByMe = () => {
                               <tr key={i}>
                                 {/* {console.log(donor.name)} */}
                                 <td>{i + 1}</td>
-                                <td>
-                                  {donor?.donor?.f_name} {donor.donor.id}{" "}
-                                  {selectedReq}
-                                </td>
+                                <td>{donor?.donor?.f_name}</td>
                                 <td>{donor?.donor?.address_1}</td>
                                 <td>{donor?.donor?.mobile}</td>
                                 <td>
@@ -385,7 +382,7 @@ const RequestByMe = () => {
                                 name="colors"
                                 options={investigationsList.map((item) => ({
                                   value: item.id,
-                                  label: item.name,
+                                  label: `${item.code} - ${item.name}`,
                                 }))}
                                 onChange={(e) => {
                                   setSelectedInvestigations(e);
