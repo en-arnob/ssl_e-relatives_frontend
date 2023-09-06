@@ -29,7 +29,7 @@ const BloodCollection = () => {
       )
       .then((response) => {
         const data = response.data.data;
-        // console.log(data);
+        console.log(data);
         setMyReqs(data);
       })
       .catch((error) => {
@@ -158,9 +158,17 @@ const BloodCollection = () => {
                             Donate Date: {item?.date_time.split("T")[0]}
                           </p>
                           <p className="mb-0 fw-bold">
-                            Requested By:{" "}
+                            Received By:{" "}
                             {item?.req_by ? (
                               item?.req_by?.f_name
+                            ) : (
+                              <span className="text-danger">"Unknown"</span>
+                            )}
+                          </p>
+                          <p className="mb-0 fw-bold">
+                            Donor:{" "}
+                            {item?.donor ? (
+                              item?.donor?.f_name
                             ) : (
                               <span className="text-danger">"Unknown"</span>
                             )}
@@ -175,7 +183,7 @@ const BloodCollection = () => {
                                 ? "Accepted"
                                 : item.status === 2
                                 ? "Donated"
-                                : "Other"}
+                                : "Completed"}
                             </span>
                           </p>
 

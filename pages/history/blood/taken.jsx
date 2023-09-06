@@ -133,14 +133,14 @@ const ReceivedHistory = () => {
                           <p className="mb-0 fw-bold text-success">
                             Donate Date: {item?.date_time.split("T")[0]}
                           </p>
-                          {/*<p className="mb-0 fw-bold">*/}
-                          {/*  Requested By:{" "}*/}
-                          {/*  {item?.req_by ? (*/}
-                          {/*    item?.req_by?.f_name*/}
-                          {/*  ) : (*/}
-                          {/*    <span className="text-danger">"Unknown"</span>*/}
-                          {/*  )}*/}
-                          {/*</p>*/}
+                          <p className="mb-0 fw-bold">
+                            Donor:{" "}
+                            {item?.donor ? (
+                              item?.donor?.f_name
+                            ) : (
+                              <span className="text-danger">"Unknown"</span>
+                            )}
+                          </p>
 
                           <p className="mb-0 ">
                             Status:{" "}
@@ -151,7 +151,7 @@ const ReceivedHistory = () => {
                                 ? "Accepted"
                                 : item.status === 2
                                 ? "Received"
-                                : "Other"}
+                                : "Completed"}
                             </span>
                           </p>
 
