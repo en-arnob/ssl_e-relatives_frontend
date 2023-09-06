@@ -15,17 +15,17 @@ const Test = () => {
   const [reqIdToCancel, setReqIdToCancel] = useState("");
   const [selectedItem, setSelectedItem] = useState({});
 
-  const groupedReqs = myReqs.reduce((result, current) => {
-    const existingItem = result.find(
-      (item) => item.service_center_id === current.service_center_id,
-    );
-    if (existingItem) {
-      existingItem.cost += 1;
-    } else {
-      result.push({ ...current, count: 1 });
-    }
-    return result;
-  }, []);
+  // const groupedReqs = myReqs.reduce((result, current) => {
+  //   const existingItem = result.find(
+  //     (item) => item.service_center_id === current.service_center_id,
+  //   );
+  //   if (existingItem) {
+  //     existingItem.cost += 1;
+  //   } else {
+  //     result.push({ ...current, count: 1 });
+  //   }
+  //   return result;
+  // }, []);
 
   const groupedMap = new Map();
   serviceCenterResponse.forEach((obj) => {
@@ -146,6 +146,16 @@ const Test = () => {
       });
   }
 
+  function getDiscountedPrice(cost, discountType, discountValue) {
+    if (discountType === 1) {
+      return cost - cost * (discountValue / 100);
+    } else if (discountType === 2) {
+      return cost - discountValue;
+    } else {
+      return "No Discount Provided";
+    }
+  }
+
   return (
     <div className="cards min-vh-100 mt-4">
       <div>
@@ -251,10 +261,9 @@ const Test = () => {
                     </Modal.Body>
                   </Modal>
                 </>
-
                 {/* end cancel Modal */}
                 <>
-                  <Modal show={show} onHide={handleClose}>
+                  <Modal show={show} size="lg" onHide={handleClose}>
                     <Modal.Header closeButton>
                       <Modal.Title>Service Center Responses</Modal.Title>
                     </Modal.Header>
@@ -267,6 +276,7 @@ const Test = () => {
                               <th>Service Center</th>
                               <th>Address</th>
                               <th>Price</th>
+                              <th>Discounted Price</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -288,6 +298,13 @@ const Test = () => {
                                     {response.cost}
                                   </a>
                                   <Tooltip id="my-tooltip" />
+                                </td>
+                                <td>
+                                  {getDiscountedPrice(
+                                    response.cost,
+                                    response.discount_type,
+                                    response.discount_value,
+                                  )}
                                 </td>
 
                                 <td>

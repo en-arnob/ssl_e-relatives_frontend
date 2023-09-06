@@ -39,9 +39,14 @@ const Diagnosis = () => {
   };
   //cancel modal end
   const [show, setShow] = useState(false);
+  const [view, setView] = useState(false);
   const handleClose = () => {
     setShow(false);
-    setAcceptedDonors([]);
+    setSelectedReq([]);
+  };
+  const handleSubmissionPreviewClose = () => {
+    setView(false);
+    setSelectedReq([]);
   };
 
   function fetchData() {
@@ -51,7 +56,7 @@ const Diagnosis = () => {
       )
       .then((response) => {
         const data = response.data.data;
-        // console.log(data);
+        console.log(data);
         setTestReqs(data);
       })
       .catch((error) => {
@@ -61,23 +66,12 @@ const Diagnosis = () => {
 
   const handleShow = (item) => {
     setSelectedReq(item);
-    // console.log(selectedReq.req_no)
-    // function fetchDonors() {
-    //   axios
-    //     .get(
-    //       `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/requests-by-me/donors/${requestNo}/${userId}`
-    //     )
-    //     .then((response) => {
-    //       const data = response.data.data;
-    //       // console.log(data);
-    //       setAcceptedDonors(data);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // }
-    // fetchDonors();
     setShow(true);
+  };
+  const handleSubmissionPreviewShow = (item) => {
+    setSelectedReq(item);
+    fetchSavedResponse(item.req_no);
+    setView(true);
   };
   const background = {
     backgroundColor: "rgb(246, 241, 233)",
@@ -119,6 +113,65 @@ const Diagnosis = () => {
         fetchData();
       });
   };
+  const [savedResponse, setSavedResponse] = useState([]);
+
+  function fetchSavedResponse(reqNo) {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/get-saved-response/${reqNo}/${currentUser.id}`,
+      )
+      .then((response) => {
+        const data = response.data.data;
+        // console.log(data);
+        setSavedResponse(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function getDiscountedPrice(cost, discountType, discountValue) {
+    if (discountType === 1) {
+      return cost - cost * (discountValue / 100);
+    } else if (discountType === 2) {
+      return cost - discountValue;
+    } else {
+      return "No Discount Provided";
+    }
+  }
+
+  function renderSubmission() {
+    let total = 0;
+    return (
+      <div>
+        {savedResponse.map((item) => {
+          total += parseInt(item.cost);
+          return (
+            <ul>
+              <li className="" key={item.id}>
+                {item.investigationDetails.name} -{" "}
+                {item.investigationDetails.detailed_name} : {item.cost} Tk.
+              </li>
+            </ul>
+          );
+        })}
+        <p>Total Cost: {total}</p>
+        <p>
+          Discount: {savedResponse[0]?.discount_value}{" "}
+          {savedResponse[0]?.discount_type === 1 ? "%" : "Tk"}{" "}
+        </p>
+        <p className="bg-warning p-1 text-black fw-semibold">
+          Final Price:{" "}
+          {getDiscountedPrice(
+            total,
+            savedResponse[0]?.discount_type,
+            savedResponse[0]?.discount_value,
+          )}{" "}
+          Tk.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="cards min-vh-100 mt-4">
@@ -159,7 +212,17 @@ const Diagnosis = () => {
                                 View Request
                               </Button>
                             ) : item.status === 1 ? (
-                              "Submitted"
+                              <>
+                                <p>Submitted</p>
+                                <Button
+                                  variant="warning"
+                                  onClick={() =>
+                                    handleSubmissionPreviewShow(item)
+                                  }
+                                >
+                                  View Submission
+                                </Button>
+                              </>
                             ) : item.status === 2 ? (
                               <>
                                 <p className="text-success">
@@ -235,7 +298,6 @@ const Diagnosis = () => {
                         </Modal.Body>
                       </Modal>
                     </>
-
                     {/* end cancel Modal */}
                     <>
                       <Modal
@@ -257,6 +319,19 @@ const Diagnosis = () => {
                             "Error"
                           )}
                         </Modal.Body>
+                      </Modal>
+                    </>
+                    <>
+                      <Modal
+                        scrollable={true}
+                        show={view}
+                        onHide={handleSubmissionPreviewClose}
+                        aria-labelledby="contained-modal-title-vcenter"
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title>View Submission</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>{renderSubmission()}</Modal.Body>
                       </Modal>
                     </>
                   </div>
