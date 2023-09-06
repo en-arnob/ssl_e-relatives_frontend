@@ -132,7 +132,7 @@ const DiagPhotoMode = (props) => {
                             {investigationsList?.map((role) => {
                               return (
                                 <option value={role?.id} key={role?.id}>
-                                  {role?.name}
+                                  {role?.name} - {role?.detailed_name}
                                 </option>
                               );
                             })}

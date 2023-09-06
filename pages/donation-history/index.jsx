@@ -26,7 +26,7 @@ const ServiceHistory = () => {
   function fetchData() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/${currentUser?.id}`,
       )
       .then((response) => {
         const data = response.data.data;
@@ -54,7 +54,7 @@ const ServiceHistory = () => {
     const invArr = invIds.split(",");
     // console.log(invArr)
     const investigationsArray = investigationsList.filter((item) =>
-      invArr.includes(item.id.toString())
+      invArr.includes(item.id.toString()),
     );
     const investigationNamesArr = investigationsArray.map((item) => item.name);
     const investigationNames = investigationNamesArr.join(", ");
@@ -62,7 +62,7 @@ const ServiceHistory = () => {
     // console.log(investigationsArray);
     return (
       <div>
-        <span className='fw-bold'>Investigation(s): {investigationNames}</span>
+        <span className="fw-bold">Investigation(s): {investigationNames}</span>
       </div>
     );
   }
@@ -79,7 +79,7 @@ const ServiceHistory = () => {
     try {
       const upd = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/save-investigations`,
-        obj
+        obj,
       );
       if (upd.status === 200) {
         toast.success("Investigations added successfully");
@@ -213,7 +213,7 @@ const ServiceHistory = () => {
                                     name="colors"
                                     options={investigationsList.map((item) => ({
                                       value: item.id,
-                                      label: item.name,
+                                      label: `${item.name} - ${item.detailed_name}`,
                                     }))}
                                     onChange={(e) => {
                                       setSelectedInvestigations(e);

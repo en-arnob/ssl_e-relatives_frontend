@@ -382,7 +382,7 @@ const RequestByMe = () => {
                                 name="colors"
                                 options={investigationsList.map((item) => ({
                                   value: item.id,
-                                  label: `${item.code} - ${item.name}`,
+                                  label: `${item.name} - ${item.detailed_name}`,
                                 }))}
                                 onChange={(e) => {
                                   setSelectedInvestigations(e);

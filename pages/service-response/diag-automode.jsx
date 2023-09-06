@@ -23,6 +23,7 @@ const DiagAutoMode = (props) => {
         console.log(error);
       });
   }
+
   const submitHandler = async () => {
     // console.log(table);
     // console.log(selectedReq.req_no);
@@ -32,10 +33,12 @@ const DiagAutoMode = (props) => {
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/${selectedReq.req_no}`,
-          table
+          table,
         );
         if (res.status === 200) {
-          toast.success("Response Submitted Successfully. You may close this modal now.");
+          toast.success(
+            "Response Submitted Successfully. You may close this modal now.",
+          );
           setSubmitted(true);
         }
       } catch (error) {
@@ -50,7 +53,7 @@ const DiagAutoMode = (props) => {
   useEffect(() => {
     let invArray = props.requ?.investigation_ids?.split(",");
     let array = investigationsList.filter((item) =>
-      invArray.includes(item.id.toString())
+      invArray.includes(item.id.toString()),
     );
     const dataArray = array.map((item) => {
       return {
@@ -81,11 +84,13 @@ const DiagAutoMode = (props) => {
       ];
     });
   }
+
   function decrementTableRow(index) {
     setTable((prevItems) => {
       return prevItems.filter((_, i) => i !== index);
     });
   }
+
   function handleOnChange(e, index) {
     const tgName = e.target.name;
     const tgValue = e.target.value;
@@ -96,6 +101,7 @@ const DiagAutoMode = (props) => {
       return [...prevItems];
     });
   }
+
   return (
     <div>
       <h6>Auto Mode</h6>
@@ -136,7 +142,7 @@ const DiagAutoMode = (props) => {
                                   key={role?.id}
                                   selected={role?.id === feature?.id}
                                 >
-                                  {role?.name}
+                                  {role?.name} - {role?.detailed_name}
                                 </option>
                               );
                             })}
