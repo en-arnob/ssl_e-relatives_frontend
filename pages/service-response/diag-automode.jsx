@@ -12,6 +12,9 @@ const DiagAutoMode = (props) => {
   const [investigationsList, setInvestigationsList] = useState([]);
   const [submitted, setSubmitted] = useState(false);
 
+  const [discountType, setDiscountType] = useState(0);
+  const [discountValue, setDiscountValue] = useState(0);
+
   function getInvestigationsList() {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/services/req-for-test`)
@@ -25,15 +28,21 @@ const DiagAutoMode = (props) => {
   }
 
   const submitHandler = async () => {
-    // console.log(table);
-    // console.log(selectedReq.req_no);
+    // console.log(discountType);
+    // console.log(discountValue);
+    const obj = {
+      table: table,
+      discountType: discountType,
+      discountValue: discountValue,
+    };
+    console.log(obj);
     if (table[0].investigation === ``) {
       toast.error("You Must Enter Response!");
     } else {
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/diagnosis-reqs/${selectedReq.req_no}`,
-          table,
+          obj,
         );
         if (res.status === 200) {
           toast.success(
@@ -104,7 +113,7 @@ const DiagAutoMode = (props) => {
 
   return (
     <div>
-      <h6>Auto Mode</h6>
+      {/*<h6>Auto Mode</h6>*/}
       {/* <p>{selectedReq.investigation_ids}</p> */}
       <div className="card-body">
         <div className="border p-3 rounded">
@@ -203,6 +212,33 @@ const DiagAutoMode = (props) => {
                     ))}
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+          <div className="mb-3 row">
+            <div className="row col-md-12">
+              <div className="col-md-6 col-sm-5 fs-6 fw-semibold ">
+                <select
+                  className="form-control"
+                  onChange={(e) => setDiscountType(e.target.value)}
+                  name="discountType"
+                >
+                  <option value="" disable selected>
+                    Select Discount Type
+                  </option>
+
+                  <option value={1}>Percentage (%)</option>
+                  <option value={2}>Fixed Amount</option>
+                </select>
+              </div>
+              <div className="col-md-6 col-sm-5 fs-6 fw-semibold ">
+                <input
+                  type="number"
+                  name="cost"
+                  onChange={(e) => setDiscountValue(e.target.value)}
+                  className="form-control form-control-input"
+                  placeholder="Discount Value"
+                />
               </div>
             </div>
           </div>

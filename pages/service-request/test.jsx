@@ -16,6 +16,7 @@ const Test = () => {
   const [uploadFile, setUploadFile] = useState(false);
   const [selectFromList, setSelectFromList] = useState(false);
   const [image, setImage] = useState("");
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   function getInvestigationsList() {
     axios
@@ -30,6 +31,7 @@ const Test = () => {
   }
 
   const submitHandler = async (e) => {
+    setButtonDisabled(true);
     const investigationArr = selectedInvestigations.map((inv) => inv.value);
     if (uploadFile) {
       const obj = {
@@ -53,12 +55,15 @@ const Test = () => {
           );
           if (res.status === 200) {
             toast.success("Successfully submitted the request.");
+            setButtonDisabled(false);
             Router.push("/service-response");
           }
         } else {
           toast.error("Please upload investigation image/file");
+          setButtonDisabled(false);
         }
       } catch (error) {
+        setButtonDisabled(false);
         console.log(error);
       }
     } else {
@@ -75,10 +80,12 @@ const Test = () => {
         );
         if (res.status === 200) {
           toast.success("Successfully submitted the request.");
+          setButtonDisabled(false);
           Router.push("/service-response");
         }
       } catch (error) {
         toast.error("Error! Enter Investigations");
+        setButtonDisabled(false);
         // console.log(error);
       }
     }
@@ -223,6 +230,7 @@ const Test = () => {
 
                       <div className="col-12 mt-2 justify-content-center">
                         <button
+                          disabled={isButtonDisabled}
                           className="default-btn btn-two"
                           type="submit"
                           onClick={submitHandler}

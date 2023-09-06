@@ -16,11 +16,12 @@ const bloodReq = () => {
   const [time, setTime] = useState("");
   const [collectionPointObj, setCollectionPointObj] = useState({});
   const [collectionPointsArray, setCollectionPointsArray] = useState([]);
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   function getCollectionPoints() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/blood/collection-points`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/blood/collection-points`,
       )
       .then((response) => {
         const data = response.data.data;
@@ -40,6 +41,7 @@ const bloodReq = () => {
     collectionPointObj?.id;
 
   const submitHandler = async (e) => {
+    setButtonDisabled(true);
     const data = {
       userId: userId,
       bg: bloodGroup,
@@ -59,18 +61,21 @@ const bloodReq = () => {
             headers: {
               "Content-Type": "application/json",
             },
-          }
+          },
         );
         if (res.status === 200) {
           // console.log(res);
           toast.success("Successfully submitted the request.");
+          setButtonDisabled(false);
           Router.push("/service-response");
         }
       } catch (error) {
+        setButtonDisabled(false);
         console.log(error);
       }
     } else {
       toast.error("Please fill-up the form properly.");
+      setButtonDisabled(false);
     }
   };
 
@@ -199,7 +204,7 @@ const bloodReq = () => {
                               className="form-control"
                               onChange={(e) => setTime(e.target.value)}
                             >
-                              <option value="">&#x2630; Select Time </option>
+                              <option value="">&#x2630; Select Time</option>
                               <option value="12:00 AM - 3:00 AM">
                                 12:00 AM - 3:00 AM
                               </option>
@@ -241,7 +246,7 @@ const bloodReq = () => {
                                 setCollectionPointObj(
                                   collectionPointsArray.find((cP) => {
                                     return cP.id == e.target.value;
-                                  })
+                                  }),
                                 );
                               }}
                             >
@@ -283,6 +288,7 @@ const bloodReq = () => {
                       </div>
                       <div className="col-12 mt-2 justify-content-center">
                         <button
+                          disabled={isButtonDisabled}
                           className="default-btn btn-two"
                           type="submit"
                           onClick={submitHandler}
