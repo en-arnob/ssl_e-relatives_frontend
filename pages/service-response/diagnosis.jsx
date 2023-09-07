@@ -201,6 +201,16 @@ const Diagnosis = () => {
                             Request Date:{" "}
                             {formatDate(item?.createdAt.split("T")[0])}
                           </p>
+
+                          {item.req_type === 2 ? (
+                            <p className="mb-0 text-primary fw-bold">
+                              User selected this service center.
+                            </p>
+                          ) : (
+                            <p className="mb-0 text-success fw-bold">
+                              General Request
+                            </p>
+                          )}
                         </div>
                         <div className="col">
                           <div className="mb-2">

@@ -15,11 +15,12 @@ const UpdateProfile = () => {
   const Router = useRouter();
   const { currentUser, loading, setLoading } = useContext(UserContext);
   console.log("current user:", currentUser);
+
   function getUserDetails() {
     try {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/details/user/${currentUser?.id}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/details/user/${currentUser?.id}`,
         )
         .then((response) => {
           const userData = response.data.data;
@@ -32,6 +33,7 @@ const UpdateProfile = () => {
       console.log(err.message);
     }
   }
+
   useEffect(() => {
     getUserDetails();
   }, [currentUser]);
@@ -126,7 +128,7 @@ const UpdateProfile = () => {
   const fetchStateList = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/city/state/data/${selectedCountry?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/city/state/data/${selectedCountry?.id}`,
       )
       .then((response) => {
         setStateList(response.data.data);
@@ -136,7 +138,7 @@ const UpdateProfile = () => {
   const fetchCityList = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/city/data/${selectedState?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/city/data/${selectedState?.id}`,
       )
       .then((response) => {
         setCityList(response.data.data);
@@ -148,7 +150,7 @@ const UpdateProfile = () => {
       .get(
         `${
           process.env.NEXT_PUBLIC_API_BASE_URL
-        }/service_category_list/service-list/service-cat/${6}`
+        }/service_category_list/service-list/service-cat/${6}`,
       )
       .then((response) => {
         setServiceList(response.data.data);
@@ -257,7 +259,7 @@ const UpdateProfile = () => {
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/upload-image`,
-          formData
+          formData,
         );
         const imagePath = res.data.filename;
         if (imagePath) {
@@ -267,11 +269,11 @@ const UpdateProfile = () => {
 
         const upd = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/details/update/${currentUser?.id}`,
-          data
+          data,
         );
         if (upd.status === 200) {
           toast.success("Details Updated Successfully!");
-          Router.push("/");
+          window.location.href = "/";
         } else {
           toast.error("Error");
         }
@@ -458,7 +460,7 @@ const UpdateProfile = () => {
                             setSelectedCountry(
                               countryList.find((country) => {
                                 return country.id == e.target.value;
-                              })
+                              }),
                             );
                           }}
                         >
@@ -481,7 +483,7 @@ const UpdateProfile = () => {
                             setSelectedState(
                               stateList.find((state) => {
                                 return state.id == e.target.value;
-                              })
+                              }),
                             );
                           }}
                         >
@@ -504,7 +506,7 @@ const UpdateProfile = () => {
                             setSelectedCity(
                               cityList.find((city) => {
                                 return city.id == e.target.value;
-                              })
+                              }),
                             );
                           }}
                         >
