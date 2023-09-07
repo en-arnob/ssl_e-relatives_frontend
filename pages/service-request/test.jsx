@@ -17,6 +17,10 @@ const Test = () => {
   const [selectFromList, setSelectFromList] = useState(false);
   const [image, setImage] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [generalReq, setGeneralReq] = useState(true);
+  const [selectiveReq, setSelectiveReq] = useState(false);
+  const [serviceCenters, setServiceCenters] = useState([]);
+  const [serviceCenterId, setServiceCenterId] = useState(0);
 
   function getInvestigationsList() {
     axios
@@ -30,8 +34,24 @@ const Test = () => {
       });
   }
 
+  function getServiceCenterList() {
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/req-for-test/service`,
+      )
+      .then((response) => {
+        const data = response.data.data;
+        console.log(data);
+        setServiceCenters(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   const submitHandler = async (e) => {
     setButtonDisabled(true);
+
     const investigationArr = selectedInvestigations.map((inv) => inv.value);
     if (uploadFile) {
       const obj = {
@@ -49,6 +69,13 @@ const Test = () => {
         const imagePath = imgUpload.data.filename;
         if (imagePath) {
           obj.file = imagePath;
+          if (selectiveReq) {
+            obj.reqType = 2;
+            obj.serviceCenter = parseInt(serviceCenterId);
+          } else if (generalReq) {
+            obj.reqType = 1;
+          }
+          console.log(obj);
           const res = await axios.post(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test`,
             obj,
@@ -72,7 +99,13 @@ const Test = () => {
         selectionType: 1,
         investigationArr,
       };
-      // console.log(obj);
+      if (selectiveReq) {
+        obj.reqType = 2;
+        obj.serviceCenter = parseInt(serviceCenterId);
+      } else if (generalReq) {
+        obj.reqType = 1;
+      }
+      console.log(obj);
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test`,
@@ -93,7 +126,21 @@ const Test = () => {
 
   useEffect(() => {
     getInvestigationsList();
+    getServiceCenterList();
   }, []);
+  const handleReqTypeChange = (e) => {
+    const selectedValue = e.target.value;
+    if (selectedValue === "general") {
+      setGeneralReq(true);
+      setSelectiveReq(false);
+    } else if (selectedValue === "selective") {
+      setGeneralReq(false);
+      setSelectiveReq(true);
+    } else {
+      setGeneralReq(true);
+      setSelectiveReq(false);
+    }
+  };
   const handleDropdownChange = (event) => {
     const selectedValue = event.target.value;
 
@@ -223,6 +270,51 @@ const Test = () => {
                                 }}
                                 classNamePrefix="select"
                               />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      <div className="row col-md-12 mb-2">
+                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                          Request Type:
+                        </div>
+                        <div className="col-md-6 col-sm-6">
+                          <select
+                            className="form-control form-control-sm"
+                            onChange={handleReqTypeChange}
+                          >
+                            <option value="general">General Request</option>
+                            <option value="selective">
+                              Selective Service Center
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {selectiveReq && (
+                        <div className="row col-md-12 mb-2">
+                          <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                            Select Service Center
+                          </div>
+                          <div className="col-md-6 col-sm-6">
+                            <div className="form-group">
+                              <select
+                                className="form-control form-control-sm"
+                                onChange={(e) =>
+                                  setServiceCenterId(e.target.value)
+                                }
+                              >
+                                <option value="" disabled selected>
+                                  Service Center -
+                                </option>
+                                {serviceCenters?.map((item) => {
+                                  return (
+                                    <option value={item?.id} key={item?.id}>
+                                      {item?.f_name}
+                                    </option>
+                                  );
+                                })}
+                              </select>
                             </div>
                           </div>
                         </div>

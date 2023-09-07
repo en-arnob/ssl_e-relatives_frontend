@@ -61,7 +61,7 @@ const SignIn = () => {
   const fetchStateList = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/city/state/data/${selectedCountry?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/city/state/data/${selectedCountry?.id}`,
       )
       .then((response) => {
         setStateList(response.data.data);
@@ -71,7 +71,7 @@ const SignIn = () => {
   const fetchCityList = () => {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/city/data/${selectedState?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/city/data/${selectedState?.id}`,
       )
       .then((response) => {
         setCityList(response.data.data);
@@ -83,7 +83,7 @@ const SignIn = () => {
       .get(
         `${
           process.env.NEXT_PUBLIC_API_BASE_URL
-        }/service_category_list/service-list/service-cat/${6}`
+        }/service_category_list/service-list/service-cat/${6}`,
       )
       .then((response) => {
         setServiceList(response.data.data);
@@ -122,78 +122,13 @@ const SignIn = () => {
       drivingExpYears,
       nid,
     };
-    // console.log(data);
-    // if (currentUser.role_id === 10) {
-    //   gender &&
-    //   dob &&
-    //   selectedCountry.id &&
-    //   selectedState.id &&
-    //   selectedCity.id &&
-    //   address &&
-    //   nid
-    //     ? setRequiredField(true)
-    //     : setRequiredField(false);
-    // } else if (currentUser.role_id === 11) {
-    //   institutionName &&
-    //   designation &&
-    //   bmdcLicense &&
-    //   onlineServiceTime &&
-    //   specializationDegree
-    //     ? setRequiredField(true)
-    //     : setRequiredField(false);
-    // } else if (currentUser.role_id === 12) {
-    //   {
-    //     ownerName &&
-    //     responsiblePName &&
-    //     designation &&
-    //     vehicleLicense &&
-    //     nid &&
-    //     deliveryPName &&
-    //     drivingLicense
-    //       ? // drivingExpYears
-    //         setRequiredField(true)
-    //       : setRequiredField(false);
-    //   }
-    // } else if (currentUser.role_id === 13) {
-    //   {
-    //     ownerName &&
-    //     responsiblePName &&
-    //     designation &&
-    //     tradeLicense &&
-    //     dghsLicense &&
-    //     availableService
-    //       ? setRequiredField(true)
-    //       : setRequiredField(false);
-    //   }
-    // } else if (currentUser.role_id === 14) {
-    //   ownerName &&
-    //   responsiblePName &&
-    //   designation &&
-    //   drivingLicense &&
-    //   vehicleLicense &&
-    //   driverName &&
-    //   drivingExpYears
-    //     ? setRequiredField(true)
-    //     : setRequiredField(false);
-    // } else if (currentUser.role_id === 15) {
-    //   {
-    //     ownerName &&
-    //     responsiblePName &&
-    //     designation &&
-    //     tradeLicense &&
-    //     drugLicense
-    //       ? setRequiredField(true)
-    //       : setRequiredField(false);
-    //   }
-    // }
-    // console.log(data);
     const formData = new FormData();
     formData.append("image", image);
 
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/upload-image`,
-        formData
+        formData,
       );
       const imagePath = res.data.filename;
       // console.log("image", imagePath);
@@ -204,11 +139,11 @@ const SignIn = () => {
 
       const upd = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/user/details/update/${currentUser?.id}`,
-        data
+        data,
       );
       if (upd.status === 200) {
         toast.success("Details Updated Successfully!");
-        Router.push("/");
+        window.location.href = "/";
       } else {
         toast.error("Error");
       }
@@ -384,7 +319,7 @@ const SignIn = () => {
                             setSelectedCountry(
                               countryList.find((country) => {
                                 return country.id == e.target.value;
-                              })
+                              }),
                             );
                           }}
                         >
@@ -409,7 +344,7 @@ const SignIn = () => {
                             setSelectedState(
                               stateList.find((state) => {
                                 return state.id == e.target.value;
-                              })
+                              }),
                             );
                           }}
                         >
@@ -434,7 +369,7 @@ const SignIn = () => {
                             setSelectedCity(
                               cityList.find((city) => {
                                 return city.id == e.target.value;
-                              })
+                              }),
                             );
                           }}
                         >
