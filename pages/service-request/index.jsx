@@ -17,7 +17,8 @@ import {
   FcPaid,
   FcAbout,
 } from "react-icons/fc";
-import { FaAmbulance } from "react-icons/fa";
+import { FaAmbulance, FaStethoscope } from "react-icons/fa";
+import { GiStethoscope } from "react-icons/gi";
 
 import ProtectedRoute from "../../helpers/ProtectedRoute";
 
@@ -71,6 +72,26 @@ const ServiceReq = () => {
                   <h3>Request for Blood</h3>
                   <Link href="/service-request/blood" className="read-more">
                     Request Now <i className="bx bx-plus"></i>
+                  </Link>
+
+                  <div className="services-shape">
+                    <img src="/img/services-card-shape.png" alt="Image" />
+                  </div>
+                </Link>
+              </div>
+            </div>
+            <div className="col-lg-3 col-sm-6">
+              <div className="single-services">
+                <Link href="/health-manager">
+                  <span>
+                    {" "}
+                    <h1 className="text-success">
+                      <GiStethoscope />
+                    </h1>{" "}
+                  </span>
+                  <h3>Health Manager</h3>
+                  <Link href="/service-request/blood" className="read-more">
+                    Get Started <i className="bx bx-plus"></i>
                   </Link>
 
                   <div className="services-shape">
