@@ -90,7 +90,7 @@ const ServiceReq = () => {
                     </h1>{" "}
                   </span>
                   <h3>Health Manager</h3>
-                  <Link href="/service-request/blood" className="read-more">
+                  <Link href="/health-manager" className="read-more">
                     Get Started <i className="bx bx-plus"></i>
                   </Link>
 
