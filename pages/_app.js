@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import "../node_modules/aos/dist/aos.css";
 import "../styles/bootstrap.min.css";
 import "../styles/animate.css";
+import "../styles/pricetab.css";
 import "../styles/meanmenu.css";
 import "../styles/boxicons.min.css";
 import "../styles/flaticon.css";
