@@ -57,14 +57,14 @@ const SignUp = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (res.status === 201) {
         const userData = res?.data.data;
         // console.log(res.data);
         toast.success("Registration Success!");
-        Router.push({
+        await Router.push({
           pathname: "/sign-in",
           // query: {
           //   data: JSON.stringify(userData),
@@ -154,14 +154,15 @@ const SignUp = () => {
     setSelectedRole(
       roles.find((role) => {
         return role.id == e.target.value;
-      })
+      }),
     );
   }
+
   function selectServiceHandler(e) {
     setSelectedServiceCat(
       serviceCats.find((cat) => {
         return cat.id == e.target.value;
-      })
+      }),
     );
   }
 
@@ -179,10 +180,11 @@ const SignUp = () => {
 
   useEffect(() => {
     check();
+
     function getServiceCategories() {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/service-category/findbyrole/${selectedRole?.id}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/service-category/findbyrole/${selectedRole?.id}`,
         )
         .then((response) => {
           const allData = response.data.data;
@@ -193,6 +195,7 @@ const SignUp = () => {
           console.log(error);
         });
     }
+
     getServiceCategories();
   }, [selectedRole]);
 
@@ -203,7 +206,7 @@ const SignUp = () => {
     const fetchTnC = () => {
       axios
         .get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/terms-conditions/${selectedRole?.id}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/terms-conditions/${selectedRole?.id}`,
         )
         .then((response) => {
           if (response.data) {

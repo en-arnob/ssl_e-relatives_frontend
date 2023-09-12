@@ -16,6 +16,9 @@ const RequestByMe = () => {
   const [dataWAcceptedDonor, setDataWAcceptedDonor] = useState([]);
   const [investigationsList, setInvestigationsList] = useState([]);
   const [selectedInvestigations, setSelectedInvestigations] = useState([]);
+  const [uploadFile, setUploadFile] = useState(false);
+  const [selectFromList, setSelectFromList] = useState(false);
+  const [image, setImage] = useState("");
   const [selectedDonorResponse, setSelectedDonorResponse] = useState({});
 
   const groupedReqs = myReqs.reduce((result, current) => {
@@ -27,6 +30,20 @@ const RequestByMe = () => {
     }
     return result;
   }, []);
+  const handleDropdownChange = (event) => {
+    const selectedValue = event.target.value;
+
+    if (selectedValue === "upload") {
+      setUploadFile(true);
+      setSelectFromList(false);
+    } else if (selectedValue === "select") {
+      setUploadFile(false);
+      setSelectFromList(true);
+    } else {
+      setUploadFile(false);
+      setSelectFromList(false);
+    }
+  };
   //cancel modal start
   const [showCancel, setShowCancel] = useState(false);
   const handleCancelModalClose = () => setShowCancel(false);
@@ -46,12 +63,16 @@ const RequestByMe = () => {
 
   async function saveInvestigations() {
     const invs = selectedInvestigations.map((item) => item.value);
-    const invsCsv = invs.join(",");
-    const obj = {
-      invsCsv,
+    const invCsv = invs.join(",");
+    let obj = {
       reqNo: selectedDonorResponse?.req_no,
       donorId: selectedDonorResponse.accepted_donor,
     };
+    if (selectFromList) {
+      obj.invsCsv = invCsv;
+    } else if (uploadFile) {
+    }
+
     // console.log(obj);
     try {
       const upd = await axios.post(
@@ -372,26 +393,66 @@ const RequestByMe = () => {
                       <>
                         <div className="row col-md-12 mb-2">
                           <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
-                            Select Investigation(s)
+                            Selection Type:
                           </div>
                           <div className="col-md-6 col-sm-6">
-                            <div className="form-group">
-                              <Select
-                                className="basic-multi-select"
-                                isMulti
-                                name="colors"
-                                options={investigationsList.map((item) => ({
-                                  value: item.id,
-                                  label: `${item.name} - ${item.detailed_name}`,
-                                }))}
-                                onChange={(e) => {
-                                  setSelectedInvestigations(e);
-                                }}
-                                classNamePrefix="select"
-                              />
-                            </div>
+                            <select
+                              className="form-control form-control-sm"
+                              onChange={handleDropdownChange}
+                            >
+                              <option value="default">Select</option>
+                              <option value="upload">
+                                Upload Picture of Prescription
+                              </option>
+                              <option value="select">
+                                Select Investigations
+                              </option>
+                            </select>
                           </div>
                         </div>
+                        {selectFromList && (
+                          <div className="row col-md-12 mb-2">
+                            <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
+                              Select Investigation(s)
+                            </div>
+                            <div className="col-md-6 col-sm-6">
+                              <div className="form-group">
+                                <Select
+                                  className="basic-multi-select"
+                                  isMulti
+                                  name="colors"
+                                  options={investigationsList.map((item) => ({
+                                    value: item.id,
+                                    label: `${item.name} - ${item.detailed_name}`,
+                                  }))}
+                                  onChange={(e) => {
+                                    setSelectedInvestigations(e);
+                                  }}
+                                  classNamePrefix="select"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        {uploadFile && (
+                          <div className="row col-md-12 mb-2">
+                            <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
+                              Upload FIle:
+                            </div>
+                            <div className="col-md-6 col-sm-6">
+                              <div className="form-group">
+                                <input
+                                  className="form-control form-control-sm"
+                                  id="image"
+                                  name="image"
+                                  onChange={(e) => setImage(e.target.files[0])}
+                                  type="file"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
                         <div className="row col-md-12">
                           <div className="col-md-6 justify-content-right">
                             <Button

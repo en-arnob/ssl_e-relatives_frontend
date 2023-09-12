@@ -11,7 +11,23 @@ const PackagePreview = () => {
   const Router = useRouter();
   const { currentUser } = useContext(UserContext);
   const userId = currentUser?.id;
-  const packageName = Router.query.package;
+  const packageId = Router.query.package;
+  const [packageData, setPackageData] = useState({});
+
+  async function getPackage() {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/package-management/${packageId}`,
+      );
+      // console.log(res.data.data);
+      if (res) {
+        // console.log(res.data.data);
+        setPackageData(res?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const payNowHandler = async () => {
     const res = await axios.get(
@@ -22,6 +38,9 @@ const PackagePreview = () => {
       await Router.push(res.data);
     }
   };
+  useEffect(() => {
+    getPackage();
+  }, []);
 
   return (
     <>
@@ -90,13 +109,7 @@ const PackagePreview = () => {
                           Package Name
                         </div>
                         <div className="col-md-6 col-sm-6">
-                          {packageName === "regular"
-                            ? "Regular"
-                            : packageName === "premium"
-                            ? "Premium"
-                            : packageName === "priority"
-                            ? "Priority"
-                            : "Null"}
+                          {packageData?.name}
                         </div>
                       </div>
                     </div>
@@ -107,13 +120,7 @@ const PackagePreview = () => {
                           Package Duration
                         </div>
                         <div className="col-md-6 col-sm-6">
-                          {packageName === "regular"
-                            ? "1 Year"
-                            : packageName === "premium"
-                            ? "1 Year"
-                            : packageName === "priority"
-                            ? "1 Year"
-                            : "Null"}
+                          {packageData?.duration}
                         </div>
                       </div>
                     </div>
@@ -124,13 +131,7 @@ const PackagePreview = () => {
                           Price
                         </div>
                         <div className="col-md-6 col-sm-6">
-                          {packageName === "regular"
-                            ? "600 Tk"
-                            : packageName === "premium"
-                            ? "900 Tk"
-                            : packageName === "priority"
-                            ? "1200 TK"
-                            : "Null"}
+                          {packageData?.price}
                         </div>
                       </div>
                     </div>

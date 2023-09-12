@@ -4,11 +4,31 @@ import Footer from "../../components/_App/Footer";
 import { UserContext } from "../../Context/UserContextAPI";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import axios from "axios";
 
 const HealthMan = () => {
   const Router = useRouter();
   const { currentUser } = useContext(UserContext);
+  const [allPackage, setAllPackage] = useState([]);
 
+  async function getAllPackage() {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/package-management`,
+      );
+      // console.log(res.data.data);
+      if (res) {
+        // console.log(res.data.data);
+        setAllPackage(res?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getAllPackage();
+  }, []);
   return (
     <>
       <Navbar />
@@ -63,99 +83,39 @@ const HealthMan = () => {
                       <h4 className="text-right mb-3">Health Manager Plans</h4>
                     </div>
                     <div className="row ">
-                      <div className="col-lg-4 col-md-12 mb-4">
-                        <div className="card card1 h-100">
-                          <div className="card-body">
-                            <h5 className="card-title">Regular Account</h5>
-                            {/*<small className="text-muted">Account</small>*/}
-                            <br />
-                            <br />
-                            <span className="h2">600৳</span>/year
-                            <br />
-                            <br />
-                            <ul>
-                              <li>Feature 1</li>
-                              <li>Feature 2</li>
-                              <li>Feature 3</li>
-                              <li>Feature 4</li>
-                              <li>Feature 5</li>
-                            </ul>
-                            <div className="d-grid my-3">
-                              <Link
-                                className="btn btn-outline-dark btn-block"
-                                href={{
-                                  pathname: "/health-manager/package-preview",
-                                  query: { package: "regular" },
-                                }}
-                              >
-                                Subscribe
-                              </Link>
+                      {allPackage.map((item, i) => {
+                        return (
+                          <div className="col-lg-4 col-md-12 mb-4" key={i}>
+                            <div className="card card1 h-100">
+                              <div className="card-body">
+                                <h5 className="card-title">{item?.name}</h5>
+                                {/*<small className="text-muted">Account</small>*/}
+                                <br />
+                                <span className="h2">{item.price}৳</span>/
+                                {item.duration}
+                                <br />
+                                <ul className="p-3">
+                                  {item?.package_features.map((fr, i) => {
+                                    return <li key={i}>Feature 1</li>;
+                                  })}
+                                </ul>
+                                <div className="d-grid my-3">
+                                  <Link
+                                    className="btn btn-outline-dark btn-block"
+                                    href={{
+                                      pathname:
+                                        "/health-manager/package-preview",
+                                      query: { package: item.id },
+                                    }}
+                                  >
+                                    Subscribe
+                                  </Link>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-4 col-md-12 mb-4">
-                        <div className="card card2 h-100">
-                          <div className="card-body">
-                            <h5 className="card-title">Premium Account</h5>
-                            {/*<small className="text-muted">Small Business</small>*/}
-                            <br />
-                            <br />
-                            <span className="h2">900৳</span>/year
-                            <br />
-                            <br />
-                            <ul>
-                              <li>Feature 1</li>
-                              <li>Feature 2</li>
-                              <li>Feature 3</li>
-                              <li>Feature 4</li>
-                              <li>Feature 5</li>
-                            </ul>
-                            <div className="d-grid my-3">
-                              <Link
-                                className="btn btn-outline-dark btn-block"
-                                href={{
-                                  pathname: "/health-manager/package-preview",
-                                  query: { package: "premium" },
-                                }}
-                              >
-                                Subscribe
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-4 col-md-12 mb-4">
-                        <div className="card card3 h-100">
-                          <div className="card-body">
-                            <h5 className="card-title">Priority Account</h5>
-                            {/*<small className="text-muted">Large Company</small>*/}
-                            <br />
-                            <br />
-                            <span className="h2">1200৳</span>/month
-                            <br />
-                            <br />
-                            <ul>
-                              <li>Feature 1</li>
-                              <li>Feature 2</li>
-                              <li>Feature 3</li>
-                              <li>Feature 4</li>
-                              <li>Feature 5</li>
-                            </ul>
-                            <div className="d-grid my-3">
-                              <Link
-                                className="btn btn-outline-dark btn-block"
-                                href={{
-                                  pathname: "/health-manager/package-preview",
-                                  query: { package: "priority" },
-                                }}
-                              >
-                                Subscribe
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
