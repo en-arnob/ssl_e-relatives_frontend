@@ -69,11 +69,11 @@ const Test = () => {
         const imagePath = imgUpload.data.filename;
         if (imagePath) {
           obj.file = imagePath;
-          if (selectiveReq) {
-            obj.reqType = 2;
-            obj.serviceCenter = parseInt(serviceCenterId);
-          } else if (generalReq) {
+          if (serviceCenterId === 0) {
             obj.reqType = 1;
+          } else {
+            obj.reqType = 2;
+            obj.serviceCenter = serviceCenterId;
           }
           console.log(obj);
           const res = await axios.post(
@@ -83,7 +83,7 @@ const Test = () => {
           if (res.status === 200) {
             toast.success("Successfully submitted the request.");
             setButtonDisabled(false);
-            Router.push("/service-response");
+            await Router.push("/service-response");
           }
         } else {
           toast.error("Please upload investigation image/file");
@@ -99,11 +99,11 @@ const Test = () => {
         selectionType: 1,
         investigationArr,
       };
-      if (selectiveReq) {
-        obj.reqType = 2;
-        obj.serviceCenter = parseInt(serviceCenterId);
-      } else if (generalReq) {
+      if (serviceCenterId === 0) {
         obj.reqType = 1;
+      } else {
+        obj.reqType = 2;
+        obj.serviceCenter = serviceCenterId;
       }
       console.log(obj);
       try {
@@ -114,7 +114,7 @@ const Test = () => {
         if (res.status === 200) {
           toast.success("Successfully submitted the request.");
           setButtonDisabled(false);
-          Router.push("/service-response");
+          await Router.push("/service-response");
         }
       } catch (error) {
         toast.error("Error! Enter Investigations");
@@ -128,6 +128,7 @@ const Test = () => {
     getInvestigationsList();
     getServiceCenterList();
   }, []);
+
   const handleReqTypeChange = (e) => {
     const selectedValue = e.target.value;
     if (selectedValue === "general") {
@@ -223,7 +224,7 @@ const Test = () => {
                           >
                             <option value="default">Select</option>
                             <option value="upload">
-                              Upload Picture of Investigations List
+                              Upload Picture of Prescription
                             </option>
                             <option value="select">
                               Select Investigations
@@ -281,44 +282,19 @@ const Test = () => {
                         <div className="col-md-6 col-sm-6">
                           <select
                             className="form-control form-control-sm"
-                            onChange={handleReqTypeChange}
+                            onChange={(e) => setServiceCenterId(e.target.value)}
                           >
-                            <option value="general">General Request</option>
-                            <option value="selective">
-                              Selective Service Center
-                            </option>
+                            <option value={0}>General Request</option>
+                            {serviceCenters?.map((item) => {
+                              return (
+                                <option value={item?.id} key={item?.id}>
+                                  {item?.f_name}
+                                </option>
+                              );
+                            })}
                           </select>
                         </div>
                       </div>
-
-                      {selectiveReq && (
-                        <div className="row col-md-12 mb-2">
-                          <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                            Select Service Center
-                          </div>
-                          <div className="col-md-6 col-sm-6">
-                            <div className="form-group">
-                              <select
-                                className="form-control form-control-sm"
-                                onChange={(e) =>
-                                  setServiceCenterId(e.target.value)
-                                }
-                              >
-                                <option value="" disabled selected>
-                                  Service Center -
-                                </option>
-                                {serviceCenters?.map((item) => {
-                                  return (
-                                    <option value={item?.id} key={item?.id}>
-                                      {item?.f_name}
-                                    </option>
-                                  );
-                                })}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      )}
 
                       <div className="col-12 mt-2 justify-content-center">
                         <button
