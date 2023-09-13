@@ -66,16 +66,17 @@ const Test = () => {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/upload-image`,
           formData,
         );
+
         const imagePath = imgUpload.data.filename;
         if (imagePath) {
           obj.file = imagePath;
-          if (serviceCenterId === 0) {
+          if (parseInt(serviceCenterId) === 0) {
             obj.reqType = 1;
           } else {
             obj.reqType = 2;
             obj.serviceCenter = serviceCenterId;
           }
-          console.log(obj);
+          // console.log(obj);
           const res = await axios.post(
             `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test`,
             obj,
@@ -99,7 +100,7 @@ const Test = () => {
         selectionType: 1,
         investigationArr,
       };
-      if (serviceCenterId === 0) {
+      if (parseInt(serviceCenterId) === 0) {
         obj.reqType = 1;
       } else {
         obj.reqType = 2;
@@ -283,6 +284,7 @@ const Test = () => {
                             className="form-control form-control-sm"
                             onChange={(e) => setServiceCenterId(e.target.value)}
                           >
+                            <option value="">Please select one</option>
                             <option value={0}>General Request</option>
                             {serviceCenters?.map((item) => {
                               return (
@@ -294,17 +296,18 @@ const Test = () => {
                           </select>
                         </div>
                       </div>
-
-                      <div className="col-12 mt-2 justify-content-center">
-                        <button
-                          disabled={isButtonDisabled}
-                          className="default-btn btn-two"
-                          type="submit"
-                          onClick={submitHandler}
-                        >
-                          Send Request
-                        </button>
-                      </div>
+                      {!!serviceCenterId && (
+                        <div className="col-12 mt-2 justify-content-center">
+                          <button
+                            disabled={isButtonDisabled}
+                            className="default-btn btn-two"
+                            type="submit"
+                            onClick={submitHandler}
+                          >
+                            Send Request
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
