@@ -68,9 +68,8 @@ const PackagePreview = () => {
                     <div className="col-md-11 mt-1 text-center">
                       <label className="labels fs-6">
                         <span className="fw-semibold">
-                          {currentUser?.f_name}
+                          {currentUser?.f_name} ({currentUser?.registration_no})
                         </span>{" "}
-                        ({currentUser?.username})
                       </label>
                     </div>
                     <div className="col-md-11 text-center">
@@ -131,14 +130,14 @@ const PackagePreview = () => {
                           Price
                         </div>
                         <div className="col-md-6 col-sm-6">
-                          {packageData?.price}
+                          {packageData?.price} Tk.
                         </div>
                       </div>
                     </div>
 
                     <div className="col-12 mt-3 justify-content-center">
                       <button
-                        className="btn btn-danger me-2"
+                        className="btn btn-success me-2"
                         type="submit"
                         onClick={payNowHandler}
                       >

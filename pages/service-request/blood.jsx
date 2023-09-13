@@ -109,9 +109,8 @@ const bloodReq = () => {
                     <div className="col-md-11 mt-1 text-center">
                       <label className="labels fs-6">
                         <span className="fw-semibold">
-                          {currentUser?.f_name}
-                        </span>{" "}
-                        ({currentUser?.username})
+                          {currentUser?.f_name} ({currentUser?.registration_no})
+                        </span>
                       </label>
                     </div>
                     <div className="col-md-11 text-center">

@@ -55,9 +55,8 @@ const HealthMan = () => {
                     <div className="col-md-11 mt-1 text-center">
                       <label className="labels fs-6">
                         <span className="fw-semibold">
-                          {currentUser?.f_name}
+                          {currentUser?.f_name} ({currentUser?.registration_no})
                         </span>{" "}
-                        ({currentUser?.username})
                       </label>
                     </div>
                     <div className="col-md-11 text-center">

@@ -15,6 +15,7 @@ const ShowCollReqPoint = () => {
   const [investigationsList, setInvestigationsList] = useState([]);
   const [selectedInvestigations, setSelectedInvestigations] = useState([]);
   const [selectedReq, setSelectedReq] = useState({});
+  const [image, setImage] = useState("");
 
   const handleClose = () => {
     setShow(false);
@@ -38,14 +39,37 @@ const ShowCollReqPoint = () => {
 
   async function saveInvestigations() {
     const invs = selectedInvestigations.map((item) => item.value);
-    const invsCsv = invs.join(",");
-    const obj = {
-      invsCsv,
+    const invCsv = invs.join(",");
+    let obj = {
       reqNo: selectedReq?.req_no,
       donorId: selectedReq?.accepted_donor,
     };
-    // console.log(obj);
-    try {
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+      try {
+        const imgUpload = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test/upload-image`,
+          formData,
+        );
+        const imagePath = imgUpload.data.filename;
+        if (imagePath) {
+          obj.invImage = imagePath;
+          const upd = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/save-investigations`,
+            obj,
+          );
+          if (upd.status === 200) {
+            toast.success("Investigations added successfully");
+            fetchData();
+            setShow(false);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      obj.invsCsv = invCsv;
       const upd = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/service-history/save-investigations`,
         obj,
@@ -55,9 +79,9 @@ const ShowCollReqPoint = () => {
         fetchData();
         setShow(false);
       }
-    } catch (error) {
-      console.log(error);
     }
+
+    // console.log(obj);
   }
 
   // console.log(bloodReqDetails);
@@ -217,6 +241,26 @@ const ShowCollReqPoint = () => {
                       </Modal.Header>
                       <Modal.Body>
                         <>
+                          {/*<div className="row col-md-12 mb-2">*/}
+                          {/*  <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">*/}
+                          {/*    Selection Type:*/}
+                          {/*  </div>*/}
+                          {/*  <div className="col-md-6 col-sm-6">*/}
+                          {/*    <select*/}
+                          {/*      className="form-control form-control-sm"*/}
+                          {/*      onChange={handleDropdownChange}*/}
+                          {/*    >*/}
+                          {/*      <option value="default">Select</option>*/}
+                          {/*      <option value="upload">*/}
+                          {/*        Upload Picture of Prescription*/}
+                          {/*      </option>*/}
+                          {/*      <option value="select">*/}
+                          {/*        Select Investigations*/}
+                          {/*      </option>*/}
+                          {/*    </select>*/}
+                          {/*  </div>*/}
+                          {/*</div>*/}
+
                           <div className="row col-md-12 mb-2">
                             <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
                               Select Investigation(s)
@@ -239,6 +283,24 @@ const ShowCollReqPoint = () => {
                               </div>
                             </div>
                           </div>
+
+                          <div className="row col-md-12 mb-2">
+                            <div className="col-md-6 col-sm-5 mb-2 fs-6 fw-semibold">
+                              Upload FIle:
+                            </div>
+                            <div className="col-md-6 col-sm-6">
+                              <div className="form-group">
+                                <input
+                                  className="form-control form-control-sm"
+                                  id="image"
+                                  name="image"
+                                  onChange={(e) => setImage(e.target.files[0])}
+                                  type="file"
+                                />
+                              </div>
+                            </div>
+                          </div>
+
                           <div className="row col-md-12">
                             <div className="col-md-6 justify-content-right">
                               <Button
