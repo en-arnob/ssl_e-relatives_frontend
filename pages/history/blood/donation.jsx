@@ -186,6 +186,13 @@ const DonationHistory = () => {
 
                           {item?.investigation_ids ? (
                             renderInvestigationNames(item.investigation_ids)
+                          ) : item?.investigation_image ? (
+                            <a
+                              href={`${process.env.NEXT_PUBLIC_UPLOAD_URL}/investigations/${item.investigation_image}`}
+                              target="_blank"
+                            >
+                              Download Investigation Image
+                            </a>
                           ) : (
                             <Button
                               variant="success"

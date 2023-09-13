@@ -105,7 +105,7 @@ const Test = () => {
         obj.reqType = 2;
         obj.serviceCenter = serviceCenterId;
       }
-      console.log(obj);
+      // console.log(obj);
       try {
         const res = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/request/test`,
@@ -183,9 +183,8 @@ const Test = () => {
                     <div className="col-md-11 mt-1 text-center">
                       <label className="labels fs-6">
                         <span className="fw-semibold">
-                          {currentUser?.f_name}
+                          {currentUser?.f_name} ({currentUser?.registration_no})
                         </span>{" "}
-                        ({currentUser?.username})
                       </label>
                     </div>
                     <div className="col-md-11 text-center">

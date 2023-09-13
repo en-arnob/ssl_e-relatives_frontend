@@ -7,10 +7,11 @@ const Profile = () => {
   const { currentUser } = useContext(UserContext);
   // console.log(currentUser);
   const [userDetails, setUserDetails] = useState({});
+
   function getUserDetails() {
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/details/user/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/details/user/${currentUser?.id}`,
       )
       .then((response) => {
         const userData = response.data.data;
@@ -21,6 +22,7 @@ const Profile = () => {
         console.log(error);
       });
   }
+
   function formatDate(inputDateString) {
     if (inputDateString) {
       const dateParts = inputDateString?.split("-");
@@ -29,6 +31,7 @@ const Profile = () => {
       return null;
     }
   }
+
   useEffect(() => {
     getUserDetails();
   }, []);
@@ -54,7 +57,9 @@ const Profile = () => {
                 )}
                 <div className="col-md-11 mt-1 text-center">
                   <label className="labels fs-5">
-                    <span className="fw-bold">{currentUser?.f_name}</span>
+                    <span className="fw-bold">
+                      {currentUser?.f_name} ({currentUser?.registration_no})
+                    </span>
                   </label>
                 </div>
                 <div className="col-md-11 text-center">
