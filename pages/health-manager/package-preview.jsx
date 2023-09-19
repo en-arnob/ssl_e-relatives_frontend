@@ -6,13 +6,17 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { redirect } from "next/navigation";
+import { ProgressBar } from "react-loader-spinner";
 
 const PackagePreview = () => {
   const Router = useRouter();
+  const [clicked, setClicked] = useState(false);
   const { currentUser } = useContext(UserContext);
   const userId = currentUser?.id;
   const packageId = Router.query.package;
   const [packageData, setPackageData] = useState({});
+
+  // console.log(currentUser);
 
   async function getPackage() {
     try {
@@ -30,8 +34,21 @@ const PackagePreview = () => {
   }
 
   const payNowHandler = async () => {
-    const res = await axios.get(
+    setClicked(true);
+    const obj = {
+      userId: userId,
+      userReg: currentUser?.registration_no,
+      userName: currentUser?.f_name,
+      productName: packageData?.name,
+      totalAmount: packageData?.price,
+      productCategory: "Health Manager Subscription",
+      userEmail: currentUser?.email,
+      userPhone: currentUser?.mobile,
+      userAddress: currentUser?.address1,
+    };
+    const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/payment-gateway/ssl/paynow`,
+      obj,
     );
     // console.log(res.data);
     if (res) {
@@ -134,23 +151,36 @@ const PackagePreview = () => {
                         </div>
                       </div>
                     </div>
-
-                    <div className="col-12 mt-3 justify-content-center">
-                      <button
-                        className="btn btn-success me-2"
-                        type="submit"
-                        onClick={payNowHandler}
-                      >
-                        Pay Now
-                      </button>
-                      <button
-                        className="btn btn-outline-dark"
-                        type="submit"
-                        onClick={() => Router.back()}
-                      >
-                        Go Back
-                      </button>
-                    </div>
+                    {clicked ? (
+                      <>
+                        <ProgressBar
+                          height="80"
+                          width="80"
+                          ariaLabel="progress-bar-loading"
+                          wrapperStyle={{}}
+                          wrapperClass="progress-bar-wrapper"
+                          borderColor="#F4442E"
+                          barColor="#51E5FF"
+                        />
+                      </>
+                    ) : (
+                      <div className="col-12 mt-3 justify-content-center">
+                        <button
+                          className="btn btn-success me-2"
+                          type="submit"
+                          onClick={payNowHandler}
+                        >
+                          Pay Now
+                        </button>
+                        <button
+                          className="btn btn-outline-dark"
+                          type="submit"
+                          onClick={() => Router.back()}
+                        >
+                          Go Back
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
