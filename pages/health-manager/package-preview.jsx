@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { redirect } from "next/navigation";
-import { ProgressBar } from "react-loader-spinner";
+import { ProgressBar, ColorRing } from "react-loader-spinner";
 
 const PackagePreview = () => {
   const Router = useRouter();
@@ -15,6 +15,7 @@ const PackagePreview = () => {
   const userId = currentUser?.id;
   const packageId = Router.query.package;
   const [packageData, setPackageData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   // console.log(currentUser);
 
@@ -27,6 +28,7 @@ const PackagePreview = () => {
       if (res) {
         // console.log(res.data.data);
         setPackageData(res?.data?.data);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -114,72 +116,91 @@ const PackagePreview = () => {
                 <div className="col-md-8 border-right">
                   <div className="p-3 py-5">
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h4 className="text-right">
+                      <h4 className="text-right fw-normal">
                         Health Manager Account Subscription Details
                       </h4>
                     </div>
-
-                    <div className="row mt-2">
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Package Name
-                        </div>
-                        <div className="col-md-6 col-sm-6">
-                          {packageData?.name}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row mt-2">
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Package Duration
-                        </div>
-                        <div className="col-md-6 col-sm-6">
-                          {packageData?.duration}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row mt-2">
-                      <div className="row col-md-12 mb-2">
-                        <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
-                          Price
-                        </div>
-                        <div className="col-md-6 col-sm-6">
-                          {packageData?.price} Tk.
-                        </div>
-                      </div>
-                    </div>
-                    {clicked ? (
-                      <>
-                        <ProgressBar
-                          height="80"
-                          width="80"
-                          ariaLabel="progress-bar-loading"
-                          wrapperStyle={{}}
-                          wrapperClass="progress-bar-wrapper"
-                          borderColor="#F4442E"
-                          barColor="#51E5FF"
-                        />
-                      </>
+                    {loading ? (
+                      <ColorRing
+                        visible={true}
+                        height="80"
+                        width="80"
+                        ariaLabel="blocks-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="blocks-wrapper"
+                        colors={[
+                          "#e15b64",
+                          "#f47e60",
+                          "#f8b26a",
+                          "#abbd81",
+                          "#849b87",
+                        ]}
+                      />
                     ) : (
-                      <div className="col-12 mt-3 justify-content-center">
-                        <button
-                          className="btn btn-success me-2"
-                          type="submit"
-                          onClick={payNowHandler}
-                        >
-                          Pay Now
-                        </button>
-                        <button
-                          className="btn btn-outline-dark"
-                          type="submit"
-                          onClick={() => Router.back()}
-                        >
-                          Go Back
-                        </button>
-                      </div>
+                      <>
+                        <div className="row mt-2">
+                          <div className="row col-md-12 mb-2">
+                            <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                              Package Name
+                            </div>
+                            <div className="col-md-6 col-sm-6">
+                              {packageData?.name}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row mt-2">
+                          <div className="row col-md-12 mb-2">
+                            <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                              Package Duration
+                            </div>
+                            <div className="col-md-6 col-sm-6">
+                              {packageData?.duration}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row mt-2">
+                          <div className="row col-md-12 mb-2">
+                            <div className="col-md-4 col-sm-5 mb-2 fs-6 fw-semibold">
+                              Price
+                            </div>
+                            <div className="col-md-6 col-sm-6">
+                              {packageData?.price} Tk.
+                            </div>
+                          </div>
+                        </div>
+                        {clicked ? (
+                          <>
+                            <ProgressBar
+                              height="80"
+                              width="80"
+                              ariaLabel="progress-bar-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="progress-bar-wrapper"
+                              borderColor="#F4442E"
+                              barColor="#51E5FF"
+                            />
+                          </>
+                        ) : (
+                          <div className="col-12 mt-3 justify-content-center">
+                            <button
+                              className="btn btn-success me-2"
+                              type="submit"
+                              onClick={payNowHandler}
+                            >
+                              Pay Now
+                            </button>
+                            <button
+                              className="btn btn-outline-dark"
+                              type="submit"
+                              onClick={() => Router.back()}
+                            >
+                              Go Back
+                            </button>
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>
